@@ -13,3 +13,18 @@
    flush privileges;
 9. chown -R sail:www-data *
    
+
+# Snippets
+
+```
+$snapshot = new App\Models\PortfolioSnapshot();
+$snapshot -> snapshot_time = round(microtime(true) * 1000);
+$snapshot -> asset = "TEST";
+$snapshot -> quantity = "123.456";
+$snapshot -> value_in_btc = "123.456";
+$snapshot -> value_in_eth = "123.456";
+$snapshot -> value_in_usd = "123.456";
+$snapshot -> value_in_pln = "123.456";
+$snapshot -> save();
+App\Models\PortfolioSnapshot::all();
+```
