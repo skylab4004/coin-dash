@@ -15,3 +15,4 @@ npm-debug.log
 yarn-error.log
 supervisord.log
 supervisord.pid
+.env.testing
