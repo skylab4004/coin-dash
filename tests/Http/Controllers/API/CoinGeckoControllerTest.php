@@ -12,16 +12,9 @@ class CoinGeckoControllerTest extends TestCase {
 	}
 
 	public function testPing() {
-		$btcPriceInPln = $this::$geckoController->btcPriceInPln();
-		print($btcPriceInPln);
-		self::assertIsInt($btcPriceInPln);
+		$favoriteCoinPrices = $this::$geckoController->favoriteCoinPrices();
+		print_r($favoriteCoinPrices);
+		self::assertIsArray($favoriteCoinPrices);
 	}
-
-	public function testPricesOfFavoriteCoins() {
-		$pricesOfFavoriteCoins = $this::$geckoController->pricesOfFavoriteCoins();
-		print_r($pricesOfFavoriteCoins);
-		self::assertIsArray($pricesOfFavoriteCoins);
-	}
-
 
 }

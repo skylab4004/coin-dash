@@ -16,3 +16,4 @@ yarn-error.log
 supervisord.log
 supervisord.pid
 .env.testing
+app/Http/Controllers/API/Secret.php

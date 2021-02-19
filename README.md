@@ -19,6 +19,7 @@
 ```
 $snapshot = new App\Models\PortfolioSnapshot();
 $snapshot -> snapshot_time = round(microtime(true) * 1000);
+$snapshot -> source = 1;
 $snapshot -> asset = "TEST";
 $snapshot -> quantity = "123.456";
 $snapshot -> value_in_btc = "123.456";
