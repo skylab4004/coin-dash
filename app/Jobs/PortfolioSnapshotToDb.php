@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\CoinGeckoController;
+use App\Http\Controllers\API\EthplorerApiClient;
+use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
 use Illuminate\Bus\Queueable;
@@ -37,28 +39,55 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$coinGeckoApi = new CoinGeckoController();
 		$favoriteCoinPrices = $coinGeckoApi->favoriteCoinPrices();
 
-		$btcPriceInPln = $favoriteCoinPrices["btcPriceInPln"];
-		$ethPriceInPln = $favoriteCoinPrices["ethPriceInPln"];
-		$btcPriceInEth = $favoriteCoinPrices["btcPriceInEth"];
-		$ethPriceInBtc = $favoriteCoinPrices["ethPriceInBtc"];
-		$btcPriceInUsd = $favoriteCoinPrices["btcPriceInUsd"];
-		$ethPriceInUsd = $favoriteCoinPrices["ethPriceInUsd"];
-
+		// HANDLE BINANCE PORTFOLIO
 		$binanceApi = new BinanceController();
-		$assetSnapshots = $binanceApi->balances();
+		$binanceBalances = $binanceApi->balances();
 
-		foreach ($assetSnapshots as $assetSnapshot) {
+		foreach ($binanceBalances as $binanceAsset) {
 			$snapshot = new PortfolioSnapshot();
 			$snapshot->snapshot_time = $updateTime;
 			$snapshot->source = 1; // 1 = BINANCE
-			$snapshot->asset = $assetSnapshot['asset'];
-			$snapshot->quantity = $assetSnapshot['qty'];
-			$snapshot->value_in_btc = $assetSnapshot['assetValueInBtc'];
-			$snapshot->value_in_eth = $assetSnapshot['assetValueInBtc'] * $btcPriceInEth;
-			$snapshot->value_in_usd = $assetSnapshot['assetValueInBtc'] * $btcPriceInUsd;
-			$snapshot->value_in_pln = $assetSnapshot['assetValueInBtc'] * $btcPriceInPln;
+			$snapshot->asset = $binanceAsset['asset'];
+			$snapshot->quantity = $binanceAsset['qty'];
+			$snapshot->value_in_btc = $binanceAsset['assetValueInBtc'];
+			$snapshot->value_in_eth = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
+			$snapshot->value_in_usd = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
+			$snapshot->value_in_pln = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
 			$snapshot->save();
+			unset($binanceAsset);
 		}
+		unset($binanceBalances);
+		unset($binanceApi);
 
+		// HANDLE ERC20 PORTFOLIO
+		$coinToSymbolMapping = ["btc"  => "bitcoin", "eth" => "ethereum", "rbc" => "rubic", "cliq" => "deficliq",
+								"atom" => "cosmos", "lto" => "lto-network", "mitx" => "morpheus-labs",
+								"rune" => "thorchain", "cvr" => "polkacover", "frm" => "ferrum-network",
+								"apy"  => "apy-finance"];
+
+		$ethplorerClient = new EthplorerApiClient();
+		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
+		$erc20Balances = $ethplorerClient->erc20Balances($addressInfo);
+		foreach ($erc20Balances as $erc20Asset) {
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = 2; // 2 = ERC20 WALLET
+			$snapshot->asset = $erc20Asset['asset'];
+			$snapshot->quantity = $erc20Asset['qty'];
+			$snapshot->value_in_btc = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["btc"];
+			$snapshot->value_in_eth = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["eth"];
+			$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
+			$snapshot->value_in_pln = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["pln"];
+			$snapshot->save();
+			unset($erc20Asset);
+		}
+		unset($erc20Balances);
+		unset($addressInfo);
+		unset($ethplorerClient);
+
+		unset($favoriteCoinPrices);
+		unset($coinGeckoApi);
+
+		unset($updateTime);
 	}
 }
