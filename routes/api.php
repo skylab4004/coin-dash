@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\PortfolioSnapshotCollection;
 use App\Http\Resources\PortfolioSnapshotResource;
 use App\Models\PortfolioSnapshot;
 use Illuminate\Http\Request;
@@ -22,4 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/portolio-snapshot/{id}', function ($id) {
 	return new PortfolioSnapshotResource(PortfolioSnapshot::findOrFail($id));
+});
+
+Route::get('/portolio-snapshots', function () {
+	return new PortfolioSnapshotCollection(PortfolioSnapshot::all());
 });

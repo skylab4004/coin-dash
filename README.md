@@ -35,4 +35,6 @@ App\Models\PortfolioSnapshot::all();
 Binance and Metamask current portfolio value in PLN
 ```
 select snapshot_time, source, sum(value_in_pln) from portfolio_snapshots where snapshot_time = ( select max(snapshot_time) from portfolio_snapshots) group by 2
+
+select FROM_UNIXTIME(snapshot_time/1000, '%Y-%d-%m %h:%i') as snapshot_time, sum(value_in_pln) from portfolio_snapshots group by 1;
 ```

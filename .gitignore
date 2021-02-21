@@ -17,3 +17,6 @@ supervisord.log
 supervisord.pid
 .env.testing
 app/Http/Controllers/API/Secret.php
+_ide_helper.php
+config/ide-helper.php
+.phpstorm.meta.php
