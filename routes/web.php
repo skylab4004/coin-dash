@@ -14,5 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return view('welcome');
+    return view('home');
+});
+
+Route::get('/portfolio-piechart', function () {
+    return view('portfolio_piechart');
+});
+
+Route::get('/portfolio-snapshots', function() {
+	return view('portfolio_snapshots');
 });
