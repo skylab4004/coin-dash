@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\DailyPortfolioSnapshotCollection;
 use App\Http\Resources\PortfolioSnapshotCollection;
 use App\Http\Resources\PortfolioSnapshotResource;
 use App\Models\PortfolioSnapshot;
@@ -21,10 +22,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/portolio-snapshot/{id}', function ($id) {
+Route::get('/portfolio-snapshot/{id}', function ($id) {
 	return new PortfolioSnapshotResource(PortfolioSnapshot::findOrFail($id));
 });
 
-Route::get('/portolio-snapshots', function () {
+Route::get('/portfolio-snapshot-daily', function () {
+	return new DailyPortfolioSnapshotCollection(PortfolioSnapshot::all());
+});
+
+
+Route::get('/portfolio-snapshots', function () {
 	return new PortfolioSnapshotCollection(PortfolioSnapshot::all());
 });

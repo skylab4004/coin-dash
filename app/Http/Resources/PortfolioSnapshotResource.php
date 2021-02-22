@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\API\Utils;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PortfolioSnapshotResource extends JsonResource {
@@ -13,6 +14,12 @@ class PortfolioSnapshotResource extends JsonResource {
 	 * @return array
 	 */
 	public function toArray($request) {
-		return parent::toArray($request);
+		$ret = ['snapshot_time' => Utils::millisToShortTimestamp($this->snapshot_time),
+				'asset'         => $this->asset,
+				'quantity'      => $this->quantity,
+				'value_in_pln'  => $this->value_in_pln,
+				'value_in_usd'  => $this->value_in_usd];
+
+		return $ret;
 	}
 }

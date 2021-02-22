@@ -6,6 +6,11 @@ class Utils {
 		return date("Y-m-d H:i:s", $millis / 1000);
 	}
 
+	public static function millisToShortTimestamp($millis) {
+		return date("Y-m-d H:i", $millis / 1000);
+	}
+
+
 	public static function millisToDate($millis) {
 		return date("Y-m-d", $millis / 1000);
 	}

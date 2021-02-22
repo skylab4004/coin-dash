@@ -38,3 +38,6 @@ select snapshot_time, source, sum(value_in_pln) from portfolio_snapshots where s
 
 select FROM_UNIXTIME(snapshot_time/1000, '%Y-%d-%m %h:%i') as snapshot_time, sum(value_in_pln) from portfolio_snapshots group by 1;
 ```
+
+TODO 
+* automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny

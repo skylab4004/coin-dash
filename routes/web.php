@@ -25,3 +25,7 @@ Route::get('/portfolio-piechart', function () {
 Route::get('/portfolio-snapshots', function() {
 	return view('portfolio_snapshots');
 });
+
+Route::get('/portfolio-totals-chart', function() {
+	return view('portfolio_totals_chart', ["assetValues" => "[3, 2, 1]", "labelValues" => "['abc', 'def', 'ghi']"]);
+});

@@ -60,10 +60,12 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($binanceApi);
 
 		// HANDLE ERC20 PORTFOLIO
-		$coinToSymbolMapping = ["btc"  => "bitcoin", "eth" => "ethereum", "rbc" => "rubic", "cliq" => "deficliq",
-								"atom" => "cosmos", "lto" => "lto-network", "mitx" => "morpheus-labs",
-								"rune" => "thorchain", "cvr" => "polkacover", "frm" => "ferrum-network",
-								"apy"  => "apy-finance"];
+		$coinToSymbolMapping = ["btc"   => "bitcoin", "eth" => "ethereum", "rbc" => "rubic", "cliq" => "deficliq",
+								"atom"  => "cosmos", "lto" => "lto-network", "mitx" => "morpheus-labs",
+								"rune"  => "thorchain", "cvr" => "polkacover", "frm" => "ferrum-network",
+								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
+								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
+								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
