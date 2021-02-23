@@ -41,3 +41,5 @@ select FROM_UNIXTIME(snapshot_time/1000, '%Y-%d-%m %h:%i') as snapshot_time, sum
 
 TODO 
 * automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny
+* bieżące saldo: 
+* PNL od północy: 

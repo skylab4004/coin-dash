@@ -16,12 +16,4 @@ class PortfolioSnapshotCollection extends ResourceCollection {
 		return parent::toArray($request);
 	}
 	
-	// data = {
-	//        labels: generateLabels(), // snapshot_times
-	//
-	//        datasets: [{
-	//                // coin
-	//                data: generateData(), // asset values
-	//                label: 'D0'
-	//            },
 }

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PortfolioSnapshot extends Model {
 
 	use HasFactory;
+
+
 }

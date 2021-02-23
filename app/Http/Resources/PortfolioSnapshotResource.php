@@ -16,6 +16,7 @@ class PortfolioSnapshotResource extends JsonResource {
 	public function toArray($request) {
 		$ret = ['snapshot_time' => Utils::millisToShortTimestamp($this->snapshot_time),
 				'asset'         => $this->asset,
+				'source'        => $this->source,
 				'quantity'      => $this->quantity,
 				'value_in_pln'  => $this->value_in_pln,
 				'value_in_usd'  => $this->value_in_usd];
