@@ -3,6 +3,8 @@
 <head>
     <title>Coin Dash</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+
 </head>
 <body>
 <canvas id="myChart" width="200" height="200"></canvas>

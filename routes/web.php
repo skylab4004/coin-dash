@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
 
+
 	// TODAY's portfolio value and totals in PLN and USD
 	$lastSnapshotTime = PortfolioSnapshot::all()->max('snapshot_time');
 	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
@@ -71,6 +72,17 @@ Route::get('/', function() {
 	unset($yesterdaysLastPortfolioSnapshot);
 	unset($yesterdaysAssetSnapshot);
 
+	// CURRENT PORTFOLIO TABLE
+	$lastSnapshotTime = PortfolioSnapshot::all()->max('snapshot_time');
+
+	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)->OrderBy('value_in_pln', 'desc')->get()->toArray();
+
+
+	$pieChartLabels = collect($currentPortfolioSnapshot)->pluck('asset');
+	$pieChartValues = collect($currentPortfolioSnapshot)->pluck('value_in_pln');
+
+	$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
+
 	$retData = ['currentValueInPln'            => Utils::formattedNumber($currentValueInPln, 2),
 				'currentValueInUsd'            => Utils::formattedNumber($currentValueInUsd, 2),
 				'currentBinanceValueInPln'     => Utils::formattedNumber($currentBinanceValueInPln, 2),
@@ -83,11 +95,15 @@ Route::get('/', function() {
 				'yesterdaysBinanceValueInUsd'  => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
 				'yesterdaysMetamaskValueInPln' => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
 				'yesterdaysMetamaskValueInUsd' => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
+				'currentPortfolioSnapshot'     => $currentPortfolioSnapshot,
+				'pieChart'                     => $pieChart,
 	];
+
 	return view('home', $retData);
 });
 
 Route::get('/portfolio-piechart', function() {
+
 	return view('portfolio_piechart');
 });
 

@@ -45,4 +45,8 @@ class Utils {
 	public static function currentTimeInMillis() {
 		return (integer) (microtime(true) * 1000);
 	}
+
+	public static function implodeWithQuotes($array){
+		return "\"" . implode ( "\", ", $array ) . "\"";
+	}
 }

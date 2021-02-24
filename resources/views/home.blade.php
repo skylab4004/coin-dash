@@ -2,6 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <title>Coin Dash</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
 </head>
 <body>
 {{--    'currentValueInPln'            => $currentValueInPln,--}}
@@ -95,6 +97,25 @@
     </tr>
 </table>
 
+<h1>Current portfolio</h1>
+<table border="1">
+    <tr>
+        <td>Asset</td>
+        <td>Quantity</td>
+        <td>Value PLN</td>
+        <td>Value USD</td>
+    </tr>
+    @foreach($currentPortfolioSnapshot as $assetSnapshot)
+    <tr>
+        <td>{{$assetSnapshot['asset']}}</td>
+        <td>{{$assetSnapshot['quantity']}}</td>
+        <td>{{$assetSnapshot['value_in_pln']}}</td>
+        <td>{{$assetSnapshot['value_in_usd']}}</td>
+    </tr>
+    @endforeach
+</table>
+
+<canvas id="pieChart"></canvas>
 
 <h1>Portfolio history</h1>
 <table>
@@ -109,20 +130,31 @@
         <td>todo</td>
     </tr>
 </table>
-<h1>Current portfolio</h1>
-<table>
-    <tr>
-        <td>Asset</td>
-        <td>Quantity</td>
-        <td>Value PLN</td>
-        <td>Value USD</td>
-    </tr>
-    <tr>
-        <td>todo</td>
-        <td>todo</td>
-        <td>todo</td>
-        <td>todo</td>
-    </tr>
-</table>
+
+<script>
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+{{--            {{ dd($pieChart['labels']) }}--}}
+            labels: {!! $pieChart['labels'] !!},  // ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: {!! $pieChart['data'] !!}, // [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 50,
+            plugins: {
+                colorschemes: {
+                    scheme: 'tableau.JewelBright9'
+                }
+            }
+        }
+    });
+</script>
+
+
 </body>
 </html>
