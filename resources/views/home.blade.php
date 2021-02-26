@@ -6,18 +6,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
 </head>
 <body>
-{{--    'currentValueInPln'            => $currentValueInPln,--}}
-{{--    'currentValueInUsd'            => $currentValueInUsd,--}}
-{{--    'currentBinanceValueInPln'     => $currentBinanceValueInPln,--}}
-{{--    'currentBinanceValueInUsd'     => $currentBinanceValueInUsd,--}}
-{{--    'currentMetamaskValueInPln'    => $currentMetamaskValueInPln,--}}
-{{--    'currentMetamaskValueInUsd'    => $currentMetamaskValueInUsd,--}}
-{{--    'yesterdaysValueInPln'         => $yesterdaysValueInPln,--}}
-{{--    'yesterdaysValueInUsd'         => $yesterdaysValueInUsd,--}}
-{{--    'yesterdaysBinanceValueInPln'  => $yesterdaysBinanceValueInPln,--}}
-{{--    'yesterdaysBinanceValueInUsd'  => $yesterdaysBinanceValueInUsd,--}}
-{{--    'yesterdaysMetamaskValueInPln' => $yesterdaysMetamaskValueInPln,--}}
-{{--    'yesterdaysMetamaskValueInUsd' => $yesterdaysMetamaskValueInUsd,--}}
+<h1>Stacked chart</h1>
+<div style="height: 700px">
+    <canvas id="chart-0"></canvas>
+</div>
+
 <h1>Today's PNL</h1>
 
 <h2>in PLN</h2>
@@ -106,16 +99,18 @@
         <td>Value USD</td>
     </tr>
     @foreach($currentPortfolioSnapshot as $assetSnapshot)
-    <tr>
-        <td>{{$assetSnapshot['asset']}}</td>
-        <td>{{$assetSnapshot['quantity']}}</td>
-        <td>{{$assetSnapshot['value_in_pln']}}</td>
-        <td>{{$assetSnapshot['value_in_usd']}}</td>
-    </tr>
+        <tr>
+            <td>{{$assetSnapshot['asset']}}</td>
+            <td>{{$assetSnapshot['quantity']}}</td>
+            <td>{{$assetSnapshot['value_in_pln']}}</td>
+            <td>{{$assetSnapshot['value_in_usd']}}</td>
+        </tr>
     @endforeach
 </table>
 
-<canvas id="pieChart"></canvas>
+<div>
+    <canvas id="pieChart"></canvas>
+</div>
 
 <h1>Portfolio history</h1>
 <table>
@@ -131,16 +126,19 @@
     </tr>
 </table>
 
+<div>
+    <canvas id="totalsChart"></canvas>
+</div>
+
 <script>
     var ctx = document.getElementById('pieChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-{{--            {{ dd($pieChart['labels']) }}--}}
-            labels: {!! $pieChart['labels'] !!},  // ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: {!! $pieChart['labels'] !!},
             datasets: [{
                 label: '# of Votes',
-                data: {!! $pieChart['data'] !!}, // [12, 19, 3, 5, 2, 3],
+                data: {!! $pieChart['data'] !!},
                 borderWidth: 1
             }]
         },
@@ -152,6 +150,56 @@
                 }
             }
         }
+    });
+
+    var ctx2 = document.getElementById('totalsChart').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: {!! $totalsChart['labels'] !!},
+            datasets: [{
+                label: '# of Votes',
+                data: {!! $totalsChart['data'] !!},
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                colorschemes: {
+                    scheme: 'tableau.JewelBright9'
+                }
+            }
+        }
+    });
+
+    // stacked chart
+    var data = {!!  json_encode($stackedChart) !!};
+
+    var options = {
+        maintainAspectRatio: false,
+        spanGaps: false,
+        scales: {
+            yAxes: [{
+                stacked: true
+            }]
+        },
+        plugins: {
+            filler: {
+                propagate: true
+            },
+            'samples-filler-analyser': {
+                target: 'chart-analyser'
+            },
+            colorschemes: {
+                scheme: 'tableau.JewelBright9'
+            }
+        }
+    };
+
+    var chart = new Chart('chart-0', {
+        type: 'line',
+        data: data,
+        options: options
     });
 </script>
 

@@ -22,11 +22,11 @@
     var config = {
         type: 'line',
         data: {
-            labels: $labelValues, // labels set
+            labels: ['a', 'b', 'c'],
             datasets: [{
                 label: 'Unfilled',
                 fill: false,
-                data:{{ $assetValues }},
+                data: [1, 2, 3],
             }]
         },
         options: {

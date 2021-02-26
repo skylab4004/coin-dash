@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
+use App\Models\PortfolioValue;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,8 @@ Route::get('/', function() {
 
 
 	// TODAY's portfolio value and totals in PLN and USD
-	$lastSnapshotTime = PortfolioSnapshot::all()->max('snapshot_time');
+	$allPortfolioSnapshots = PortfolioSnapshot::all();
+	$lastSnapshotTime = $allPortfolioSnapshots->max('snapshot_time');
 	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
 		->OrderBy('value_in_pln', 'desc')
 		->get();
@@ -73,15 +75,58 @@ Route::get('/', function() {
 	unset($yesterdaysAssetSnapshot);
 
 	// CURRENT PORTFOLIO TABLE
-	$lastSnapshotTime = PortfolioSnapshot::all()->max('snapshot_time');
+	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)->OrderBy('value_in_pln', 'desc')->get();
 
-	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)->OrderBy('value_in_pln', 'desc')->get()->toArray();
-
-
-	$pieChartLabels = collect($currentPortfolioSnapshot)->pluck('asset');
-	$pieChartValues = collect($currentPortfolioSnapshot)->pluck('value_in_pln');
-
+	// PIE CHART
+	$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
+	$pieChartValues = $currentPortfolioSnapshot->pluck('value_in_pln');
 	$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
+
+	// TOTALS CHART
+	$portfolioTotals = PortfolioSnapshot::groupBy('snapshot_time')
+		->selectRaw('FROM_UNIXTIME(snapshot_time/1000) as snapshot_time, sum(value_in_pln) as sum')
+		->pluck('sum', 'snapshot_time');
+
+	$totalsChart = ['labels' => $portfolioTotals->keys(), 'data' => $portfolioTotals->values()];
+
+	// STACKED CHART
+	$portfolioValues = PortfolioValue::where('snapshot_time', '>', 1614294000000*1000)->get();
+
+	//    "snapshot_time" => 1613780101609
+	//    "asset" => "ADA"
+	//    "value_in_pln" => "0.0000000000"
+	//    "value_in_usd" => "0.0000000000"
+	//    "value_in_btc" => "0.0000000000"
+	//    "value_in_eth" => "0.0000000000"
+
+	$assetNames = $portfolioValues->unique('asset')->pluck('asset');
+	$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+
+	$datasets = [];
+	foreach ($assetNames as $assetName) {
+		$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+		array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
+	}
+
+	$stackedChart = [
+		'labels'   => $labels,
+		// ['A', 'B', 'C'],
+		'datasets' => $datasets,
+//			[
+//				[
+//					'data'  => [1, 0, 1],
+//					'label' => 'D0'
+//				],
+//				[
+//					'data'  => [1, 2, 0],
+//					'label' => 'D1',
+//				],
+//				[
+//					'data'  => [1, 2, 3],
+//					'label' => 'D2',
+//				]
+//			]
+	];
 
 	$retData = ['currentValueInPln'            => Utils::formattedNumber($currentValueInPln, 2),
 				'currentValueInUsd'            => Utils::formattedNumber($currentValueInUsd, 2),
@@ -97,6 +142,8 @@ Route::get('/', function() {
 				'yesterdaysMetamaskValueInUsd' => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
 				'currentPortfolioSnapshot'     => $currentPortfolioSnapshot,
 				'pieChart'                     => $pieChart,
+				'totalsChart'                  => $totalsChart,
+				'stackedChart'                 => $stackedChart
 	];
 
 	return view('home', $retData);

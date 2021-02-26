@@ -39,6 +39,38 @@ select snapshot_time, source, sum(value_in_pln) from portfolio_snapshots where s
 select FROM_UNIXTIME(snapshot_time/1000, '%Y-%d-%m %h:%i') as snapshot_time, sum(value_in_pln) from portfolio_snapshots group by 1;
 ```
 
+
+```
+create view portfolio_values as 
+(
+select 
+	snapshot_time, 
+	asset, 
+	sum(sum_pln) as value_in_pln, 
+	sum(sum_usd) as value_in_usd, 
+	sum(sum_btc) as value_in_btc, 
+	sum(sum_eth) as value_in_eth
+from
+( 
+select 
+	snapshot_time, asset, 
+	sum(value_in_pln) as sum_pln, 
+	sum(value_in_usd) as sum_usd, 
+	sum(value_in_btc) as sum_btc, 
+	sum(value_in_eth) as sum_eth 
+from portfolio_snapshots  group by 1, 2
+union
+select snapshot_time, asset, 0, 0, 0, 0 from 
+(select distinct snapshot_time from `portfolio_snapshots`) as snapshot_times,
+(select distinct asset from `portfolio_snapshots`) as assets
+group by 1, 2 
+) as foo
+group by 1, 2
+order by 1, 2 asc
+)
+
+
+```
 TODO 
 * automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny
 * bieżące saldo: 
