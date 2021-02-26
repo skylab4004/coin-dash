@@ -100,22 +100,24 @@ Route::get('/', function() {
 		'datasets' => $datasets,
 	];
 
-	$retData = ['currentValueInPln'            => Utils::formattedNumber($currentValueInPln, 2),
-				'currentValueInUsd'            => Utils::formattedNumber($currentValueInUsd, 2),
-				'currentBinanceValueInPln'     => Utils::formattedNumber($currentBinanceValueInPln, 2),
-				'currentBinanceValueInUsd'     => Utils::formattedNumber($currentBinanceValueInUsd, 2),
-				'currentMetamaskValueInPln'    => Utils::formattedNumber($currentMetamaskValueInPln, 2),
-				'currentMetamaskValueInUsd'    => Utils::formattedNumber($currentMetamaskValueInUsd, 2),
-				'yesterdaysValueInPln'         => Utils::formattedNumber($yesterdaysValueInPln, 2),
-				'yesterdaysValueInUsd'         => Utils::formattedNumber($yesterdaysValueInUsd, 2),
-				'yesterdaysBinanceValueInPln'  => Utils::formattedNumber($yesterdaysBinanceValueInPln, 2),
-				'yesterdaysBinanceValueInUsd'  => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
-				'yesterdaysMetamaskValueInPln' => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
-				'yesterdaysMetamaskValueInUsd' => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
-				'currentPortfolioSnapshot'     => $currentPortfolioSnapshot,
-				'pieChart'                     => $pieChart,
-				'totalsChart'                  => $totalsChart,
-				'stackedChart'                 => $stackedChart
+	$retData = [
+		'lastSnapshotTime'             => Utils::millisToShortTimestamp($lastSnapshotTime),
+		'currentValueInPln'            => Utils::formattedNumber($currentValueInPln, 2),
+		'currentValueInUsd'            => Utils::formattedNumber($currentValueInUsd, 2),
+		'currentBinanceValueInPln'     => Utils::formattedNumber($currentBinanceValueInPln, 2),
+		'currentBinanceValueInUsd'     => Utils::formattedNumber($currentBinanceValueInUsd, 2),
+		'currentMetamaskValueInPln'    => Utils::formattedNumber($currentMetamaskValueInPln, 2),
+		'currentMetamaskValueInUsd'    => Utils::formattedNumber($currentMetamaskValueInUsd, 2),
+		'yesterdaysValueInPln'         => Utils::formattedNumber($yesterdaysValueInPln, 2),
+		'yesterdaysValueInUsd'         => Utils::formattedNumber($yesterdaysValueInUsd, 2),
+		'yesterdaysBinanceValueInPln'  => Utils::formattedNumber($yesterdaysBinanceValueInPln, 2),
+		'yesterdaysBinanceValueInUsd'  => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
+		'yesterdaysMetamaskValueInPln' => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
+		'yesterdaysMetamaskValueInUsd' => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
+		'currentPortfolioSnapshot'     => $currentPortfolioSnapshot,
+		'pieChart'                     => $pieChart,
+		'totalsChart'                  => $totalsChart,
+		'stackedChart'                 => $stackedChart
 	];
 
 	return view('home', $retData);

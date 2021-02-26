@@ -78,9 +78,9 @@ order by 1, 2 asc
 * ~~stacked chart~~
 * ~~pie chart z bieżącym portfolio~~
 * zrefaktorować wyciąganie danych do widoków z routes/web.php do kontrolera
-* dodać czas ładowania strony
-* dodać czas ostatniego snapshota (wyświetlane dane)
-* dodać narzędzia do debugowania laravela
+* ~~dodać czas ładowania strony~~
+* ~~dodać czas ostatniego snapshota (wyświetlane dane)~~
+* ~~dodać narzędzia do debugowania laravela~~
 * poprawić timezone-y dla kontenerów
 * responsive design
 * pwa

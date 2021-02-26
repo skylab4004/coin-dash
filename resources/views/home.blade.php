@@ -205,5 +205,7 @@
 </script>
 
 
+Last snapshot: {{ $lastSnapshotTime }} <br/>
+This page took {{ intval(((microtime(true) - LARAVEL_START))*1000) }} ms to render
 </body>
 </html>
