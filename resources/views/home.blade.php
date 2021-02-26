@@ -21,23 +21,23 @@
     </thead>
     <tr>
         <td>ALL</td>
-        <td>{{ $currentValueInPln }}</td>
-        <td>{{ $currentValueInPln-$yesterdaysValueInPln}}</td>
-        <td>{{ (($currentValueInPln-$yesterdaysValueInPln)/$currentValueInPln)*100}}</td>
+        <td>{{ $lastSnapshotValueInPln }}</td>
+        <td>{{ $lastSnapshotValueInPln-$yesterdaysValueInPln}}</td>
+        <td>{{ (($lastSnapshotValueInPln-$yesterdaysValueInPln)/$lastSnapshotValueInPln)*100}}</td>
     </tr>
 
     <tr>
         <td>Binance</td>
-        <td>{{ $currentBinanceValueInPln }}</td>
-        <td>{{ $currentBinanceValueInPln-$yesterdaysBinanceValueInPln}}</td>
-        <td>{{ (($currentBinanceValueInPln-$yesterdaysBinanceValueInPln)/$currentBinanceValueInPln)*100}}</td>
+        <td>{{ $lastSnapshotBinanceValueInPln }}</td>
+        <td>{{ $lastSnapshotBinanceValueInPln-$yesterdaysBinanceValueInPln}}</td>
+        <td>{{ (($lastSnapshotBinanceValueInPln-$yesterdaysBinanceValueInPln)/$lastSnapshotBinanceValueInPln)*100}}</td>
     </tr>
 
     <tr>
         <td>Metamask</td>
-        <td>{{ $currentMetamaskValueInPln }}</td>
-        <td>{{ $currentMetamaskValueInPln-$yesterdaysMetamaskValueInPln}}</td>
-        <td>{{ (($currentMetamaskValueInPln-$yesterdaysMetamaskValueInPln)/$currentMetamaskValueInPln)*100}}</td>
+        <td>{{ $lastSnapshotMetamaskValueInPln }}</td>
+        <td>{{ $lastSnapshotMetamaskValueInPln-$yesterdaysMetamaskValueInPln}}</td>
+        <td>{{ (($lastSnapshotMetamaskValueInPln-$yesterdaysMetamaskValueInPln)/$lastSnapshotMetamaskValueInPln)*100}}</td>
     </tr>
 </table>
 
@@ -53,23 +53,23 @@
     </thead>
     <tr>
         <td>ALL</td>
-        <td>{{ $currentValueInUsd }}</td>
-        <td>{{ $currentValueInUsd-$yesterdaysValueInUsd}}</td>
-        <td>{{ (($currentValueInUsd-$yesterdaysValueInUsd)/$currentValueInUsd)*100}}</td>
+        <td>{{ $lastSnapshotValueInUsd }}</td>
+        <td>{{ $lastSnapshotValueInUsd-$yesterdaysValueInUsd}}</td>
+        <td>{{ (($lastSnapshotValueInUsd-$yesterdaysValueInUsd)/$lastSnapshotValueInUsd)*100}}</td>
     </tr>
 
     <tr>
         <td>Binance</td>
-        <td>{{ $currentBinanceValueInUsd }}</td>
-        <td>{{ $currentBinanceValueInUsd-$yesterdaysBinanceValueInUsd}}</td>
-        <td>{{ (($currentBinanceValueInUsd-$yesterdaysBinanceValueInUsd)/$currentBinanceValueInUsd)*100}}</td>
+        <td>{{ $lastSnapshotBinanceValueInUsd }}</td>
+        <td>{{ $lastSnapshotBinanceValueInUsd-$yesterdaysBinanceValueInUsd}}</td>
+        <td>{{ (($lastSnapshotBinanceValueInUsd-$yesterdaysBinanceValueInUsd)/$lastSnapshotBinanceValueInUsd)*100}}</td>
     </tr>
 
     <tr>
         <td>Metamask</td>
-        <td>{{ $currentMetamaskValueInUsd }}</td>
-        <td>{{ $currentMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd}}</td>
-        <td>{{ (($currentMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd)/$currentMetamaskValueInUsd)*100}}</td>
+        <td>{{ $lastSnapshotMetamaskValueInUsd }}</td>
+        <td>{{ $lastSnapshotMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd}}</td>
+        <td>{{ (($lastSnapshotMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd)/$lastSnapshotMetamaskValueInUsd)*100}}</td>
     </tr>
 </table>
 
