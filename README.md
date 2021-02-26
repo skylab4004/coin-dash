@@ -71,7 +71,47 @@ order by 1, 2 asc
 
 
 ```
-TODO 
+# TODO
+
+* ~~bieżąca wartość portfolio w pln/usd~~ 
+* ~~PNL od północy~~
+* ~~stacked chart~~
+* ~~pie chart z bieżącym portfolio~~
+* zrefaktorować wyciąganie danych do widoków z routes/web.php do kontrolera
+* dodać czas ładowania strony
+* dodać czas ostatniego snapshota (wyświetlane dane)
+* dodać narzędzia do debugowania laravela
+* poprawić timezone-y dla kontenerów
+* responsive design
+* pwa
+* autoryzacja http
 * automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny
-* bieżące saldo: 
-* PNL od północy: 
+
+# Struktura aplikacji
+
+1. Home
+- bieżące saldo w pln/usd
+- dzisiejsze PNL w  PLN/USD i % względem zamknięcia dnia wczorajszego
+- PNL w PLN i % z ostatnich 30 minut lub godziny
+- stacked chart z rozbiciem portfolio od początku dnia (interwał = 5 minut)
+- stacked chart z rozbiciem portfolio z ostatniego tygodnia lub miesiąca (interwał = 1 dzień lub 12 h)
+- pie chart z procentowym rozbiciem portfolio + równowartość w pln + ilość w walucie natywnej
+- przełącznik PLN/USD
+- przełącznik hide values (procenty zostają)
+- przełącznik dark/light mode
+
+2. Binance
+- bieżące saldo w pln/usd
+- dzisiejsze PNL w  PLN/USD i % względem zamknięcia dnia wczorajszego
+- PNL w PLN i % z ostatnich 30 minut lub godziny
+- stacked chart z rozbiciem portfolio od początku dnia (interwał = 5 minut)
+- stacked chart z rozbiciem portfolio z ostatniego tygodnia lub miesiąca (interwał = 1 dzień lub 12 h)
+- pie chart z procentowym rozbiciem portfolio + równowartość w pln + ilość w walucie natywnej
+
+2. Metamask
+- bieżące saldo w pln/usd
+- dzisiejsze PNL w  PLN/USD i % względem zamknięcia dnia wczorajszego
+- PNL w PLN i % z ostatnich 30 minut lub godziny
+- stacked chart z rozbiciem portfolio od początku dnia (interwał = 5 minut)
+- stacked chart z rozbiciem portfolio z ostatniego tygodnia lub miesiąca (interwał = 1 dzień lub 12 h)
+- pie chart z procentowym rozbiciem portfolio + równowartość w pln + ilość w walucie natywnej
