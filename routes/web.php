@@ -19,9 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function() {
 
 
-	// TODAY's portfolio value and totals in PLN and USD
-	$allPortfolioSnapshots = PortfolioSnapshot::all();
-	$lastSnapshotTime = $allPortfolioSnapshots->max('snapshot_time');
+	// CURRENT portfolio value and totals in PLN and USD
+	$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
 	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
 		->OrderBy('value_in_pln', 'desc')
 		->get();
@@ -43,7 +42,6 @@ Route::get('/', function() {
 			$currentMetamaskValueInUsd += $assetSnapshot['value_in_usd'];
 		}
 	}
-	unset($currentPortfolioSnapshot);
 	unset($assetSnapshot);
 
 	// YESTERDAY's portfolio value and totals in PLN and USD
@@ -74,9 +72,6 @@ Route::get('/', function() {
 	unset($yesterdaysLastPortfolioSnapshot);
 	unset($yesterdaysAssetSnapshot);
 
-	// CURRENT PORTFOLIO TABLE
-	$currentPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)->OrderBy('value_in_pln', 'desc')->get();
-
 	// PIE CHART
 	$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
 	$pieChartValues = $currentPortfolioSnapshot->pluck('value_in_pln');
@@ -90,15 +85,7 @@ Route::get('/', function() {
 	$totalsChart = ['labels' => $portfolioTotals->keys(), 'data' => $portfolioTotals->values()];
 
 	// STACKED CHART
-	$portfolioValues = PortfolioValue::where('snapshot_time', '>', 1614294000000*1000)->get();
-
-	//    "snapshot_time" => 1613780101609
-	//    "asset" => "ADA"
-	//    "value_in_pln" => "0.0000000000"
-	//    "value_in_usd" => "0.0000000000"
-	//    "value_in_btc" => "0.0000000000"
-	//    "value_in_eth" => "0.0000000000"
-
+	$portfolioValues = PortfolioValue::all();
 	$assetNames = $portfolioValues->unique('asset')->pluck('asset');
 	$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
 
@@ -110,22 +97,7 @@ Route::get('/', function() {
 
 	$stackedChart = [
 		'labels'   => $labels,
-		// ['A', 'B', 'C'],
 		'datasets' => $datasets,
-//			[
-//				[
-//					'data'  => [1, 0, 1],
-//					'label' => 'D0'
-//				],
-//				[
-//					'data'  => [1, 2, 0],
-//					'label' => 'D1',
-//				],
-//				[
-//					'data'  => [1, 2, 3],
-//					'label' => 'D2',
-//				]
-//			]
 	];
 
 	$retData = ['currentValueInPln'            => Utils::formattedNumber($currentValueInPln, 2),

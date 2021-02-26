@@ -14,9 +14,9 @@ class ViewPortfolioValues extends Migration {
 
 	private function createView(): string {
 		return <<<SQL
-			CREATE VIEW portfolio_values AS (
+			CREATE OR REPLACE VIEW portfolio_values AS (
 			SELECT
-				snapshot_time,
+				DATE_FORMAT(FROM_UNIXTIME(snapshot_time/1000), '%Y-%m-%d %H:%i') AS snapshot_time,
 				asset,
 				sum(sum_pln) AS value_in_pln,
 				sum(sum_usd) AS value_in_usd,
