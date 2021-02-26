@@ -6,10 +6,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
 </head>
 <body>
-<h1>Stacked chart</h1>
-<div style="height: 700px">
-    <canvas id="chart-0"></canvas>
-</div>
 
 <h1>Today's PNL</h1>
 
@@ -89,6 +85,11 @@
         <td> {{ $yesterdaysValueInUsd }}</td>
     </tr>
 </table>
+
+<h1>Stacked chart</h1>
+<div style="height: 700px">
+    <canvas id="chart-0"></canvas>
+</div>
 
 <h1>Current portfolio</h1>
 <table border="1">
