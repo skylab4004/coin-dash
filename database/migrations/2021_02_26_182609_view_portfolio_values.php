@@ -44,6 +44,7 @@ class ViewPortfolioValues extends Migration {
 				SELECT DISTINCT asset FROM `portfolio_snapshots`) AS assets
 				GROUP BY 1, 2
 			) AS foo
+			WHERE MINUTE(FROM_UNIXTIME(snapshot_time/1000)) = 0
 			GROUP BY 1, 2
 			ORDER BY 1, 2 ASC
 			)
