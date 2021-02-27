@@ -5,6 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProvisionDashboard::class, 'show']);
 
+Route::get('/binance', function() {
+	return view('pages.binance');
+});
+
+Route::get('/metamask', function() {
+	return view('pages.metamask');
+});
+
 Route::get('/portfolio-piechart', function() {
 	return view('portfolio_piechart');
 });

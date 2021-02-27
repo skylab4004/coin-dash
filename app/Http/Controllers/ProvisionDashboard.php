@@ -112,7 +112,7 @@ class ProvisionDashboard extends Controller {
 			'stackedChart'                   => $stackedChart
 		];
 
-		return view('home', $retData);
+		return view('pages.dashboard', $retData);
 
 	}
 }
