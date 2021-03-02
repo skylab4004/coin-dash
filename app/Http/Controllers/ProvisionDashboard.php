@@ -122,7 +122,6 @@ class ProvisionDashboard extends Controller {
 			'yesterdaysBinanceValueInUsd'        => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
 			'yesterdaysMetamaskValueInPln'       => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
 			'yesterdaysMetamaskValueInUsd'       => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
-
 			'todaysTotalPNLinPln'                => Utils::formattedNumber($todaysTotalPNLinPln, 2),
 			'todaysTotalDeltaPercentsFromPln'    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
 			'todaysBinancePNLinPln'              => Utils::formattedNumber($todaysBinancePNLinPln, 2),
