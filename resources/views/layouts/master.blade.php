@@ -3,20 +3,11 @@
 <head>
     @include('includes.head')
 </head>
-<body>
-<div class="container">
-    <header class="row">
-        @include('includes.header')
-    </header>
+<body class="bg-gray-300">
+@include('includes.header')
 
-    <div id="main" class="row">
-        @yield('content')
-    </div>
+@yield('content')
 
-    <footer class="row">
-        @include('includes.footer')
-    </footer>
-</div>
-
+@include('includes.footer')
 </body>
 </html>
