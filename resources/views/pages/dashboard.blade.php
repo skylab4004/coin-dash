@@ -1,6 +1,118 @@
 @extends('layouts.master')
 @section('content')
 
+    <div class="flex-1">
+
+        {{--stats--}}
+        <div>
+            <div class="flex py-4 flex-wrap justify-evenly">
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Total Balance</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl">{{ $lastSnapshotValueInPln }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Total PNL today</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl"> {{ $todaysTotalPNLinPln }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-green-200 text-green-700 px-1 py-0.5 mb-2 ml-auto text-xs font-medium rounded-full">{{$todaysTotalDeltaPercentsFromPln}}%</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-red-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Total PNL 30 min.</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-red-500 font-normal text-3xl">-TODO</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-red-200 text-red-800 px-1 py-0.5 ml-auto mb-2 text-xs font-medium rounded-full ">-TODO</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Binance Balance</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl">{{ $lastSnapshotBinanceValueInPln }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Binance PNL today</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl"> {{ $todaysBinancePNLinPln }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-green-200 text-green-700 px-1 py-0.5 mb-2 ml-auto text-xs font-medium rounded-full">{{$todaysBinanceDeltaPercentsFromPln}}%</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-red-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Binance PNL 30 min.</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-red-500 font-normal text-3xl">-TODO</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-red-200 text-red-800 px-1 py-0.5 ml-auto mb-2 text-xs font-medium rounded-full ">-TODO</span>
+                    </div>
+                </div>
+
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Metamask Balance</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl">{{ $lastSnapshotMetamaskValueInPln }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-green-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Metamask PNL today</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-green-500 font-normal text-3xl">{{ $todaysMetamaskPNLinPln  }}</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-green-200 text-green-700 px-1 py-0.5 mb-2 ml-auto text-xs font-medium rounded-full">{{$todaysMetamaskDeltaPercentsFromPln}}%</span>
+                    </div>
+                </div>
+
+                {{--stats card--}}
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 lg:w-1/6 bg-gray-800 rounded-2xl px-3 py-1 m-2 shadow-md border-red-500 border-b-4">
+                    <div class="font-sans text-gray-400 uppercase text-sm font-medium mt-2">Metamask PNL 30 min.</div>
+                    <div class="flex items-baseline justify-center py-1">
+                        <span class="text-red-500 font-normal text-3xl">-TODO</span>
+                        <span class="text-sm ml-1 font-bold text-gray-600">PLN</span>
+                    </div>
+                    <div class="flex place-self-end">
+                        <span class="bg-red-200 text-red-800 px-1 py-0.5 ml-auto mb-2 text-xs font-medium rounded-full ">-TODO</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
     <h1>Today's PNL</h1>
 
     <h2>in PLN</h2>
@@ -16,22 +128,22 @@
         <tr>
             <td>ALL</td>
             <td>{{ $lastSnapshotValueInPln }}</td>
-            <td>{{ $lastSnapshotValueInPln-$yesterdaysValueInPln}}</td>
-            <td>{{ (($lastSnapshotValueInPln-$yesterdaysValueInPln)/$lastSnapshotValueInPln)*100}}</td>
+            <td>{{ $todaysTotalPNLinPln}}</td>
+            <td>{{ $todaysTotalDeltaPercentsFromPln}}</td>
         </tr>
 
         <tr>
             <td>Binance</td>
             <td>{{ $lastSnapshotBinanceValueInPln }}</td>
-            <td>{{ $lastSnapshotBinanceValueInPln-$yesterdaysBinanceValueInPln}}</td>
-            <td>{{ (($lastSnapshotBinanceValueInPln-$yesterdaysBinanceValueInPln)/$lastSnapshotBinanceValueInPln)*100}}</td>
+            <td>{{ $todaysBinancePNLinPln }}</td>
+            <td>{{ $todaysBinanceDeltaPercentsFromPln }}</td>
         </tr>
 
         <tr>
             <td>Metamask</td>
             <td>{{ $lastSnapshotMetamaskValueInPln }}</td>
-            <td>{{ $lastSnapshotMetamaskValueInPln-$yesterdaysMetamaskValueInPln}}</td>
-            <td>{{ (($lastSnapshotMetamaskValueInPln-$yesterdaysMetamaskValueInPln)/$lastSnapshotMetamaskValueInPln)*100}}</td>
+            <td>{{ $todaysMetamaskPNLinPln }}</td>
+            <td>{{ $todaysMetamaskDeltaPercentsFromPln }}</td>
         </tr>
     </table>
 
@@ -48,22 +160,22 @@
         <tr>
             <td>ALL</td>
             <td>{{ $lastSnapshotValueInUsd }}</td>
-            <td>{{ $lastSnapshotValueInUsd-$yesterdaysValueInUsd}}</td>
-            <td>{{ (($lastSnapshotValueInUsd-$yesterdaysValueInUsd)/$lastSnapshotValueInUsd)*100}}</td>
+            <td>{{ $todaysTotalPNLinUsd}}</td>
+            <td>{{ $todaysTotalDeltaPercentsFromUsd}}</td>
         </tr>
 
         <tr>
             <td>Binance</td>
             <td>{{ $lastSnapshotBinanceValueInUsd }}</td>
-            <td>{{ $lastSnapshotBinanceValueInUsd-$yesterdaysBinanceValueInUsd}}</td>
-            <td>{{ (($lastSnapshotBinanceValueInUsd-$yesterdaysBinanceValueInUsd)/$lastSnapshotBinanceValueInUsd)*100}}</td>
+            <td>{{ $todaysBinancePNLinUsd }}</td>
+            <td>{{ $todaysBinanceDeltaPercentsFromUsd }}</td>
         </tr>
 
         <tr>
             <td>Metamask</td>
             <td>{{ $lastSnapshotMetamaskValueInUsd }}</td>
-            <td>{{ $lastSnapshotMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd}}</td>
-            <td>{{ (($lastSnapshotMetamaskValueInUsd-$yesterdaysMetamaskValueInUsd)/$lastSnapshotMetamaskValueInUsd)*100}}</td>
+            <td>{{ $todaysMetamaskPNLinUsd }}</td>
+            <td>{{ $todaysMetamaskDeltaPercentsFromUsd }}</td>
         </tr>
     </table>
 

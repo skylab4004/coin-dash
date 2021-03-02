@@ -23,7 +23,9 @@ class Utils {
 		return number_format($numeric, $decimals, '.', '');
 	}
 
-	// number_format($num, 2, '.', '')
+	public static function dashboardNumber($numeric, $decimals = 2): string {
+		return number_format($numeric, $decimals, ',', ' ');
+	}
 
 	/**
 	 * @return float

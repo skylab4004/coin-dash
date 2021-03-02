@@ -92,25 +92,56 @@ class ProvisionDashboard extends Controller {
 			'datasets' => $datasets,
 		];
 
+		// in PLN
+		$todaysTotalPNLinPln = $lastSnapshotValueInPln - $yesterdaysValueInPln;
+		$todaysTotalDeltaPercentsFromPln = (($lastSnapshotValueInPln - $yesterdaysValueInPln) / $lastSnapshotValueInPln) * 100;
+		$todaysBinancePNLinPln = $lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln;
+		$todaysBinanceDeltaPercentsFromPln = (($lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln) / $lastSnapshotBinanceValueInPln) * 100;
+		$todaysMetamaskPNLinPln = $lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln;
+		$todaysMetamaskDeltaPercentsFromPln = (($lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln) / $lastSnapshotMetamaskValueInPln) * 100;
+
+		// in USD
+		$todaysTotalPNLinUsd = $lastSnapshotValueInUsd - $yesterdaysValueInUsd;
+		$todaysTotalDeltaPercentsFromUsd = (($lastSnapshotValueInUsd - $yesterdaysValueInUsd) / $lastSnapshotValueInUsd) * 100;
+		$todaysBinancePNLinUsd = $lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd;
+		$todaysBinanceDeltaPercentsFromUsd = (($lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd) / $lastSnapshotBinanceValueInUsd) * 100;
+		$todaysMetamaskPNLinUsd = $lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd;
+		$todaysMetamaskDeltaPercentsFromUsd = (($lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd) / $lastSnapshotMetamaskValueInUsd) * 100;
+
 		$retData = [
-			'lastSnapshotTime'               => Utils::millisToShortTimestamp($lastSnapshotTime),
-			'lastSnapshotValueInPln'         => Utils::formattedNumber($lastSnapshotValueInPln, 2),
-			'lastSnapshotValueInUsd'         => Utils::formattedNumber($lastSnapshotValueInUsd, 2),
-			'lastSnapshotBinanceValueInPln'  => Utils::formattedNumber($lastSnapshotBinanceValueInPln, 2),
-			'lastSnapshotBinanceValueInUsd'  => Utils::formattedNumber($lastSnapshotBinanceValueInUsd, 2),
-			'lastSnapshotMetamaskValueInPln' => Utils::formattedNumber($lastSnapshotMetamaskValueInPln, 2),
-			'lastSnapshotMetamaskValueInUsd' => Utils::formattedNumber($lastSnapshotMetamaskValueInUsd, 2),
-			'yesterdaysValueInPln'           => Utils::formattedNumber($yesterdaysValueInPln, 2),
-			'yesterdaysValueInUsd'           => Utils::formattedNumber($yesterdaysValueInUsd, 2),
-			'yesterdaysBinanceValueInPln'    => Utils::formattedNumber($yesterdaysBinanceValueInPln, 2),
-			'yesterdaysBinanceValueInUsd'    => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
-			'yesterdaysMetamaskValueInPln'   => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
-			'yesterdaysMetamaskValueInUsd'   => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
-			'currentPortfolioSnapshot'       => $currentPortfolioSnapshot,
-			'pieChart'                       => $pieChart,
-			'totalsChart'                    => $totalsChart,
-			'stackedChart'                   => $stackedChart
+			'lastSnapshotTime'                   => Utils::millisToShortTimestamp($lastSnapshotTime),
+			'lastSnapshotValueInPln'             => Utils::formattedNumber($lastSnapshotValueInPln, 2),
+			'lastSnapshotValueInUsd'             => Utils::formattedNumber($lastSnapshotValueInUsd, 2),
+			'lastSnapshotBinanceValueInPln'      => Utils::formattedNumber($lastSnapshotBinanceValueInPln, 2),
+			'lastSnapshotBinanceValueInUsd'      => Utils::formattedNumber($lastSnapshotBinanceValueInUsd, 2),
+			'lastSnapshotMetamaskValueInPln'     => Utils::formattedNumber($lastSnapshotMetamaskValueInPln, 2),
+			'lastSnapshotMetamaskValueInUsd'     => Utils::formattedNumber($lastSnapshotMetamaskValueInUsd, 2),
+			'yesterdaysValueInPln'               => Utils::formattedNumber($yesterdaysValueInPln, 2),
+			'yesterdaysValueInUsd'               => Utils::formattedNumber($yesterdaysValueInUsd, 2),
+			'yesterdaysBinanceValueInPln'        => Utils::formattedNumber($yesterdaysBinanceValueInPln, 2),
+			'yesterdaysBinanceValueInUsd'        => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
+			'yesterdaysMetamaskValueInPln'       => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
+			'yesterdaysMetamaskValueInUsd'       => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
+
+			'todaysTotalPNLinPln'                => Utils::formattedNumber($todaysTotalPNLinPln, 2),
+			'todaysTotalDeltaPercentsFromPln'    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
+			'todaysBinancePNLinPln'              => Utils::formattedNumber($todaysBinancePNLinPln, 2),
+			'todaysBinanceDeltaPercentsFromPln'  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromPln, 2),
+			'todaysMetamaskPNLinPln'             => Utils::formattedNumber($todaysMetamaskPNLinPln, 2),
+			'todaysMetamaskDeltaPercentsFromPln' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
+			'todaysTotalPNLinUsd'                => Utils::formattedNumber($todaysTotalPNLinUsd, 2),
+			'todaysTotalDeltaPercentsFromUsd'    => Utils::formattedNumber($todaysTotalDeltaPercentsFromUsd, 2),
+			'todaysBinancePNLinUsd'              => Utils::formattedNumber($todaysBinancePNLinUsd, 2),
+			'todaysBinanceDeltaPercentsFromUsd'  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromUsd, 2),
+			'todaysMetamaskPNLinUsd'             => Utils::formattedNumber($todaysMetamaskPNLinUsd, 2),
+			'todaysMetamaskDeltaPercentsFromUsd' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromUsd, 2),
+
+			'currentPortfolioSnapshot'           => $currentPortfolioSnapshot,
+			'pieChart'                           => $pieChart,
+			'totalsChart'                        => $totalsChart,
+			'stackedChart'                       => $stackedChart
 		];
+
 
 		return view('pages.dashboard', $retData);
 
