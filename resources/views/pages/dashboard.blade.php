@@ -25,10 +25,20 @@
 
     </div>
 
-    <h1>Stacked chart</h1>
+    <h1>Daily chart</h1>
     <div style="height: 700px">
-        <canvas id="chart-0"></canvas>
+        <canvas id="daily-stacked-chart"></canvas>
     </div>
+
+    <h1>Hourly chart</h1>
+    <div style="height: 700px">
+        <canvas id="hourly-stacked-chart"></canvas>
+    </div>
+
+{{--    <h1>Stacked chart</h1>--}}
+{{--    <div style="height: 700px">--}}
+{{--        <canvas id="stacked-chart"></canvas>--}}
+{{--    </div>--}}
 
     <h1>Current portfolio</h1>
     <table border="1">
@@ -92,8 +102,7 @@
             }
         });
 
-        var ctx2 = document.getElementById('totalsChart').getContext('2d');
-        var myChart2 = new Chart(ctx2, {
+        var myChart2 = new Chart(document.getElementById('totalsChart').getContext('2d'), {
             type: 'line',
             data: {
                 labels: {!! $totalsChart['labels'] !!},
@@ -112,10 +121,19 @@
             }
         });
 
-        // stacked chart
-        var data = {!!  json_encode($stackedChart) !!};
-
         var options = {
+            elements: {
+                line : {
+                    tension: 0,
+                    borderWidth: 0,
+                },
+                point: {
+                    radius: 0,
+                },
+            },
+            tooltips : {
+                intersect: true,
+            },
             maintainAspectRatio: false,
             spanGaps: false,
             scales: {
@@ -125,7 +143,7 @@
             },
             plugins: {
                 filler: {
-                    propagate: true
+                    propagate: true,
                 },
                 'samples-filler-analyser': {
                     target: 'chart-analyser'
@@ -136,9 +154,27 @@
             }
         };
 
-        var chart = new Chart('chart-0', {
+        // stacked chart
+        var stacked_chart_data = {!!  json_encode($stackedChart) !!};
+        var stacked_chart = new Chart('stacked-chart', {
             type: 'line',
-            data: data,
+            data: stacked_chart_data,
+            options: options
+        });
+
+        // daily stacked chart
+        var daily_stacked_chart_data = {!!  json_encode($dailyStackedChart) !!};
+        var daily_stacked_chart = new Chart('daily-stacked-chart', {
+            type: 'line',
+            data: daily_stacked_chart_data,
+            options: options
+        });
+
+        // hourly stacked chart
+        var hourly_stacked_chart_data = {!!  json_encode($hourlyStackedChart) !!};
+        var hourly_stacked_chart = new Chart('hourly-stacked-chart', {
+            type: 'line',
+            data: hourly_stacked_chart_data,
             options: options
         });
     </script>

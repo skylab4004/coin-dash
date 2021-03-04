@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\API\Utils;
+use App\Models\DailyPortfolioValue;
+use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
 use App\Models\PortfolioValue;
 use Illuminate\Support\Facades\DB;
@@ -91,6 +93,55 @@ class ProvisionDashboard extends Controller {
 			'labels'   => $labels,
 			'datasets' => $datasets,
 		];
+		unset($datasets);
+		unset($assetName);
+		unset($assetNames);
+		unset($portfolioValues);
+
+		// DAILY STACKED CHART
+		$dailyPortfolioValues = DailyPortfolioValue::all();
+		$assetNames = $dailyPortfolioValues->unique('asset')->pluck('asset');
+		$labels = $dailyPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+
+		$datasets = [];
+		foreach ($assetNames as $assetName) {
+			$datasetForAsset = $dailyPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
+		}
+
+		$dailyStackedChart = [
+			'labels'   => $labels,
+			'datasets' => $datasets,
+		];
+		unset($labels);
+		unset($datasets);
+		unset($assetName);
+		unset($assetNames);
+		unset($dailyPortfolioValues);
+
+
+		// HOURLY STACKED CHART
+		$hourlyPortfolioValues = HourlyPortfolioValue::all();
+		$assetNames = $hourlyPortfolioValues->unique('asset')->pluck('asset');
+		$labels = $hourlyPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+
+		$datasets = [];
+		foreach ($assetNames as $assetName) {
+			$datasetForAsset = $hourlyPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
+		}
+
+		$hourlyStackedChart = [
+			'labels'   => $labels,
+			'datasets' => $datasets,
+		];
+
+		unset($labels);
+		unset($datasets);
+		unset($assetName);
+		unset($assetNames);
+		unset($hourlyPortfolioValues);
+
 
 		// in PLN
 		$todaysTotalPNLinPln = $lastSnapshotValueInPln - $yesterdaysValueInPln;
@@ -134,11 +185,12 @@ class ProvisionDashboard extends Controller {
 			'todaysBinanceDeltaPercentsFromUsd'  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromUsd, 2),
 			'todaysMetamaskPNLinUsd'             => Utils::formattedNumber($todaysMetamaskPNLinUsd, 2),
 			'todaysMetamaskDeltaPercentsFromUsd' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromUsd, 2),
-
 			'currentPortfolioSnapshot'           => $currentPortfolioSnapshot,
 			'pieChart'                           => $pieChart,
 			'totalsChart'                        => $totalsChart,
-			'stackedChart'                       => $stackedChart
+			'stackedChart'                       => $stackedChart,
+			'hourlyStackedChart'                 => $hourlyStackedChart,
+			'dailyStackedChart'                  => $dailyStackedChart,
 		];
 
 
