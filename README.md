@@ -90,8 +90,8 @@ order by 1, 2 asc
 # Struktura aplikacji
 
 1. Home
-- bieżące saldo w pln/usd
-- dzisiejsze PNL w  PLN/USD i % względem zamknięcia dnia wczorajszego
+- ~~bieżące saldo w pln/usd~~
+- ~~dzisiejsze PNL w  PLN/USD i % względem zamknięcia dnia wczorajszego~~
 - PNL w PLN i % z ostatnich 30 minut lub godziny
 - stacked chart z rozbiciem portfolio od początku dnia (interwał = 5 minut)
 - stacked chart z rozbiciem portfolio z ostatniego tygodnia lub miesiąca (interwał = 1 dzień lub 12 h)

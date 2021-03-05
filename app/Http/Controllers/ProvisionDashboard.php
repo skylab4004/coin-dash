@@ -37,6 +37,7 @@ class ProvisionDashboard extends Controller {
 			}
 		}
 		unset($assetSnapshot);
+//		unset($currentPortfolioSnapshot);
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
 		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
@@ -63,8 +64,9 @@ class ProvisionDashboard extends Controller {
 				$yesterdaysMetamaskValueInUsd += $yesterdaysAssetSnapshot['value_in_usd'];
 			}
 		}
-		unset($yesterdaysLastPortfolioSnapshot);
 		unset($yesterdaysAssetSnapshot);
+		unset($yesterdaysLastPortfolioSnapshot);
+		unset($lastSnapshotTimeYesterday);
 
 		// PIE CHART
 		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
@@ -78,34 +80,37 @@ class ProvisionDashboard extends Controller {
 
 		$totalsChart = ['labels' => $portfolioTotals->keys(), 'data' => $portfolioTotals->values()];
 
-		// STACKED CHART
-		$portfolioValues = PortfolioValue::all();
-		$assetNames = $portfolioValues->unique('asset')->pluck('asset');
-		$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
-
+		// LAST 24 HOURS STACKED CHART - EVERY 5 MINUTES
+		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 24 hour)')->min('snapshot_time');
+		$last24HoursPortfolioValues = PortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime24HoursAgo . '/1000)')->get();
+		$assetNames = $last24HoursPortfolioValues->unique('asset')->pluck('asset');
+		$labels = $last24HoursPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
 		$datasets = [];
 		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			$datasetForAsset = $last24HoursPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
 			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
 		}
 
-		$stackedChart = [
+		$lastDayStackedChart = [
 			'labels'   => $labels,
 			'datasets' => $datasets,
 		];
 		unset($datasets);
 		unset($assetName);
 		unset($assetNames);
-		unset($portfolioValues);
+		unset($last24HoursPortfolioValues);
+		unset($firstSnapshotTime24HoursAgo);
 
-		// DAILY STACKED CHART
-		$dailyPortfolioValues = DailyPortfolioValue::all();
-		$assetNames = $dailyPortfolioValues->unique('asset')->pluck('asset');
-		$labels = $dailyPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+		// DAILY STACKED CHART - last 30 days
+		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) > DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
+		$last30DailySnapshots = DailyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime30DaysAgo . '/1000)')->get();
+
+		$assetNames = $last30DailySnapshots->unique('asset')->pluck('asset');
+		$labels = $last30DailySnapshots->unique('snapshot_time')->sort()->pluck('snapshot_time');
 
 		$datasets = [];
 		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $dailyPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			$datasetForAsset = $last30DailySnapshots->where('asset', $assetName)->pluck('value_in_pln');
 			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
 		}
 
@@ -120,14 +125,15 @@ class ProvisionDashboard extends Controller {
 		unset($dailyPortfolioValues);
 
 
-		// HOURLY STACKED CHART
-		$hourlyPortfolioValues = HourlyPortfolioValue::all();
-		$assetNames = $hourlyPortfolioValues->unique('asset')->pluck('asset');
-		$labels = $hourlyPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+		// LAST 7 DAYS HOURLY STACKED CHART
+		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
+		$last7DaysSnapshots = HourlyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime7DaysAgo . '/1000)')->get();
+		$assetNames = $last7DaysSnapshots->unique('asset')->pluck('asset');
+		$labels = $last7DaysSnapshots->unique('snapshot_time')->sort()->pluck('snapshot_time');
 
 		$datasets = [];
 		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $hourlyPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			$datasetForAsset = $last7DaysSnapshots->where('asset', $assetName)->pluck('value_in_pln');
 			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
 		}
 
@@ -135,29 +141,29 @@ class ProvisionDashboard extends Controller {
 			'labels'   => $labels,
 			'datasets' => $datasets,
 		];
-
 		unset($labels);
 		unset($datasets);
 		unset($assetName);
 		unset($assetNames);
 		unset($hourlyPortfolioValues);
-
+		unset($last7DaysSnapshots);
+		unset($firstSnapshotTime7DaysAgo);
 
 		// in PLN
 		$todaysTotalPNLinPln = $lastSnapshotValueInPln - $yesterdaysValueInPln;
-		$todaysTotalDeltaPercentsFromPln = (($lastSnapshotValueInPln - $yesterdaysValueInPln) / $lastSnapshotValueInPln) * 100;
+		$todaysTotalDeltaPercentsFromPln = (($lastSnapshotValueInPln - $yesterdaysValueInPln) / $yesterdaysValueInPln) * 100;
 		$todaysBinancePNLinPln = $lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln;
-		$todaysBinanceDeltaPercentsFromPln = (($lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln) / $lastSnapshotBinanceValueInPln) * 100;
+		$todaysBinanceDeltaPercentsFromPln = (($lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln) / $yesterdaysBinanceValueInPln) * 100;
 		$todaysMetamaskPNLinPln = $lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln;
-		$todaysMetamaskDeltaPercentsFromPln = (($lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln) / $lastSnapshotMetamaskValueInPln) * 100;
+		$todaysMetamaskDeltaPercentsFromPln = (($lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln) / $yesterdaysMetamaskValueInPln) * 100;
 
 		// in USD
 		$todaysTotalPNLinUsd = $lastSnapshotValueInUsd - $yesterdaysValueInUsd;
-		$todaysTotalDeltaPercentsFromUsd = (($lastSnapshotValueInUsd - $yesterdaysValueInUsd) / $lastSnapshotValueInUsd) * 100;
+		$todaysTotalDeltaPercentsFromUsd = (($lastSnapshotValueInUsd - $yesterdaysValueInUsd) / $yesterdaysValueInUsd) * 100;
 		$todaysBinancePNLinUsd = $lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd;
-		$todaysBinanceDeltaPercentsFromUsd = (($lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd) / $lastSnapshotBinanceValueInUsd) * 100;
+		$todaysBinanceDeltaPercentsFromUsd = (($lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd) / $yesterdaysBinanceValueInUsd) * 100;
 		$todaysMetamaskPNLinUsd = $lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd;
-		$todaysMetamaskDeltaPercentsFromUsd = (($lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd) / $lastSnapshotMetamaskValueInUsd) * 100;
+		$todaysMetamaskDeltaPercentsFromUsd = (($lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd) / $yesterdaysMetamaskValueInUsd) * 100;
 
 		$retData = [
 			'lastSnapshotTime'                   => Utils::millisToShortTimestamp($lastSnapshotTime),
@@ -188,9 +194,9 @@ class ProvisionDashboard extends Controller {
 			'currentPortfolioSnapshot'           => $currentPortfolioSnapshot,
 			'pieChart'                           => $pieChart,
 			'totalsChart'                        => $totalsChart,
-			'stackedChart'                       => $stackedChart,
 			'hourlyStackedChart'                 => $hourlyStackedChart,
 			'dailyStackedChart'                  => $dailyStackedChart,
+			'lastDayStackedChart'                => $lastDayStackedChart,
 		];
 
 
