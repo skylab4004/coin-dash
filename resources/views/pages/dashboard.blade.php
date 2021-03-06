@@ -30,16 +30,15 @@
         <canvas id="last-day-stacked-chart"></canvas>
     </div>
 
-    <h1>Daily chart</h1>
-    <div style="height: 700px">
-        <canvas id="daily-stacked-chart"></canvas>
-    </div>
-
-    <h1>Hourly chart</h1>
+    <h1>Last 7 days</h1>
     <div style="height: 700px">
         <canvas id="hourly-stacked-chart"></canvas>
     </div>
 
+    <h1>Last 30 days</h1>
+    <div style="height: 700px">
+        <canvas id="daily-stacked-chart"></canvas>
+    </div>
 
     <h1>Current portfolio</h1>
     <table border="1">
@@ -139,8 +138,4 @@
             options: options
         });
     </script>
-
-
-    Last snapshot: {{ $lastSnapshotTime }} <br/>
-    This page took {{ intval(((microtime(true) - LARAVEL_START))*1000) }} ms to render
 @stop
