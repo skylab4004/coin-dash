@@ -73,81 +73,29 @@ class ProvisionDashboard extends Controller {
 		$pieChartValues = $currentPortfolioSnapshot->pluck('value_in_pln');
 		$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
 
-		// TOTALS CHART
-		$portfolioTotals = PortfolioSnapshot::groupBy('snapshot_time')
-			->selectRaw('FROM_UNIXTIME(snapshot_time/1000) as snapshot_time, sum(value_in_pln) as sum')
-			->pluck('sum', 'snapshot_time');
+		// last hour stacked chart data with 5 minutes interval
+		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('FROM_UNIXTIME(snapshot_time/1000) >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
+		$lastOneHourPortfolioValues = PortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotOneHourAgo . '/1000)')->get();
+		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
+		unset($lastOneHourPortfolioValues);
 
-		$totalsChart = ['labels' => $portfolioTotals->keys(), 'data' => $portfolioTotals->values()];
-
-		// LAST 24 HOURS STACKED CHART - EVERY 5 MINUTES
-		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 24 hour)')->min('snapshot_time');
-		$last24HoursPortfolioValues = PortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime24HoursAgo . '/1000)')->get();
-		$assetNames = $last24HoursPortfolioValues->unique('asset')->pluck('asset');
-		$labels = $last24HoursPortfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
-		$datasets = [];
-		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $last24HoursPortfolioValues->where('asset', $assetName)->pluck('value_in_pln');
-			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
-		}
-
-		$lastDayStackedChart = [
-			'labels'   => $labels,
-			'datasets' => $datasets,
-		];
-		unset($datasets);
-		unset($assetName);
-		unset($assetNames);
+		// LAST 24 HOURS STACKED CHART - 1 h interval
+		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('FROM_UNIXTIME(snapshot_time/1000) >= NOW()-INTERVAL 48 hour')->min('snapshot_time');
+		$last24HoursPortfolioValues = HourlyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime24HoursAgo . '/1000)')->get();
+		$last24HoursStackedChart = self::extractChartsLabelsAndDatasets($last24HoursPortfolioValues);
 		unset($last24HoursPortfolioValues);
-		unset($firstSnapshotTime24HoursAgo);
 
-		// DAILY STACKED CHART - last 30 days
-		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) > DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
-		$last30DailySnapshots = DailyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime30DaysAgo . '/1000)')->get();
-
-		$assetNames = $last30DailySnapshots->unique('asset')->pluck('asset');
-		$labels = $last30DailySnapshots->unique('snapshot_time')->sort()->pluck('snapshot_time');
-
-		$datasets = [];
-		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $last30DailySnapshots->where('asset', $assetName)->pluck('value_in_pln');
-			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
-		}
-
-		$dailyStackedChart = [
-			'labels'   => $labels,
-			'datasets' => $datasets,
-		];
-		unset($labels);
-		unset($datasets);
-		unset($assetName);
-		unset($assetNames);
-		unset($dailyPortfolioValues);
-
-
-		// LAST 7 DAYS HOURLY STACKED CHART
+		// LAST 7 DAYS HOURLY STACKED CHART - todo zmienic na co 6h
 		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
 		$last7DaysSnapshots = HourlyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime7DaysAgo . '/1000)')->get();
-		$assetNames = $last7DaysSnapshots->unique('asset')->pluck('asset');
-		$labels = $last7DaysSnapshots->unique('snapshot_time')->sort()->pluck('snapshot_time');
-
-		$datasets = [];
-		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $last7DaysSnapshots->where('asset', $assetName)->pluck('value_in_pln');
-			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
-		}
-
-		$hourlyStackedChart = [
-			'labels'   => $labels,
-			'datasets' => $datasets,
-		];
-		unset($labels);
-		unset($datasets);
-		unset($assetName);
-		unset($assetNames);
-		unset($hourlyPortfolioValues);
+		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
 		unset($last7DaysSnapshots);
-		unset($firstSnapshotTime7DaysAgo);
+
+		// DAILY STACKED CHART - last 30 days
+		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
+		$last30DailySnapshots = DailyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime30DaysAgo . '/1000)')->get();
+		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
+		unset($last30DailySnapshots);
 
 		// in PLN
 		$todaysTotalPNLinPln = $lastSnapshotValueInPln - $yesterdaysValueInPln;
@@ -193,14 +141,29 @@ class ProvisionDashboard extends Controller {
 			'todaysMetamaskDeltaPercentsFromUsd' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromUsd, 2),
 			'currentPortfolioSnapshot'           => $currentPortfolioSnapshot,
 			'pieChart'                           => $pieChart,
-			'totalsChart'                        => $totalsChart,
-			'hourlyStackedChart'                 => $hourlyStackedChart,
-			'dailyStackedChart'                  => $dailyStackedChart,
-			'lastDayStackedChart'                => $lastDayStackedChart,
+			'lastHourStackedChart'               => $lastHourStackedChart,
+			'last24HoursStackedChart'            => $last24HoursStackedChart,
+			'last7DaysSixHoursStackedChart'      => $last7DaysSixHoursStackedChart,
+			'last30DaysStackedChart'             => $last30DaysStackedChart,
 		];
 
 
 		return view('pages.dashboard', $retData);
 
+	}
+
+	private static function extractChartsLabelsAndDatasets($portfolioValues) {
+		$assetNames = $portfolioValues->unique('asset')->pluck('asset');
+		$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+		$datasets = [];
+		foreach ($assetNames as $assetName) {
+			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck('value_in_pln');
+			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
+		}
+
+		return [
+			'labels'   => $labels,
+			'datasets' => $datasets,
+		];
 	}
 }

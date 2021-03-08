@@ -1,67 +1,76 @@
 @extends('layouts.master')
 @section('content')
 
-    <div class="flex-1">
+    <div class="flex-1 mx-8 my-4">
 
-        {{--stats--}}
+        <!-- stats tiles -->
+        <div class="flex flex-wrap justify-between">
+            <x-stats-tile title="Total Balance" value={{$lastSnapshotValueInPln}} unit="PLN" percent={{null}}/>
+            <x-stats-tile title="PNL Today" value={{$todaysTotalPNLinPln}} unit="PLN"
+                          percent={{$todaysTotalDeltaPercentsFromPln}}/>
+            {{--                <x-stats-tile title="PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <x-stats-tile title="Binance Balance" value={{$lastSnapshotBinanceValueInPln}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Binance PNL Today" value={{$todaysBinancePNLinPln}} unit="PLN"
+                          percent={{$todaysBinanceDeltaPercentsFromPln}}/>
+            {{--                <x-stats-tile title="Binance PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <x-stats-tile title="Metamask Balance" value={{$lastSnapshotMetamaskValueInPln}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Metamask PNL Today" value={{$todaysMetamaskPNLinPln}} unit="PLN"
+                          percent={{$todaysMetamaskDeltaPercentsFromPln}}/>
+            {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <x-stats-tile title="Yesterday closing" value={{$yesterdaysValueInPln}} unit="PLN" percent={{null}}/>
+        </div>
+
+        <!-- graphs -->
         <div>
-            <div class="flex py-4 flex-wrap justify-evenly">
-                <x-stats-tile title="Total Balance" value={{$lastSnapshotValueInPln}} unit="PLN" percent={{null}}/>
-                <x-stats-tile title="PNL Today" value={{$todaysTotalPNLinPln}} unit="PLN" percent={{$todaysTotalDeltaPercentsFromPln}}/>
-{{--                <x-stats-tile title="PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
 
-                <x-stats-tile title="Binance Balance" value={{$lastSnapshotBinanceValueInPln}} unit="PLN" percent={{null}}/>
-                <x-stats-tile title="Binance PNL Today" value={{$todaysBinancePNLinPln}} unit="PLN" percent={{$todaysBinanceDeltaPercentsFromPln}}/>
-{{--                <x-stats-tile title="Binance PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <h1>Last hour (5 min interval)</h1>
+            <div style="height: 700px">
+                <canvas id="last-hour-stacked-chart"></canvas>
+            </div>
 
-                <x-stats-tile title="Metamask Balance" value={{$lastSnapshotMetamaskValueInPln}} unit="PLN" percent={{null}}/>
-                <x-stats-tile title="Metamask PNL Today" value={{$todaysMetamaskPNLinPln}} unit="PLN" percent={{$todaysMetamaskDeltaPercentsFromPln}}/>
-                {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <h1>Last 24 hours (1h interval)</h1>
+            <div style="height: 700px">
+                <canvas id="last-24hours-stacked-chart"></canvas>
+            </div>
 
-                <x-stats-tile title="Yesterday closing" value={{$yesterdaysValueInPln}} unit="PLN" percent={{null}}/>
+            <h1>Last 7 days (6h interval)</h1>
+            <div style="height: 700px">
+                <canvas id="last-7days-stacked-chart"></canvas>
+            </div>
 
+            <h1>Last 30 days (1d interval)</h1>
+            <div style="height: 700px">
+                <canvas id="last-30days-stacked-chart"></canvas>
             </div>
         </div>
 
-    </div>
-
-    <h1>Last 24 hours</h1>
-    <div style="height: 700px">
-        <canvas id="last-day-stacked-chart"></canvas>
-    </div>
-
-    <h1>Last 7 days</h1>
-    <div style="height: 700px">
-        <canvas id="hourly-stacked-chart"></canvas>
-    </div>
-
-    <h1>Last 30 days</h1>
-    <div style="height: 700px">
-        <canvas id="daily-stacked-chart"></canvas>
-    </div>
-
-    <h1>Current portfolio</h1>
-    <table border="1">
-        <tr>
-            <td>Asset</td>
-            <td>Quantity</td>
-            <td>Value PLN</td>
-            <td>Value USD</td>
-        </tr>
-        @foreach($currentPortfolioSnapshot as $assetSnapshot)
+        <!-- current portfolio table -->
+        <h1>Current portfolio</h1>
+        <table border="1">
             <tr>
-                <td>{{$assetSnapshot['asset']}}</td>
-                <td>{{$assetSnapshot['quantity']}}</td>
-                <td>{{$assetSnapshot['value_in_pln']}}</td>
-                <td>{{$assetSnapshot['value_in_usd']}}</td>
+                <td>Asset</td>
+                <td>Quantity</td>
+                <td>Value PLN</td>
+                <td>Value USD</td>
             </tr>
-        @endforeach
-    </table>
+            @foreach($currentPortfolioSnapshot as $assetSnapshot)
+                <tr>
+                    <td>{{$assetSnapshot['asset']}}</td>
+                    <td>{{$assetSnapshot['quantity']}}</td>
+                    <td>{{$assetSnapshot['value_in_pln']}}</td>
+                    <td>{{$assetSnapshot['value_in_usd']}}</td>
+                </tr>
+            @endforeach
+        </table>
 
-    <div>
-        <canvas id="pieChart"></canvas>
+        <!-- pie chart -->
+        <div>
+            <canvas id="pieChart"></canvas>
+        </div>
+
     </div>
-
     <script>
 
         var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
@@ -86,7 +95,7 @@
 
         var options = {
             elements: {
-                line : {
+                line: {
                     tension: 0,
                     borderWidth: 0,
                 },
@@ -94,8 +103,17 @@
                     radius: 0,
                 },
             },
-            tooltips : {
-                intersect: true,
+            legend: {
+                display: false,
+            },
+            responsive: true,
+            tooltips: {
+                mode: 'nearest',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: false,
             },
             maintainAspectRatio: false,
             spanGaps: false,
@@ -117,25 +135,36 @@
             }
         };
 
-        // daily stacked chart
-        var daily_stacked_chart = new Chart('daily-stacked-chart', {
+        // last hour stacked chart (5 minutes interval)
+        var last_hour_stacked_chart = new Chart('last-hour-stacked-chart', {
             type: 'line',
-            data: {!!  json_encode($dailyStackedChart) !!},
-            options: options
-        });
-
-        // hourly stacked chart
-        var hourly_stacked_chart = new Chart('hourly-stacked-chart', {
-            type: 'line',
-            data: {!!  json_encode($hourlyStackedChart) !!},
+            data: {!!  json_encode($lastHourStackedChart) !!},
             options: options
         });
 
         // last day stacked chart
-        var last_day_stacked_chart = new Chart('last-day-stacked-chart', {
+        var last_24hours_stacked_chart = new Chart('last-24hours-stacked-chart', {
             type: 'line',
-            data: {!!  json_encode($lastDayStackedChart) !!},
+            data: {!!  json_encode($last24HoursStackedChart) !!},
             options: options
         });
+
+        // last 7 days stacked chart
+        var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {
+            type: 'line',
+            data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},
+            options: options
+        });
+
+        // last 30 days stacked chart
+        var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {
+            type: 'line',
+            data: {!!  json_encode($last30DaysStackedChart) !!},
+            options: options
+        });
+
+
+
+
     </script>
 @stop

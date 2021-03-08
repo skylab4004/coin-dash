@@ -68,9 +68,13 @@ group by 1, 2
 group by 1, 2
 order by 1, 2 asc
 )
-
-
 ```
+### add generated column
+```
+alter table `portfolio_snapshots` add column snapshot_timestamp timestamp as (from_unixtime(snapshot_time/1000)) 
+after snapshot_time; 
+```
+
 # TODO
 
 * ~~bieżąca wartość portfolio w pln/usd~~ 
