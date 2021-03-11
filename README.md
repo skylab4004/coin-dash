@@ -77,6 +77,8 @@ after snapshot_time;
 
 # TODO
 
+* top gainers 5 min, 30 min, 1 d
+* top loosers 5 min, 30 min, 1 d
 * ~~bieżąca wartość portfolio w pln/usd~~ 
 * ~~PNL od północy~~
 * ~~stacked chart~~
