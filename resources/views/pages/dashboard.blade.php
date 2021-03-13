@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
-    <div class="flex-1 mx-8 my-4">
+    <div class="flex-1">
 
         <!-- stats tiles -->
         <div class="flex flex-wrap justify-between">
@@ -23,32 +23,39 @@
         </div>
 
         <!-- graphs -->
-        <div>
-
-            <h1>Last hour (5 min interval)</h1>
-            <div style="height: 700px">
-                <canvas id="last-hour-stacked-chart"></canvas>
+        <div class="flex flex-wrap">
+            <div class="w-1/2">
+                <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>
+                <div class="aspect-w-16 aspect-h-9">
+                    <canvas id="last-hour-stacked-chart"></canvas>
+                </div>
             </div>
 
-            <h1>Last 24 hours (1h interval)</h1>
-            <div style="height: 700px">
-                <canvas id="last-24hours-stacked-chart"></canvas>
+            <div class="w-1/2">
+                <h1 class="text-2xl text-gray-700">Last 24 hours (1h interval)</h1>
+                <div>
+                    <canvas id="last-24hours-stacked-chart"></canvas>
+                </div>
             </div>
 
-            <h1>Last 7 days (6h interval)</h1>
-            <div style="height: 700px">
-                <canvas id="last-7days-stacked-chart"></canvas>
+            <div class="w-1/2">
+                <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
+                <div>
+                    <canvas id="last-7days-stacked-chart"></canvas>
+                </div>
             </div>
 
-            <h1>Last 30 days (1d interval)</h1>
-            <div style="height: 700px">
-                <canvas id="last-30days-stacked-chart"></canvas>
+            <div class="w-1/2">
+                <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>
+                <div>
+                    <canvas id="last-30days-stacked-chart"></canvas>
+                </div>
             </div>
         </div>
 
         <!-- current portfolio table -->
-        <h1>Current portfolio</h1>
-        <table border="1">
+        <h1 class="text-2xl text-gray-700">Current portfolio</h1>
+        <table>
             <tr>
                 <td>Asset</td>
                 <td>Quantity</td>
@@ -67,6 +74,7 @@
 
         <!-- pie chart -->
         <div>
+            <h1 class="text-2xl text-gray-700">Portfolio pie chart</h1>
             <canvas id="pieChart"></canvas>
         </div>
 
@@ -80,7 +88,7 @@
                 datasets: [{
                     label: '# of Votes',
                     data: {!! $pieChart['data'] !!},
-                    borderWidth: 1
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -106,6 +114,9 @@
             legend: {
                 display: false,
             },
+            datasets: [{
+                fill: true,
+            }],
             responsive: true,
             tooltips: {
                 mode: 'nearest',
@@ -116,19 +127,23 @@
                 intersect: false,
             },
             maintainAspectRatio: false,
-            spanGaps: false,
+            // spanGaps: false,
             scales: {
                 yAxes: [{
-                    stacked: true
-                }]
+                    stacked: true,
+                    ticks: {
+                        mirror: true,
+                        z: 1,
+                    },
+
+                }],
+                xAxes: [{
+                    ticks: {
+                        display: false,
+                    }
+                }],
             },
             plugins: {
-                filler: {
-                    propagate: true,
-                },
-                'samples-filler-analyser': {
-                    target: 'chart-analyser'
-                },
                 colorschemes: {
                     scheme: 'tableau.JewelBright9'
                 }
@@ -162,8 +177,6 @@
             data: {!!  json_encode($last30DaysStackedChart) !!},
             options: options
         });
-
-
 
 
     </script>
