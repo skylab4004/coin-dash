@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
+use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
@@ -65,7 +66,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"rune"  => "thorchain", "cvr" => "polkacover", "frm" => "ferrum-network",
 								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
 								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
-								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance", "kyl" => "kylin-network"];
+								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
+								"kyl" => "kylin-network", "pcx" => "chainx"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
@@ -87,9 +89,15 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($addressInfo);
 		unset($ethplorerClient);
 
+		$mexcClient = new MexcApiClient();
+		$mexcBalances = $mexcClient->getAccountInfo();
+		foreach ($mexcBalances as $mexcBalance) {
+			continue;
+		}
+
+
 		unset($favoriteCoinPrices);
 		unset($coinGeckoApi);
-
 		unset($updateTime);
 	}
 }
