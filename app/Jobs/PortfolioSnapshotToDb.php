@@ -67,7 +67,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
 								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
 								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
-								"kyl" => "kylin-network", "pcx" => "chainx"];
+								"kyl" => "kylin-network", "pcx" => "chainx", "usdt" => "tether"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
@@ -76,8 +76,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot = new PortfolioSnapshot();
 			$snapshot->snapshot_time = $updateTime;
 			$snapshot->source = 2; // 2 = ERC20 WALLET
-			$snapshot->asset = $erc20Asset['asset'];
-			$snapshot->quantity = $erc20Asset['qty'];
+			$snapshot->asset = $erc20Asset["asset"];
+			$snapshot->quantity = $erc20Asset["qty"];
 			$snapshot->value_in_btc = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["btc"];
 			$snapshot->value_in_eth = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["eth"];
 			$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
@@ -88,16 +88,25 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($erc20Balances);
 		unset($addressInfo);
 		unset($ethplorerClient);
+		unset($coinGeckoApi);
 
 		$mexcClient = new MexcApiClient();
-		$mexcBalances = $mexcClient->getAccountInfo();
-		foreach ($mexcBalances as $mexcBalance) {
-			continue;
+		$mexcBalances = $mexcClient->getBalances();
+		foreach ($mexcBalances  as $assetBalance) {
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = 3; // 3 = MEXC
+			$snapshot->asset = $assetBalance["asset"];
+			$snapshot->quantity = $assetBalance["qty"];
+			$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+			$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+			$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+			$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+			$snapshot->save();
+			unset($assetBalance);
 		}
 
-
 		unset($favoriteCoinPrices);
-		unset($coinGeckoApi);
 		unset($updateTime);
 	}
 }

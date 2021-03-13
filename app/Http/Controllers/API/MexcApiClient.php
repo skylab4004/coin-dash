@@ -13,7 +13,7 @@ class MexcApiClient {
 		$balances = [];
 		foreach ($assets as $assetName => $balance) {
 			$assetTotal = $balance['frozen']+$balance['available'];
-			array_push($balances, [$assetName => $assetTotal]);
+			array_push($balances, ['asset' => $assetName, 'qty' => $assetTotal]);
 		}
 		return $balances;
 	}

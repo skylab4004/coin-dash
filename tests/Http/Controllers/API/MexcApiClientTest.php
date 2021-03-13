@@ -13,7 +13,10 @@ class MexcApiClientTest extends TestCase {
 
 	public function testGetBalances() {
 		$balances = $this::$mexcApi->getBalances();
-		print_r($balances);
+		foreach ($balances  as $assetBalance) {
+			$assetName = $assetBalance['asset'];
+			$assetBalance = $assetBalance['balance'];
+		}
 		self::assertIsArray($balances);
 	}
 
