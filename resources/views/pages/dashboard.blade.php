@@ -19,6 +19,11 @@
             <x-stats-tile title="Metamask PNL Today" value={{$todaysMetamaskPNLinPln}} unit="PLN"
                           percent={{$todaysMetamaskDeltaPercentsFromPln}}/>
             {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
+            <x-stats-tile title="Mexc Balance" value={{$lastSnapshotMxcValueInPln}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Mexc PNL Today" value={{$todaysMxcPNLinPln}} unit="PLN"
+                          percent={{$todaysMxcDeltaPercentsFromPln}}/>
+            {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
             <x-stats-tile title="Yesterday closing" value={{$yesterdaysValueInPln}} unit="PLN" percent={{null}}/>
         </div>
 
@@ -26,7 +31,7 @@
         <div class="flex flex-wrap">
             <div class="w-1/2">
                 <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>
-                <div class="aspect-w-16 aspect-h-9">
+                <div class="aspect-w-16 aspect-h-9"`>
                     <canvas id="last-hour-stacked-chart"></canvas>
                 </div>
             </div>

@@ -20,7 +20,10 @@ class Utils {
 	 * @return string
 	 */
 	public static function formattedNumber($numeric, $decimals = 8): string {
-		return number_format($numeric, $decimals, '.', '');
+		if ( is_numeric( $numeric ) ) {
+			return number_format($numeric, $decimals, '.', '');
+		}
+		return $numeric;
 	}
 
 	public static function dashboardNumber($numeric, $decimals = 2): string {

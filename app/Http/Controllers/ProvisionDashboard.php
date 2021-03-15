@@ -7,9 +7,39 @@ use App\Models\DailyPortfolioValue;
 use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
 use App\Models\PortfolioValue;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
+
+	private static function loadValuesForTiles(Collection $portfolioSnapshot) {
+		$tilesValues["value_in_pln"] = 0;
+		$tilesValues["value_in_usd"] = 0;
+		$tilesValues["binance_value_in_pln"] = 0;
+		$tilesValues["binance_value_in_usd"] = 0;
+		$tilesValues["metamask_value_in_pln"] = 0;
+		$tilesValues["metamask_value_in_usd"] = 0;
+		$tilesValues["mxc_value_in_pln"] = 0;
+		$tilesValues["mxc_value_in_usd"] = 0;
+
+		foreach ($portfolioSnapshot as $assetSnapshot) {
+			$tilesValues["value_in_pln"] += $assetSnapshot['value_in_pln'];
+			$tilesValues["value_in_usd"] += $assetSnapshot['value_in_usd'];
+			if ($assetSnapshot['source'] == 1) { // todo: pobieranie na podstawie slownika dla source w db
+				$tilesValues["binance_value_in_pln"] += $assetSnapshot['value_in_pln'];
+				$tilesValues["binance_value_in_usd"] += $assetSnapshot['value_in_usd'];
+			} else if ($assetSnapshot['source'] == 2) {
+				$tilesValues["metamask_value_in_pln"] += $assetSnapshot['value_in_pln'];
+				$tilesValues["metamask_value_in_usd"] += $assetSnapshot['value_in_usd'];
+			} else if ($assetSnapshot['source'] == 3) {
+				$tilesValues["mxc_value_in_pln"] += $assetSnapshot['value_in_pln'];
+				$tilesValues["mxc_value_in_usd"] += $assetSnapshot['value_in_usd'];
+			}
+		}
+		unset($assetSnapshot);
+
+		return $tilesValues;
+	}
 
 	public function show() {
 
@@ -19,25 +49,7 @@ class ProvisionDashboard extends Controller {
 			->OrderBy('value_in_pln', 'desc')
 			->get();
 
-		$lastSnapshotValueInPln = 0;
-		$lastSnapshotValueInUsd = 0;
-		$lastSnapshotBinanceValueInPln = 0;
-		$lastSnapshotBinanceValueInUsd = 0;
-		$lastSnapshotMetamaskValueInPln = 0;
-		$lastSnapshotMetamaskValueInUsd = 0;
-		foreach ($currentPortfolioSnapshot as $assetSnapshot) {
-			$lastSnapshotValueInPln += $assetSnapshot['value_in_pln'];
-			$lastSnapshotValueInUsd += $assetSnapshot['value_in_usd'];
-			if ($assetSnapshot['source'] == 1) { // todo: pobieranie na podstawie slownika dla source w db
-				$lastSnapshotBinanceValueInPln += $assetSnapshot['value_in_pln'];
-				$lastSnapshotBinanceValueInUsd += $assetSnapshot['value_in_usd'];
-			} else if ($assetSnapshot['source'] == 2) {
-				$lastSnapshotMetamaskValueInPln += $assetSnapshot['value_in_pln'];
-				$lastSnapshotMetamaskValueInUsd += $assetSnapshot['value_in_usd'];
-			}
-		}
-		unset($assetSnapshot);
-//		unset($currentPortfolioSnapshot);
+		$lastSnapshot = self::loadValuesForTiles($currentPortfolioSnapshot);
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
 		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
@@ -46,27 +58,7 @@ class ProvisionDashboard extends Controller {
 		$yesterdaysLastPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTimeYesterday)
 			->OrderBy('value_in_pln', 'desc')
 			->get();
-
-		$yesterdaysValueInPln = 0;
-		$yesterdaysValueInUsd = 0;
-		$yesterdaysBinanceValueInPln = 0;
-		$yesterdaysBinanceValueInUsd = 0;
-		$yesterdaysMetamaskValueInPln = 0;
-		$yesterdaysMetamaskValueInUsd = 0;
-		foreach ($yesterdaysLastPortfolioSnapshot as $yesterdaysAssetSnapshot) {
-			$yesterdaysValueInPln += $yesterdaysAssetSnapshot['value_in_pln'];
-			$yesterdaysValueInUsd += $yesterdaysAssetSnapshot['value_in_usd'];
-			if ($yesterdaysAssetSnapshot['source'] == 1) { // todo: pobieranie na podstawie slownika dla source w db
-				$yesterdaysBinanceValueInPln += $yesterdaysAssetSnapshot['value_in_pln'];
-				$yesterdaysBinanceValueInUsd += $yesterdaysAssetSnapshot['value_in_usd'];
-			} else if ($yesterdaysAssetSnapshot['source'] == 2) {
-				$yesterdaysMetamaskValueInPln += $yesterdaysAssetSnapshot['value_in_pln'];
-				$yesterdaysMetamaskValueInUsd += $yesterdaysAssetSnapshot['value_in_usd'];
-			}
-		}
-		unset($yesterdaysAssetSnapshot);
-		unset($yesterdaysLastPortfolioSnapshot);
-		unset($lastSnapshotTimeYesterday);
+		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
 		// PIE CHART
 		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
@@ -75,70 +67,82 @@ class ProvisionDashboard extends Controller {
 
 		// last hour stacked chart data with 5 minutes interval
 		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('FROM_UNIXTIME(snapshot_time/1000) >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
-		$lastOneHourPortfolioValues = PortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotOneHourAgo . '/1000)')->get();
+		$lastOneHourPortfolioValues = PortfolioValue::whereRaw("snapshot_time>=from_unixtime({$firstSnapshotOneHourAgo}/1000)")->get();
 		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
 		unset($lastOneHourPortfolioValues);
 
 		// LAST 24 HOURS STACKED CHART - 1 h interval
 		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('FROM_UNIXTIME(snapshot_time/1000) >= NOW()-INTERVAL 48 hour')->min('snapshot_time');
-		$last24HoursPortfolioValues = HourlyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime24HoursAgo . '/1000)')->get();
+		$last24HoursPortfolioValues = HourlyPortfolioValue::whereRaw("snapshot_time>=from_unixtime({$firstSnapshotTime24HoursAgo}/1000)")->get();
 		$last24HoursStackedChart = self::extractChartsLabelsAndDatasets($last24HoursPortfolioValues);
 		unset($last24HoursPortfolioValues);
 
 		// LAST 7 DAYS HOURLY STACKED CHART - todo zmienic na co 6h
 		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
-		$last7DaysSnapshots = HourlyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime7DaysAgo . '/1000)')->get();
+		$last7DaysSnapshots = HourlyPortfolioValue::whereRaw("snapshot_time>=from_unixtime({$firstSnapshotTime7DaysAgo}/1000)")->get();
 		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
 		unset($last7DaysSnapshots);
 
 		// DAILY STACKED CHART - last 30 days
 		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(FROM_UNIXTIME(snapshot_time/1000) AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
-		$last30DailySnapshots = DailyPortfolioValue::whereRaw('snapshot_time>=from_unixtime(' . $firstSnapshotTime30DaysAgo . '/1000)')->get();
+		$last30DailySnapshots = DailyPortfolioValue::whereRaw("snapshot_time>=from_unixtime({$firstSnapshotTime30DaysAgo}/1000)")->get();
 		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
 		unset($last30DailySnapshots);
 
 		// in PLN
-		$todaysTotalPNLinPln = $lastSnapshotValueInPln - $yesterdaysValueInPln;
-		$todaysTotalDeltaPercentsFromPln = (($lastSnapshotValueInPln - $yesterdaysValueInPln) / $yesterdaysValueInPln) * 100;
-		$todaysBinancePNLinPln = $lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln;
-		$todaysBinanceDeltaPercentsFromPln = (($lastSnapshotBinanceValueInPln - $yesterdaysBinanceValueInPln) / $yesterdaysBinanceValueInPln) * 100;
-		$todaysMetamaskPNLinPln = $lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln;
-		$todaysMetamaskDeltaPercentsFromPln = (($lastSnapshotMetamaskValueInPln - $yesterdaysMetamaskValueInPln) / $yesterdaysMetamaskValueInPln) * 100;
+		$todaysTotalPNLinPln = $lastSnapshot["value_in_pln"] - $yesterdaysSnapshot["value_in_pln"];
+		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::getDelta($lastSnapshot["value_in_pln"], $yesterdaysSnapshot["value_in_pln"]);
+		$todaysBinancePNLinPln = $lastSnapshot["binance_value_in_pln"] - $yesterdaysSnapshot["binance_value_in_pln"];
+		$todaysBinanceDeltaPercentsFromPln = ProvisionDashboard::getDelta($lastSnapshot["binance_value_in_pln"], $yesterdaysSnapshot["binance_value_in_pln"]);
+		$todaysMetamaskPNLinPln = $lastSnapshot["metamask_value_in_pln"] - $yesterdaysSnapshot["metamask_value_in_pln"];
+		$todaysMetamaskDeltaPercentsFromPln = ProvisionDashboard::getDelta($lastSnapshot["metamask_value_in_pln"], $yesterdaysSnapshot["metamask_value_in_pln"]);
+		$todaysMxcPNLinPln = $lastSnapshot["mxc_value_in_pln"] - $yesterdaysSnapshot["mxc_value_in_pln"];
+		$todaysMxcDeltaPercentsFromPln = ProvisionDashboard::getDelta($lastSnapshot["mxc_value_in_pln"], $yesterdaysSnapshot["mxc_value_in_pln"]);
+
 
 		// in USD
-		$todaysTotalPNLinUsd = $lastSnapshotValueInUsd - $yesterdaysValueInUsd;
-		$todaysTotalDeltaPercentsFromUsd = (($lastSnapshotValueInUsd - $yesterdaysValueInUsd) / $yesterdaysValueInUsd) * 100;
-		$todaysBinancePNLinUsd = $lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd;
-		$todaysBinanceDeltaPercentsFromUsd = (($lastSnapshotBinanceValueInUsd - $yesterdaysBinanceValueInUsd) / $yesterdaysBinanceValueInUsd) * 100;
-		$todaysMetamaskPNLinUsd = $lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd;
-		$todaysMetamaskDeltaPercentsFromUsd = (($lastSnapshotMetamaskValueInUsd - $yesterdaysMetamaskValueInUsd) / $yesterdaysMetamaskValueInUsd) * 100;
+		$todaysTotalPNLinUsd = $lastSnapshot["value_in_usd"] - $yesterdaysSnapshot["value_in_usd"];
+		$todaysTotalDeltaPercentsFromUsd = ProvisionDashboard::getDelta($lastSnapshot["value_in_usd"], $yesterdaysSnapshot["value_in_usd"]);
+		$todaysBinancePNLinUsd = $lastSnapshot["binance_value_in_usd"] - $yesterdaysSnapshot["binance_value_in_usd"];
+		$todaysBinanceDeltaPercentsFromUsd = ProvisionDashboard::getDelta($lastSnapshot["binance_value_in_usd"], $yesterdaysSnapshot["binance_value_in_usd"]);
+		$todaysMetamaskPNLinUsd = $lastSnapshot["metamask_value_in_usd"] - $yesterdaysSnapshot["metamask_value_in_usd"];
+		$todaysMetamaskDeltaPercentsFromUsd = ProvisionDashboard::getDelta($lastSnapshot["metamask_value_in_usd"], $yesterdaysSnapshot["metamask_value_in_usd"]);
+		$todaysMxcPNLinUsd = $lastSnapshot["mxc_value_in_usd"] - $yesterdaysSnapshot["mxc_value_in_usd"];
+		$todaysMxcDeltaPercentsFromUsd = ProvisionDashboard::getDelta($lastSnapshot["mxc_value_in_usd"], $yesterdaysSnapshot["mxc_value_in_usd"]);
+
 
 		$retData = [
 			'lastSnapshotTime'                   => Utils::millisToShortTimestamp($lastSnapshotTime),
-			'lastSnapshotValueInPln'             => Utils::formattedNumber($lastSnapshotValueInPln, 2),
-			'lastSnapshotValueInUsd'             => Utils::formattedNumber($lastSnapshotValueInUsd, 2),
-			'lastSnapshotBinanceValueInPln'      => Utils::formattedNumber($lastSnapshotBinanceValueInPln, 2),
-			'lastSnapshotBinanceValueInUsd'      => Utils::formattedNumber($lastSnapshotBinanceValueInUsd, 2),
-			'lastSnapshotMetamaskValueInPln'     => Utils::formattedNumber($lastSnapshotMetamaskValueInPln, 2),
-			'lastSnapshotMetamaskValueInUsd'     => Utils::formattedNumber($lastSnapshotMetamaskValueInUsd, 2),
-			'yesterdaysValueInPln'               => Utils::formattedNumber($yesterdaysValueInPln, 2),
-			'yesterdaysValueInUsd'               => Utils::formattedNumber($yesterdaysValueInUsd, 2),
-			'yesterdaysBinanceValueInPln'        => Utils::formattedNumber($yesterdaysBinanceValueInPln, 2),
-			'yesterdaysBinanceValueInUsd'        => Utils::formattedNumber($yesterdaysBinanceValueInUsd, 2),
-			'yesterdaysMetamaskValueInPln'       => Utils::formattedNumber($yesterdaysMetamaskValueInPln, 2),
-			'yesterdaysMetamaskValueInUsd'       => Utils::formattedNumber($yesterdaysMetamaskValueInUsd, 2),
+			'lastSnapshotValueInPln'             => Utils::formattedNumber($lastSnapshot["value_in_pln"], 2),
+			'lastSnapshotValueInUsd'             => Utils::formattedNumber($lastSnapshot["value_in_usd"], 2),
+			'lastSnapshotBinanceValueInPln'      => Utils::formattedNumber($lastSnapshot["binance_value_in_pln"], 2),
+			'lastSnapshotBinanceValueInUsd'      => Utils::formattedNumber($lastSnapshot["binance_value_in_usd"], 2),
+			'lastSnapshotMetamaskValueInPln'     => Utils::formattedNumber($lastSnapshot["metamask_value_in_pln"], 2),
+			'lastSnapshotMetamaskValueInUsd'     => Utils::formattedNumber($lastSnapshot["metamask_value_in_usd"], 2),
+			'lastSnapshotMxcValueInPln'          => Utils::formattedNumber($lastSnapshot["mxc_value_in_pln"], 2),
+			'lastSnapshotMxcValueInUsd'          => Utils::formattedNumber($lastSnapshot["mxc_value_in_usd"], 2),
+			'yesterdaysValueInPln'               => Utils::formattedNumber($yesterdaysSnapshot["value_in_pln"], 2),
+			'yesterdaysValueInUsd'               => Utils::formattedNumber($yesterdaysSnapshot["value_in_usd"], 2),
+			'yesterdaysBinanceValueInPln'        => Utils::formattedNumber($yesterdaysSnapshot["binance_value_in_pln"], 2),
+			'yesterdaysBinanceValueInUsd'        => Utils::formattedNumber($yesterdaysSnapshot["binance_value_in_usd"], 2),
+			'yesterdaysMetamaskValueInPln'       => Utils::formattedNumber($yesterdaysSnapshot["metamask_value_in_pln"], 2),
+			'yesterdaysMetamaskValueInUsd'       => Utils::formattedNumber($yesterdaysSnapshot["metamask_value_in_usd"], 2),
 			'todaysTotalPNLinPln'                => Utils::formattedNumber($todaysTotalPNLinPln, 2),
 			'todaysTotalDeltaPercentsFromPln'    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
 			'todaysBinancePNLinPln'              => Utils::formattedNumber($todaysBinancePNLinPln, 2),
 			'todaysBinanceDeltaPercentsFromPln'  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromPln, 2),
 			'todaysMetamaskPNLinPln'             => Utils::formattedNumber($todaysMetamaskPNLinPln, 2),
 			'todaysMetamaskDeltaPercentsFromPln' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
+			'todaysMxcPNLinPln'                  => Utils::formattedNumber($todaysMxcPNLinPln, 2),
+			'todaysMxcDeltaPercentsFromPln'      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
 			'todaysTotalPNLinUsd'                => Utils::formattedNumber($todaysTotalPNLinUsd, 2),
 			'todaysTotalDeltaPercentsFromUsd'    => Utils::formattedNumber($todaysTotalDeltaPercentsFromUsd, 2),
 			'todaysBinancePNLinUsd'              => Utils::formattedNumber($todaysBinancePNLinUsd, 2),
 			'todaysBinanceDeltaPercentsFromUsd'  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromUsd, 2),
 			'todaysMetamaskPNLinUsd'             => Utils::formattedNumber($todaysMetamaskPNLinUsd, 2),
 			'todaysMetamaskDeltaPercentsFromUsd' => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromUsd, 2),
+			'todaysMxcPNLinUsd'                  => Utils::formattedNumber($todaysMxcPNLinUsd, 2),
+			'todaysMxcDeltaPercentsFromUsd'      => Utils::formattedNumber($todaysMxcDeltaPercentsFromUsd, 2),
 			'currentPortfolioSnapshot'           => $currentPortfolioSnapshot,
 			'pieChart'                           => $pieChart,
 			'lastHourStackedChart'               => $lastHourStackedChart,
@@ -158,12 +162,24 @@ class ProvisionDashboard extends Controller {
 		$datasets = [];
 		foreach ($assetNames as $assetName) {
 			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck('value_in_pln');
-			array_push($datasets, ['label' => $assetName, 'data' => $datasetForAsset->toArray()]);
+			$datasets[] = ['label' => $assetName, 'data' => $datasetForAsset->toArray()];
 		}
 
 		return [
 			'labels'   => $labels,
 			'datasets' => $datasets,
 		];
+	}
+
+	/**
+	 * @param $currentValue
+	 * @param $previousValue
+	 * @return float|int
+	 */
+	private static function getDelta($currentValue, $previousValue) {
+		if ($previousValue == null || $previousValue == 0) {
+			return "NaN";
+		}
+		return (($currentValue - $previousValue) / $previousValue) * 100;
 	}
 }
