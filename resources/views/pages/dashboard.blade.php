@@ -28,29 +28,31 @@
         </div>
 
         <!-- graphs -->
-        <div class="flex flex-wrap">
-            <div class="w-1/2">
-                <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>
-                <div class="aspect-w-16 aspect-h-9"`>
-                    <canvas id="last-hour-stacked-chart"></canvas>
+        <div class="flex">
+            <div class="w-1/4">
+                <div class="aspect-w-16 aspect-h-9">
+                    <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>
+                    <div class="aspect-w-16 aspect-h-9">
+                        <canvas id="last-hour-stacked-chart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <div class="w-1/2">
+            <div class="w-1/4">
                 <h1 class="text-2xl text-gray-700">Last 24 hours (1h interval)</h1>
                 <div>
                     <canvas id="last-24hours-stacked-chart"></canvas>
                 </div>
             </div>
 
-            <div class="w-1/2">
+            <div class="w-1/4">
                 <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
                 <div>
                     <canvas id="last-7days-stacked-chart"></canvas>
                 </div>
             </div>
 
-            <div class="w-1/2">
+            <div class="w-1/4">
                 <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>
                 <div>
                     <canvas id="last-30days-stacked-chart"></canvas>
@@ -59,23 +61,52 @@
         </div>
 
         <!-- current portfolio table -->
-        <h1 class="text-2xl text-gray-700">Current portfolio</h1>
-        <table>
-            <tr>
-                <td>Asset</td>
-                <td>Quantity</td>
-                <td>Value PLN</td>
-                <td>Value USD</td>
-            </tr>
-            @foreach($currentPortfolioSnapshot as $assetSnapshot)
-                <tr>
-                    <td>{{$assetSnapshot['asset']}}</td>
-                    <td>{{$assetSnapshot['quantity']}}</td>
-                    <td>{{$assetSnapshot['value_in_pln']}}</td>
-                    <td>{{$assetSnapshot['value_in_usd']}}</td>
-                </tr>
-            @endforeach
-        </table>
+        <h1 class="text-2xl text-gray-700 justify-center">Current portfolio</h1>
+        <div class="flex justify-center py-2 align-middle inline-block">
+            <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
+                <table class="table-auto divide-y divide-gray-200">
+                    <thead class="bg-gray-800">
+                    <tr>
+                        <!-- font-sans text-gray-400 uppercase text-sm font-medium mt-2 -->
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            Asset
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            Quantity
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            Value PLN
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            Value USD
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-gray-300 divide-y divide-gray-400">
+                    @foreach($currentPortfolioSnapshot as $assetSnapshot)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{$assetSnapshot['asset']}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$assetSnapshot['quantity']}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$assetSnapshot['value_in_pln']}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$assetSnapshot['value_in_usd']}}</div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!-- pie chart -->
         <div>

@@ -67,6 +67,7 @@ class ProvisionDashboard extends Controller {
 
 		// last hour stacked chart data with 5 minutes interval
 		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('FROM_UNIXTIME(snapshot_time/1000) >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
+		// todo: show "N/A" if Snapshot wasnt found
 		$lastOneHourPortfolioValues = PortfolioValue::whereRaw("snapshot_time>=from_unixtime({$firstSnapshotOneHourAgo}/1000)")->get();
 		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
 		unset($lastOneHourPortfolioValues);
