@@ -15,7 +15,7 @@ class CreatePortfolioSnapshotsTable extends Migration
     {
         Schema::create('portfolio_snapshots', function (Blueprint $table) {
             $table->id();
-			$table->bigInteger('snapshot_time');
+			$table->timestamp('snapshot_time');
 			$table->Integer('source');
 			$table->string('asset', 12);
 			$table->decimal('quantity', 30, 10);

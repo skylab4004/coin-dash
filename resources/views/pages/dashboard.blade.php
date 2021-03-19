@@ -5,26 +5,22 @@
 
         <!-- stats tiles -->
         <div class="flex flex-wrap justify-between">
-            <x-stats-tile title="Total Balance" value={{$lastSnapshotValueInPln}} unit="PLN" percent={{null}}/>
-            <x-stats-tile title="PNL Today" value={{$todaysTotalPNLinPln}} unit="PLN"
-                          percent={{$todaysTotalDeltaPercentsFromPln}}/>
-            {{--                <x-stats-tile title="PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
-            <x-stats-tile title="Binance Balance" value={{$lastSnapshotBinanceValueInPln}} unit="PLN"
+            <x-stats-tile title="Total Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_BALANCE]}} unit="PLN" percent={{null}}/>
+            <x-stats-tile title="PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Binance Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Binance PNL Today" value={{$todaysBinancePNLinPln}} unit="PLN"
-                          percent={{$todaysBinanceDeltaPercentsFromPln}}/>
-            {{--                <x-stats-tile title="Binance PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
-            <x-stats-tile title="Metamask Balance" value={{$lastSnapshotMetamaskValueInPln}} unit="PLN"
+            <x-stats-tile title="Binance PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Metamask Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Metamask PNL Today" value={{$todaysMetamaskPNLinPln}} unit="PLN"
-                          percent={{$todaysMetamaskDeltaPercentsFromPln}}/>
-            {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
-            <x-stats-tile title="Mexc Balance" value={{$lastSnapshotMxcValueInPln}} unit="PLN"
+            <x-stats-tile title="Metamask PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Mexc Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Mexc PNL Today" value={{$todaysMxcPNLinPln}} unit="PLN"
-                          percent={{$todaysMxcDeltaPercentsFromPln}}/>
-            {{--                <x-stats-tile title="Metamask PNL last 30 min." value="TODO" unit="PLN" percent="TODO"/>--}}
-            <x-stats-tile title="Yesterday closing" value={{$yesterdaysValueInPln}} unit="PLN" percent={{null}}/>
+            <x-stats-tile title="Mexc PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Yesterday closing" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN" percent={{null}}/>
         </div>
 
         <!-- graphs -->

@@ -19,9 +19,7 @@ class BinanceController extends Controller {
 
 	public function show() {
 		$ticker = $this->api->prices(); // Make sure you have an updated ticker object for this to work
-		$balances = $this->api->balances($ticker);
-
-		return $balances;
+		return $this->api->balances($ticker);
 	}
 
 	public function currentPrices() {
@@ -46,8 +44,7 @@ class BinanceController extends Controller {
 			$assetOnOrder = $balance['onOrder'];
 			$assetValueInUsdt = Utils::formattedNumber($assetValueInBtc * $ticker['BTCUSDT']);
 			$assetPercent = Utils::formattedNumber($assetValueInBtc / $btcTotal, 6);
-
-			array_push($ret, ['asset' => $asset, 'qty' => $qty, 'assetValueInBtc' => $assetValueInBtc, 'assetValueInUsdt' => $assetValueInUsdt, 'assetPercent' => $assetPercent, 'available' => $assetAvailable, 'onOrder' => $assetOnOrder]);
+			$ret[] = ['asset' => $asset, 'qty' => $qty, 'assetValueInBtc' => $assetValueInBtc, 'assetValueInUsdt' => $assetValueInUsdt, 'assetPercent' => $assetPercent, 'available' => $assetAvailable, 'onOrder' => $assetOnOrder];
 		}
 
 		uasort($ret, function($opA, $opB) {

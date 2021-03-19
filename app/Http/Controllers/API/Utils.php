@@ -15,6 +15,10 @@ class Utils {
 		return date("Y-m-d", $millis / 1000);
 	}
 
+	public static function snapshotTimestamp($dateTime) {
+		return $dateTime->setTime ( $dateTime->format("H"), $dateTime->format("i"), 0, 0);
+	}
+
 	/**
 	 * @param $numeric
 	 * @return string

@@ -16,7 +16,7 @@ class ViewPortfolioValues extends Migration {
 		return <<<SQL
 			CREATE OR REPLACE VIEW portfolio_values AS (
 			SELECT
-				FROM_UNIXTIME(snapshot_time/1000) AS snapshot_time,
+				snapshot_time,
 				asset,
 				sum(sum_pln) AS value_in_pln,
 				sum(sum_usd) AS value_in_usd,

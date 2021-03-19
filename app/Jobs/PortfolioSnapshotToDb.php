@@ -9,6 +9,7 @@ use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -35,7 +36,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 	 */
 	public function handle() {
 
-		$updateTime = Utils::currentTimeInMillis();
+		$updateTime = Utils::snapshotTimestamp(new DateTime());
 
 		$coinGeckoApi = new CoinGeckoController();
 		$favoriteCoinPrices = $coinGeckoApi->favoriteCoinPrices();

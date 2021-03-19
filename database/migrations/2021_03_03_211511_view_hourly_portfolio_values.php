@@ -18,7 +18,7 @@ class ViewHourlyPortfolioValues extends Migration {
 		return <<<SQL
 			CREATE OR REPLACE VIEW hourly_portfolio_values AS (
 			SELECT
-				FROM_UNIXTIME(snapshot_time/1000) AS snapshot_time,
+				snapshot_time,
 				asset,
 				sum(sum_pln) AS value_in_pln,
 				sum(sum_usd) AS value_in_usd,
@@ -46,7 +46,7 @@ class ViewHourlyPortfolioValues extends Migration {
 				SELECT DISTINCT asset FROM `portfolio_snapshots`) AS assets
 				GROUP BY 1, 2
 			) AS foo
-			WHERE MINUTE(FROM_UNIXTIME(snapshot_time/1000)) = 0
+			WHERE MINUTE(snapshot_time) = 0
 			GROUP BY 1, 2
 			ORDER BY 1, 2 ASC
 			)

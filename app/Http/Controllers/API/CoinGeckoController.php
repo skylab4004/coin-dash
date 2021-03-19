@@ -12,8 +12,7 @@ class CoinGeckoController extends Controller {
 
 	public function favoriteCoinPrices() {
 		$api = new CoinGeckoClient();
-		$data = $api->simple()->getPrice($this::$favoriteCoins, $this::$vsCurrencies);
-		return $data;
+		return $api->simple()->getPrice($this::$favoriteCoins, $this::$vsCurrencies);
 	}
 
 }
