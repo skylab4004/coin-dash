@@ -113,25 +113,25 @@
     </div>
     <script>
 
-        var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $pieChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $pieChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    }
-                }
-            }
-        });
+        {{--var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {--}}
+        {{--    type: 'pie',--}}
+        {{--    data: {--}}
+        {{--        labels: {!! $pieChart['labels'] !!},--}}
+        {{--        datasets: [{--}}
+        {{--            label: '# of Votes',--}}
+        {{--            data: {!! $pieChart['data'] !!},--}}
+        {{--            borderWidth: 0--}}
+        {{--        }]--}}
+        {{--    },--}}
+        {{--    options: {--}}
+        {{--        cutoutPercentage: 50,--}}
+        {{--        plugins: {--}}
+        {{--            colorschemes: {--}}
+        {{--                scheme: 'tableau.JewelBright9'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    }--}}
+        {{--});--}}
 
         var options = {
             elements: {
@@ -183,25 +183,25 @@
         };
 
         // last hour stacked chart (5 minutes interval)
-        var last_hour_stacked_chart = new Chart('last-hour-stacked-chart', {
-            type: 'line',
-            data: {!!  json_encode($lastHourStackedChart) !!},
-            options: options
-        });
+        {{--var last_hour_stacked_chart = new Chart('last-hour-stacked-chart', {--}}
+        {{--    type: 'line',--}}
+        {{--    data: {!!  json_encode($lastHourStackedChart) !!},--}}
+        {{--    options: options--}}
+        {{--});--}}
 
         // last day stacked chart
-        var last_24hours_stacked_chart = new Chart('last-24hours-stacked-chart', {
-            type: 'line',
-            data: {!!  json_encode($last24HoursStackedChart) !!},
-            options: options
-        });
+        {{--var last_24hours_stacked_chart = new Chart('last-24hours-stacked-chart', {--}}
+        {{--    type: 'line',--}}
+        {{--    data: {!!  json_encode($last24HoursStackedChart) !!},--}}
+        {{--    options: options--}}
+        {{--});--}}
 
         // last 7 days stacked chart
-        var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {
-            type: 'line',
-            data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},
-            options: options
-        });
+        {{--var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {--}}
+        {{--    type: 'line',--}}
+        {{--    data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},--}}
+        {{--    options: options--}}
+        {{--});--}}
 
         // last 30 days stacked chart
         var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {

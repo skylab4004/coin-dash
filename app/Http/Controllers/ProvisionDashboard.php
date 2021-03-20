@@ -65,28 +65,28 @@ class ProvisionDashboard extends Controller {
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
 		// PIE CHART
-		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
-		$pieChartValues = $currentPortfolioSnapshot->pluck(self::KEY_VALUE_IN_PLN);
-		$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
+//		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
+//		$pieChartValues = $currentPortfolioSnapshot->pluck(self::KEY_VALUE_IN_PLN);
+//		$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
 
 		// last hour stacked chart data with 5 minutes interval
-		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
-		// todo: show "N/A" if Snapshot wasnt found
-		$lastOneHourPortfolioValues = PortfolioValue::where("snapshot_time", ">=", $firstSnapshotOneHourAgo)->get();
-		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
-		unset($lastOneHourPortfolioValues);
+//		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
+//		 todo: show "N/A" if Snapshot wasnt found
+//		$lastOneHourPortfolioValues = PortfolioValue::where("snapshot_time", ">=", $firstSnapshotOneHourAgo)->get();
+//		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
+//		unset($lastOneHourPortfolioValues);
 
 		// LAST 24 HOURS STACKED CHART - 1 h interval
-		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time>= NOW()-INTERVAL 48 hour')->min('snapshot_time');
-		$last24HoursPortfolioValues = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime24HoursAgo)->get();
-		$last24HoursStackedChart = self::extractChartsLabelsAndDatasets($last24HoursPortfolioValues);
-		unset($last24HoursPortfolioValues);
+//		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time>= NOW()-INTERVAL 48 hour')->min('snapshot_time');
+//		$last24HoursPortfolioValues = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime24HoursAgo)->get();
+//		$last24HoursStackedChart = self::extractChartsLabelsAndDatasets($last24HoursPortfolioValues);
+//		unset($last24HoursPortfolioValues);
 
 		// LAST 7 DAYS HOURLY STACKED CHART - todo zmienic na co 6h
-		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
-		$last7DaysSnapshots = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime7DaysAgo)->get();
-		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
-		unset($last7DaysSnapshots);
+//		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
+//		$last7DaysSnapshots = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime7DaysAgo)->get();
+//		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
+//		unset($last7DaysSnapshots);
 
 		// DAILY STACKED CHART - last 30 days
 		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
@@ -125,10 +125,10 @@ class ProvisionDashboard extends Controller {
 			'tiles'                         => $tiles,
 			'lastSnapshotTime'              => $lastSnapshotTime,
 			'currentPortfolioSnapshot'      => $currentPortfolioSnapshot,
-			'pieChart'                      => $pieChart,
-			'lastHourStackedChart'          => $lastHourStackedChart,
-			'last24HoursStackedChart'       => $last24HoursStackedChart,
-			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
+//			'pieChart'                      => $pieChart,
+//			'lastHourStackedChart'          => $lastHourStackedChart,
+//			'last24HoursStackedChart'       => $last24HoursStackedChart,
+//			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
 			'last30DaysStackedChart'        => $last30DaysStackedChart,
 		];
 
