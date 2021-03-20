@@ -37,23 +37,30 @@ class ProvisionDashboard extends Controller {
 		// CURRENT portfolio value and totals in PLN and USD
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
 
-		$currentPortfolioSnapshotTiles = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
-			->OrderBy("value_in_pln", 'desc')
-			->get()
-			->toArray();
+//		$currentPortfolioSnapshotTiles = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
+//			->OrderBy("value_in_pln", 'desc')
+//			->get()
+//			->toArray();
 
-		$lastSnapshot = self::loadValuesForTiles($currentPortfolioSnapshotTiles);
-		unset($currentPortfolioSnapshotTiles);
+		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, source, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
+			->where('snapshot_time', $lastSnapshotTime)
+			->groupBy('asset', 'source')
+			->OrderBy("value_in_pln", 'desc')
+			->get();
+
+		$lastSnapshot = self::loadValuesForTiles($currentPortfolioSnapshot);
+//		unset($currentPortfolioSnapshotTiles);
 
 
 		// select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd
 		// from `portfolio_snapshots` where `snapshot_time` = 1615888801168 group by asset order by value_in_pln desc
 
-		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
+		$currentPortfolioSnapshotTiles = PortfolioSnapshot::selectRaw('asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
 			->where('snapshot_time', $lastSnapshotTime)
 			->groupBy('asset')
 			->OrderBy("value_in_pln", 'desc')
 			->get();
+
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
 		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
@@ -95,8 +102,8 @@ class ProvisionDashboard extends Controller {
 		unset($last30DailySnapshots);
 
 		// in PLN
-		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $currentPortfolioSnapshot, self::KEY_VALUE_IN_PLN);
-		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $currentPortfolioSnapshot, self::KEY_VALUE_IN_PLN);
+		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_VALUE_IN_PLN);
+		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_VALUE_IN_PLN);
 		$todaysBinancePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BINANCE_VALUE_IN_PLN);
 		$todaysBinanceDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BINANCE_VALUE_IN_PLN);
 		$todaysMetamaskPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_METAMASK_VALUE_IN_PLN);
