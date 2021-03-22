@@ -48,6 +48,7 @@ class ProvisionDashboard extends Controller {
 			->OrderBy("value_in_pln", 'desc')
 			->get();
 
+
 		$lastSnapshot = self::loadValuesForTiles($currentPortfolioSnapshot);
 //		unset($currentPortfolioSnapshotTiles);
 
@@ -55,7 +56,7 @@ class ProvisionDashboard extends Controller {
 		// select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd
 		// from `portfolio_snapshots` where `snapshot_time` = 1615888801168 group by asset order by value_in_pln desc
 
-		$currentPortfolioSnapshotTiles = PortfolioSnapshot::selectRaw('asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
+		$currentPortfolioSnapshotTable = PortfolioSnapshot::selectRaw('asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
 			->where('snapshot_time', $lastSnapshotTime)
 			->groupBy('asset')
 			->OrderBy("value_in_pln", 'desc')
@@ -131,7 +132,7 @@ class ProvisionDashboard extends Controller {
 		$retData = [
 			'tiles'                         => $tiles,
 			'lastSnapshotTime'              => $lastSnapshotTime,
-			'currentPortfolioSnapshot'      => $currentPortfolioSnapshot,
+			'currentPortfolioSnapshot'      => $currentPortfolioSnapshotTable,
 //			'pieChart'                      => $pieChart,
 //			'lastHourStackedChart'          => $lastHourStackedChart,
 //			'last24HoursStackedChart'       => $last24HoursStackedChart,

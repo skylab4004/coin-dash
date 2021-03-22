@@ -15,13 +15,14 @@ class MexcApiClientTest extends TestCase {
 		$balances = $this::$mexcApi->getBalances();
 		foreach ($balances  as $assetBalance) {
 			$assetName = $assetBalance['asset'];
-			$assetBalance = $assetBalance['balance'];
+			$assetBalance = $assetBalance['qty'];
 		}
 		self::assertIsArray($balances);
 	}
 
 	public function testGetAccountInfo() {
 		$accountIn = $this::$mexcApi->getAccountInfo();
+
 		self::assertJson($accountIn);
 	}
 

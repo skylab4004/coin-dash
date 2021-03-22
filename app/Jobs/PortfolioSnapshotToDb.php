@@ -68,7 +68,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
 								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
 								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
-								"kyl" => "kylin-network", "pcx" => "chainx", "usdt" => "tether"];
+								"kyl" => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
+								"usf" => "unslashed-finance"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
@@ -78,7 +79,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot->snapshot_time = $updateTime;
 			$snapshot->source = 2; // 2 = ERC20 WALLET
 			$snapshot->asset = $erc20Asset["asset"];
-			$snapshot->quantity = $erc20Asset["qty"];
+			$snapshot->quantity = $erc20Asset["qty"]; // todo: tu przydaloby sie lapac wyjatek i wypluwac na ui (np. Undefined index: usf {"exception":"[object] (ErrorException(code: 0): Undefined index: usf at /var/www/html/app/Jobs/PortfolioSnapshotToDb.php:82)
 			$snapshot->value_in_btc = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["btc"];
 			$snapshot->value_in_eth = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["eth"];
 			$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
