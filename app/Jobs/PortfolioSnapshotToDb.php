@@ -69,7 +69,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
 								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
 								"kyl" => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
-								"usf" => "unslashed-finance"];
+								"usf" => "unslashed-finance", "utrin" => "utrin"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
