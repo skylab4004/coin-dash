@@ -5,54 +5,61 @@
 
         <!-- stats tiles -->
         <div class="flex flex-wrap justify-between">
-            <x-stats-tile title="Total Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_BALANCE]}} unit="PLN" percent={{null}}/>
-            <x-stats-tile title="PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
+            <x-stats-tile title="Total Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_TOTAL_PNL_DELTA_TODAY]}}/>
-            <x-stats-tile title="Binance Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_BALANCE]}} unit="PLN"
+            <x-stats-tile title="Binance Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Binance PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_PNL_TODAY]}} unit="PLN"
+            <x-stats-tile title="Binance PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BINANCE_PNL_DELTA_TODAY]}}/>
-            <x-stats-tile title="Metamask Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_BALANCE]}} unit="PLN"
+            <x-stats-tile title="Metamask Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Metamask PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_TODAY]}} unit="PLN"
+            <x-stats-tile title="Metamask PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_DELTA_TODAY]}}/>
-            <x-stats-tile title="Mexc Balance" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_BALANCE]}} unit="PLN"
+            <x-stats-tile title="Mexc Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_BALANCE]}} unit="PLN"
                           percent={{null}}/>
-            <x-stats-tile title="Mexc PNL Today" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_TODAY]}} unit="PLN"
+            <x-stats-tile title="Mexc PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_DELTA_TODAY]}}/>
-            <x-stats-tile title="Yesterday closing" value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN" percent={{null}}/>
+            <x-stats-tile title="Yesterday closing"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
         </div>
 
         <!-- graphs -->
         <div class="flex">
-            <div class="w-1/4">
-                <div class="aspect-w-16 aspect-h-9">
-                    <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>
-                    <div class="aspect-w-16 aspect-h-9">
-                        <canvas id="last-hour-stacked-chart"></canvas>
-                    </div>
-                </div>
-            </div>
+            {{--            <div class="w-1/4">--}}
+            {{--                <div class="aspect-w-16 aspect-h-9">--}}
+            {{--                    <h1 class="text-2xl text-gray-700">Last 2 hours (5 min interval)</h1>--}}
+            {{--                    <div class="aspect-w-16 aspect-h-9">--}}
+            {{--                        <canvas id="last-hour-stacked-chart"></canvas>--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
-            <div class="w-1/4">
-                <h1 class="text-2xl text-gray-700">Last 24 hours (1h interval)</h1>
-                <div>
-                    <canvas id="last-24hours-stacked-chart"></canvas>
-                </div>
-            </div>
+            {{--            <div class="w-1/4">--}}
+            {{--                <h1 class="text-2xl text-gray-700">Last 24 hours (1h interval)</h1>--}}
+            {{--                <div>--}}
+            {{--                    <canvas id="last-24hours-stacked-chart"></canvas>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
-            <div class="w-1/4">
-                <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
-                <div>
+            <div class="flex-auto w-1/3">
+                    <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
                     <canvas id="last-7days-stacked-chart"></canvas>
-                </div>
             </div>
 
-            <div class="w-1/4">
+            <div class="flex-auto w-1/3">
                 <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>
-                <div>
-                    <canvas id="last-30days-stacked-chart"></canvas>
-                </div>
+                <canvas id="last-30days-stacked-chart"></canvas>
             </div>
         </div>
 
@@ -105,33 +112,33 @@
         </div>
 
         <!-- pie chart -->
-        <div>
-            <h1 class="text-2xl text-gray-700">Portfolio pie chart</h1>
+        <h1 class="text-2xl text-gray-700">Portfolio pie chart</h1>
+        <div class="flex justify-center py-2 align-middle inline-block">
             <canvas id="pieChart"></canvas>
         </div>
 
     </div>
     <script>
 
-        {{--var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {--}}
-        {{--    type: 'pie',--}}
-        {{--    data: {--}}
-        {{--        labels: {!! $pieChart['labels'] !!},--}}
-        {{--        datasets: [{--}}
-        {{--            label: '# of Votes',--}}
-        {{--            data: {!! $pieChart['data'] !!},--}}
-        {{--            borderWidth: 0--}}
-        {{--        }]--}}
-        {{--    },--}}
-        {{--    options: {--}}
-        {{--        cutoutPercentage: 50,--}}
-        {{--        plugins: {--}}
-        {{--            colorschemes: {--}}
-        {{--                scheme: 'tableau.JewelBright9'--}}
-        {{--            }--}}
-        {{--        }--}}
-        {{--    }--}}
-        {{--});--}}
+        var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: {!! $pieChart['labels'] !!},
+                datasets: [{
+                    label: '# of Votes',
+                    data: {!! $pieChart['data'] !!},
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {
+                    colorschemes: {
+                        scheme: 'tableau.JewelBright9'
+                    }
+                }
+            }
+        });
 
         var options = {
             elements: {
@@ -197,11 +204,11 @@
         {{--});--}}
 
         // last 7 days stacked chart
-        {{--var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {--}}
-        {{--    type: 'line',--}}
-        {{--    data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},--}}
-        {{--    options: options--}}
-        {{--});--}}
+        var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {
+            type: 'line',
+            data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},
+            options: options
+        });
 
         // last 30 days stacked chart
         var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {
