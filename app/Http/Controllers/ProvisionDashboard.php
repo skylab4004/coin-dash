@@ -6,8 +6,6 @@ use App\Http\Controllers\API\Utils;
 use App\Models\DailyPortfolioValue;
 use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
-use App\Models\PortfolioValue;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
@@ -75,6 +73,21 @@ class ProvisionDashboard extends Controller {
 			->get();
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
+		$profitAndLosses = DB::select("select current.asset, current.value_in_pln, (current.value_in_pln-5minago.value_in_pln) as pnl_5_min" .
+			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h ".
+			" from " .
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}' group by asset ) as current, " .
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 5 minute group by asset ) as 5minago, " .
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 1 hour group by asset ) as 1hago, ".
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago ".
+			"where current.asset=5minago.asset " .
+			"and current.asset=1hago.asset and current.asset=3hago.asset ".
+			"order by 3 desc");
+
 		// PIE CHART
 		$pieChartLabels = $currentPortfolioSnapshotTable->pluck('asset');
 		$pieChartValues = $currentPortfolioSnapshot->pluck(self::KEY_VALUE_IN_PLN);
@@ -141,6 +154,7 @@ class ProvisionDashboard extends Controller {
 //			'last24HoursStackedChart'       => $last24HoursStackedChart,
 			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
 			'last30DaysStackedChart'        => $last30DaysStackedChart,
+			'profitAndLosses'               => $profitAndLosses,
 		];
 
 
