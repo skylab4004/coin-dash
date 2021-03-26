@@ -57,10 +57,10 @@
                     <canvas id="last-7days-stacked-chart"></canvas>
             </div>
 
-            <div class="flex-auto w-1/3">
-                <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>
-                <canvas id="last-30days-stacked-chart"></canvas>
-            </div>
+{{--            <div class="flex-auto w-1/3">--}}
+{{--                <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>--}}
+{{--                <canvas id="last-30days-stacked-chart"></canvas>--}}
+{{--            </div>--}}
         </div>
 
         <!-- current portfolio table -->
@@ -211,11 +211,11 @@
         });
 
         // last 30 days stacked chart
-        var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {
-            type: 'line',
-            data: {!!  json_encode($last30DaysStackedChart) !!},
-            options: options
-        });
+        {{--var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {--}}
+        {{--    type: 'line',--}}
+        {{--    data: {!!  json_encode($last30DaysStackedChart) !!},--}}
+        {{--    options: options--}}
+        {{--});--}}
 
 
     </script>
