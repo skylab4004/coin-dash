@@ -74,7 +74,7 @@ class ProvisionDashboard extends Controller {
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
 		$profitAndLosses = DB::select("select current.asset, current.value_in_pln, (current.value_in_pln-5minago.value_in_pln) as pnl_5_min" .
-			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h ".
+			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_3h ".
 			" from " .
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
 			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}' group by asset ) as current, " .
@@ -83,9 +83,11 @@ class ProvisionDashboard extends Controller {
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
 			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 1 hour group by asset ) as 1hago, ".
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago ".
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago, ".
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
+			"from `portfolio_snapshots` where snapshot_time = cast(cast('{$lastSnapshotTime}' as date) as datetime) group by asset) as midnight ".
 			"where current.asset=5minago.asset " .
-			"and current.asset=1hago.asset and current.asset=3hago.asset ".
+			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset ".
 			"order by 3 desc");
 
 		// PIE CHART
