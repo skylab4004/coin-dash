@@ -68,8 +68,9 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
 								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
 								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
-								"kyl" => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
-								"usf" => "unslashed-finance", "utrin" => "utrin", "swap" => "trustswap"];
+								"kyl"   => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
+								"usf"   => "unslashed-finance", "utrin" => "utrin", "swap" => "trustswap",
+								"xrp" => "xrp"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
@@ -94,7 +95,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 		$mexcClient = new MexcApiClient();
 		$mexcBalances = $mexcClient->getBalances();
-		foreach ($mexcBalances  as $assetBalance) {
+		foreach ($mexcBalances as $assetBalance) {
 			$snapshot = new PortfolioSnapshot();
 			$snapshot->snapshot_time = $updateTime;
 			$snapshot->source = 3; // 3 = MEXC
