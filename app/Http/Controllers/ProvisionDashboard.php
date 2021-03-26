@@ -100,10 +100,10 @@ class ProvisionDashboard extends Controller {
 		unset($last7DaysSnapshots);
 
 		// DAILY STACKED CHART - last 30 days
-//		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
-//		$last30DailySnapshots = DailyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime30DaysAgo)->get();
-//		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
-//		unset($last30DailySnapshots);
+		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
+		$last30DailySnapshots = DailyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime30DaysAgo)->get();
+		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
+		unset($last30DailySnapshots);
 
 		// in PLN
 		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_VALUE_IN_PLN);
@@ -140,7 +140,7 @@ class ProvisionDashboard extends Controller {
 //			'lastHourStackedChart'          => $lastHourStackedChart,
 //			'last24HoursStackedChart'       => $last24HoursStackedChart,
 			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
-//			'last30DaysStackedChart'        => $last30DaysStackedChart,
+			'last30DaysStackedChart'        => $last30DaysStackedChart,
 		];
 
 
