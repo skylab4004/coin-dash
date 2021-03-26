@@ -74,7 +74,7 @@ class ProvisionDashboard extends Controller {
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
 		$profitAndLosses = DB::select("select current.asset, current.value_in_pln, (current.value_in_pln-5minago.value_in_pln) as pnl_5_min" .
-			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_3h ".
+			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_midnight ".
 			" from " .
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
 			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}' group by asset ) as current, " .

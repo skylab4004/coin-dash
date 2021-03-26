@@ -53,8 +53,8 @@
             {{--            </div>--}}
 
             <div class="flex-auto w-1/3">
-                    <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
-                    <canvas id="last-7days-stacked-chart"></canvas>
+                <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
+                <canvas id="last-7days-stacked-chart"></canvas>
             </div>
 
             <div class="flex-auto w-1/3">
@@ -138,6 +138,10 @@
                             class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
                             pnl 3 hours
                         </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            pnl till midnight
+                        </th>
                     </tr>
                     </thead>
                     <tbody class="bg-gray-300 divide-y divide-gray-400">
@@ -157,6 +161,9 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_3h}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_midnight}}</div>
                             </td>
                         </tr>
                     @endforeach
