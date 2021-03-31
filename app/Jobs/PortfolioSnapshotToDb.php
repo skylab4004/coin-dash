@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
@@ -70,7 +71,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
 								"kyl"   => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
 								"usf"   => "unslashed-finance", "utrin" => "utrin", "swap" => "trustswap",
-								"xrp"   => "ripple", "super" => "superfarm"];
+								"xrp"   => "ripple", "super" => "superfarm", "bia" => "bilaxy-token"];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
