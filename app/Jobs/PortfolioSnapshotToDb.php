@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
@@ -63,15 +62,40 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($binanceApi);
 
 		// HANDLE ERC20 PORTFOLIO
-		$coinToSymbolMapping = ["btc"   => "bitcoin", "eth" => "ethereum", "rbc" => "rubic", "cliq" => "deficliq",
-								"atom"  => "cosmos", "lto" => "lto-network", "mitx" => "morpheus-labs",
-								"rune"  => "thorchain", "cvr" => "polkacover", "frm" => "ferrum-network",
-								"apy"   => "apy-finance", "chart" => "chartex", "vidya" => "vidya",
-								"yeld"  => "yeld-finance", "ethv" => "ethverse", "loot" => "nftlootbox",
-								"azuki" => "azuki", "alpa" => "alpaca", "pylon" => "pylon-finance",
-								"kyl"   => "kylin-network", "pcx" => "chainx", "usdt" => "tether",
-								"usf"   => "unslashed-finance", "utrin" => "utrin", "swap" => "trustswap",
-								"xrp"   => "ripple", "super" => "superfarm", "bia" => "bilaxy-token"];
+		$coinToSymbolMapping = [
+			"btc"   => "bitcoin",
+			"eth"   => "ethereum",
+			"rbc"   => "rubic",
+			"cliq"  => "deficliq",
+			"atom"  => "cosmos",
+			"lto"   => "lto-network",
+			"mitx"  => "morpheus-labs",
+			"rune"  => "thorchain",
+			"cvr"   => "polkacover",
+			"frm"   => "ferrum-network",
+			"apy"   => "apy-finance",
+			"chart" => "chartex",
+			"vidya" => "vidya",
+			"yeld"  => "yeld-finance",
+			"ethv"  => "ethverse",
+			"loot"  => "nftlootbox",
+			"azuki" => "azuki",
+			"alpa"  => "alpaca",
+			"pylon" => "pylon-finance",
+			"kyl"   => "kylin-network",
+			"pcx"   => "chainx",
+			"usdt"  => "tether",
+			"usf"   => "unslashed-finance",
+			"utrin" => "utrin",
+			"swap"  => "trustswap",
+			"xrp"   => "ripple",
+			"super" => "superfarm",
+			"bia"   => "bilaxy-token",
+			"auscm" => "auric-network",
+			"sxp"   => "swipe",
+			"sc"    => "siacoin",
+			
+		];
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
