@@ -67,7 +67,18 @@ class ProvisionDashboard extends Controller {
 			->where('snapshot_time', $lastSnapshotTime)
 			->groupBy('asset')
 			->OrderBy("value_in_pln", 'desc')
-			->get();
+			->get()->toArray();
+
+		//     "asset" => "RUNE"
+		//    "quantity" => "148.3208700000"
+		//    "value_in_pln" => "4812.9027759800"
+		//    "value_in_usd" => "1231.8745078100"
+		foreach ($currentPortfolioSnapshotTable as &$snap) {
+			$snap['quantity'] = Utils::dashboardNumber($snap['quantity'], 8);
+			$snap['value_in_pln'] = Utils::dashboardNumber($snap['value_in_pln']);
+			$snap['value_in_usd'] = Utils::dashboardNumber($snap['value_in_usd']);
+		}
+		unset($snap);
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
 		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
@@ -95,8 +106,17 @@ class ProvisionDashboard extends Controller {
 			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset ".
 			"order by 6 desc");
 
+		foreach ($profitAndLosses as &$profitAndLoss) {
+			$profitAndLoss->value_in_pln = Utils::dashboardNumber($profitAndLoss->value_in_pln);
+			$profitAndLoss->pnl_5_min = Utils::dashboardNumber($profitAndLoss->pnl_5_min);
+			$profitAndLoss->pnl_1h = Utils::dashboardNumber($profitAndLoss->pnl_1h);
+			$profitAndLoss->pnl_3h = Utils::dashboardNumber($profitAndLoss->pnl_3h);
+			$profitAndLoss->pnl_midnight = Utils::dashboardNumber($profitAndLoss->pnl_midnight);
+		}
+		unset($profitAndLoss);
+
 		// PIE CHART
-		$pieChartLabels = $currentPortfolioSnapshotTable->pluck('asset');
+		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
 		$pieChartValues = $currentPortfolioSnapshot->pluck(self::KEY_VALUE_IN_PLN);
 		$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
 

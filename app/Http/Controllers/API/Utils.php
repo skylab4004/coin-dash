@@ -31,7 +31,7 @@ class Utils {
 	}
 
 	public static function dashboardNumber($numeric, $decimals = 2): string {
-		return number_format($numeric, $decimals, ',', ' ');
+		return number_format($numeric, $decimals, '.', '');
 	}
 
 	/**
