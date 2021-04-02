@@ -29,6 +29,12 @@
             <x-stats-tile title="Mexc PNL Today"
                           value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Bilaxy Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BILAXY_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Bilaxy PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BILAXY_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BILAXY_PNL_DELTA_TODAY]}}/>
             <x-stats-tile title="Yesterday closing"
                           value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
                           percent={{null}}/>

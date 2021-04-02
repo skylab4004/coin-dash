@@ -15,7 +15,6 @@ class BilaxyApiClient {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-//		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
