@@ -94,7 +94,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"auscm" => "auric-network",
 			"sxp"   => "swipe",
 			"sc"    => "siacoin",
-			"sand"  => "sand"
+			"sand"  => "the-sandbox",
+			"dvpn"  => "sentinel-group"
 		];
 
 		$ethplorerClient = new EthplorerApiClient();
