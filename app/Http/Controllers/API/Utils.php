@@ -23,9 +23,9 @@ class Utils {
 	 * @param $numeric
 	 * @return string
 	 */
-	public static function formattedNumber($numeric, $decimals = 8): string {
+	public static function formattedNumber($numeric, $decimals = 8, $thousands_separator = ''): string {
 		if ( is_numeric( $numeric ) ) {
-			return number_format($numeric, $decimals, '.', '');
+			return number_format($numeric, $decimals, '.', $thousands_separator);
 		}
 		return $numeric;
 	}

@@ -84,23 +84,23 @@
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            value_in_pln
+                            PLN
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl till midnight
+                            &Delta; Midnight
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl 3 hours
+                            &Delta; 3h
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl 1 hours
+                            &Delta; 1h
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl 5 minutes
+                            &Delta; 5m
                         </th>
                     </tr>
                     </thead>
@@ -142,7 +142,7 @@
                         <!-- font-sans text-gray-400 uppercase text-sm font-medium mt-2 -->
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            Asset
+                            Coin
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
@@ -150,11 +150,11 @@
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            Value PLN
+                            PLN
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            Value USD
+                            USD
                         </th>
                     </tr>
                     </thead>

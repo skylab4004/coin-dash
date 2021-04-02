@@ -158,22 +158,22 @@ class ProvisionDashboard extends Controller {
 		$todaysBilaxyDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BILAXY_VALUE_IN_PLN);
 
 		$tiles = [
-			self::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_VALUE_IN_PLN], 2),
-			self::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 2),
+			self::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_VALUE_IN_PLN], 0, ' '),
+			self::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 0, ' '),
 			self::TILE_TOTAL_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
-			self::TILE_BINANCE_BALANCE          => Utils::formattedNumber($lastSnapshot[self::KEY_BINANCE_VALUE_IN_PLN], 2),
-			self::TILE_BINANCE_PNL_TODAY        => Utils::formattedNumber($todaysBinancePNLinPln, 2),
+			self::TILE_BINANCE_BALANCE          => Utils::formattedNumber($lastSnapshot[self::KEY_BINANCE_VALUE_IN_PLN], 0, ' '),
+			self::TILE_BINANCE_PNL_TODAY        => Utils::formattedNumber($todaysBinancePNLinPln, 0, ' '),
 			self::TILE_BINANCE_PNL_DELTA_TODAY  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromPln, 2),
-			self::TILE_METAMASK_BALANCE         => Utils::formattedNumber($lastSnapshot[self::KEY_METAMASK_VALUE_IN_PLN], 2),
-			self::TILE_METAMASK_PNL_TODAY       => Utils::formattedNumber($todaysMetamaskPNLinPln, 2),
+			self::TILE_METAMASK_BALANCE         => Utils::formattedNumber($lastSnapshot[self::KEY_METAMASK_VALUE_IN_PLN], 0, ' '),
+			self::TILE_METAMASK_PNL_TODAY       => Utils::formattedNumber($todaysMetamaskPNLinPln, 0, ' '),
 			self::TILE_METAMASK_PNL_DELTA_TODAY => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
-			self::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_MXC_VALUE_IN_PLN], 2),
-			self::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 2),
+			self::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_MXC_VALUE_IN_PLN], 0, ' '),
+			self::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
 			self::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
-			self::TILE_BILAXY_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_BILAXY_VALUE_IN_PLN], 2),
-			self::TILE_BILAXY_PNL_TODAY            => Utils::formattedNumber($todaysBilaxyPNLinPln, 2),
+			self::TILE_BILAXY_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
+			self::TILE_BILAXY_PNL_TODAY            => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
 			self::TILE_BILAXY_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
-			self::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[self::KEY_VALUE_IN_PLN], 2)
+			self::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[self::KEY_VALUE_IN_PLN], 0, ' ')
 		];
 
 
