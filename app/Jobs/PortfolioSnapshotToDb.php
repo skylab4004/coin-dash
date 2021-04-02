@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
@@ -131,6 +132,22 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
 			$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
 			$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+			$snapshot->save();
+			unset($assetBalance);
+		}
+
+		$bilaxyClient = new BilaxyApiClient();
+		$bilaxyBalances = $bilaxyClient->getBalances();
+		foreach ($bilaxyBalances as $bilaxyBalance) {
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = 4; // 4 = BILAXY
+			$snapshot->asset = $bilaxyBalance["asset"];
+			$snapshot->quantity = $bilaxyBalance["qty"];
+			$snapshot->value_in_btc = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["btc"];
+			$snapshot->value_in_eth = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["eth"];
+			$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
+			$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
 			$snapshot->save();
 			unset($assetBalance);
 		}

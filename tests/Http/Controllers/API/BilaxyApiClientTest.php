@@ -14,6 +14,7 @@ class BilaxyApiClientTest extends TestCase {
 
 	public function testGetBalances() {
 		$balances = $this::$apiClient->getBalances();
+		print_r($balances);
 		self::assertIsArray($balances);
 	}
 
