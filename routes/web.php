@@ -32,3 +32,5 @@ Route::get('/portfolio-totals-chart', function() {
 Route::get('/portfolio-snapshot-current', function() {
 	return view('portfolio_snapshot_current');
 });
+
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

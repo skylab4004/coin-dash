@@ -18,7 +18,8 @@
     "jaggedsoft/php-binance-api": "@dev",
     "laravel/framework": "^8.12",
     "laravel/tinker": "^2.5",
-    "laravel/ui": "^3.2"
+    "laravel/ui": "^3.2",
+    "rap2hpoutre/laravel-log-viewer": "^1.7"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.5",

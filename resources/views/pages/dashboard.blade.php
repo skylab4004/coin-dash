@@ -82,11 +82,7 @@
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl 5 minutes
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl 1 hours
+                            pnl till midnight
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
@@ -94,7 +90,11 @@
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
-                            pnl till midnight
+                            pnl 1 hours
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            pnl 5 minutes
                         </th>
                     </tr>
                     </thead>
