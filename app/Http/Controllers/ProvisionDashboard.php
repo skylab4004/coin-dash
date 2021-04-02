@@ -88,7 +88,7 @@ class ProvisionDashboard extends Controller {
 			"from `portfolio_snapshots` where snapshot_time = cast(cast('{$lastSnapshotTime}' as date) as datetime) group by asset) as midnight ".
 			"where current.asset=5minago.asset " .
 			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset ".
-			"order by 3 desc");
+			"order by 6 desc");
 
 		// PIE CHART
 		$pieChartLabels = $currentPortfolioSnapshotTable->pluck('asset');

@@ -63,28 +63,91 @@
             </div>
         </div>
 
-        <!-- current portfolio table -->
-        <h1 class="text-2xl text-gray-700 justify-center">Current portfolio</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
+
+
+        <h1 class="text-2xl text-gray-700 justify-center">Profit and loss</h1>
+        <div class="flex justify-center py-2 align-middle inline-block overflow-auto">
             <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
                 <table class="table-auto divide-y divide-gray-200">
                     <thead class="bg-gray-800">
                     <tr>
                         <!-- font-sans text-gray-400 uppercase text-sm font-medium mt-2 -->
                         <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            coin
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            value_in_pln
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            pnl 5 minutes
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            pnl 1 hours
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            pnl 3 hours
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            pnl till midnight
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-gray-300 divide-y divide-gray-400">
+                    @foreach($profitAndLosses as $profitAndLoss)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{$profitAndLoss->asset}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->value_in_pln}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_midnight}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_3h}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_1h}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_5_min}}</div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- current portfolio table -->
+        <h1 class="text-2xl text-gray-700 justify-center">Current portfolio</h1>
+        <div class="flex justify-center py-2 align-middle inline-block overflow-auto">
+            <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
+                <table class="table-auto divide-y divide-gray-200">
+                    <thead class="bg-gray-800">
+                    <tr>
+                        <!-- font-sans text-gray-400 uppercase text-sm font-medium mt-2 -->
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
                             Asset
                         </th>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
                             Quantity
                         </th>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
                             Value PLN
                         </th>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase">
                             Value USD
                         </th>
                     </tr>
@@ -103,67 +166,6 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{$assetSnapshot['value_in_usd']}}</div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <h1 class="text-2xl text-gray-700 justify-center">Profit and loss</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
-                <table class="table-auto divide-y divide-gray-200">
-                    <thead class="bg-gray-800">
-                    <tr>
-                        <!-- font-sans text-gray-400 uppercase text-sm font-medium mt-2 -->
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            coin
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            value_in_pln
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            pnl 5 minutes
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            pnl 1 hours
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            pnl 3 hours
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-sm font-sans font-medium text-gray-300 uppercase tracking-wider">
-                            pnl till midnight
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-gray-300 divide-y divide-gray-400">
-                    @foreach($profitAndLosses as $profitAndLoss)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{$profitAndLoss->asset}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$profitAndLoss->value_in_pln}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_5_min}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_1h}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_3h}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$profitAndLoss->pnl_midnight}}</div>
                             </td>
                         </tr>
                     @endforeach
