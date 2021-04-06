@@ -6,6 +6,9 @@ use App\Http\Controllers\API\Utils;
 use App\Models\DailyPortfolioValue;
 use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
+use Carbon\Traits\Timestamp;
+use DateInterval;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
@@ -41,8 +44,11 @@ class ProvisionDashboard extends Controller {
 	}
 
 	public function show() {
-		// CURRENT portfolio value and totals in PLN and USD
+		// CURRENT portfolio value and totals in PLN and USD0
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
+		$lastSnapshotDateTime = new DateTime($lastSnapshotTime);
+		$nextUpdate = $lastSnapshotDateTime;
+		$nextUpdate->add(new DateInterval('P5M'));
 
 //		$currentPortfolioSnapshotTiles = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
 //			->OrderBy("value_in_pln", 'desc')
@@ -90,20 +96,20 @@ class ProvisionDashboard extends Controller {
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
 		$profitAndLosses = DB::select("select current.asset, current.value_in_pln, (current.value_in_pln-5minago.value_in_pln) as pnl_5_min" .
-			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_midnight ".
+			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_midnight " .
 			" from " .
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
 			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}' group by asset ) as current, " .
 			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
 			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 5 minute group by asset ) as 5minago, " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 1 hour group by asset ) as 1hago, ".
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago, ".
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln ".
-			"from `portfolio_snapshots` where snapshot_time = cast(cast('{$lastSnapshotTime}' as date) as datetime) group by asset) as midnight ".
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 1 hour group by asset ) as 1hago, " .
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
+			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago, " .
+			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
+			"from `portfolio_snapshots` where snapshot_time = cast(cast('{$lastSnapshotTime}' as date) as datetime) group by asset) as midnight " .
 			"where current.asset=5minago.asset " .
-			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset ".
+			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset " .
 			"order by 6 desc");
 
 		foreach ($profitAndLosses as &$profitAndLoss) {
@@ -170,16 +176,16 @@ class ProvisionDashboard extends Controller {
 			self::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_MXC_VALUE_IN_PLN], 0, ' '),
 			self::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
 			self::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
-			self::TILE_BILAXY_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
-			self::TILE_BILAXY_PNL_TODAY            => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
-			self::TILE_BILAXY_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
+			self::TILE_BILAXY_BALANCE           => Utils::formattedNumber($lastSnapshot[self::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
+			self::TILE_BILAXY_PNL_TODAY         => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
+			self::TILE_BILAXY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
 			self::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[self::KEY_VALUE_IN_PLN], 0, ' ')
 		];
 
-
 		$retData = [
 			'tiles'                         => $tiles,
-			'lastSnapshotTime'              => $lastSnapshotTime,
+			'lastSnapshotTime'              => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
+			'nextUpdate'                    => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot'      => $currentPortfolioSnapshotTable,
 			'pieChart'                      => $pieChart,
 //			'lastHourStackedChart'          => $lastHourStackedChart,

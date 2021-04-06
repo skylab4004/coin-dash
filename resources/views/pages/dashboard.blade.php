@@ -1,8 +1,12 @@
 @extends('layouts.master')
 @section('content')
 
+    <div>
+        <p>Last update: {!! $lastSnapshotTime !!} </p>
+        <p>Next update: {!! $nextUpdate !!}</p>
+        <p>Next update in: TODO</p>
+    </div>
     <div class="flex-1">
-
         <!-- stats tiles -->
         <div class="flex flex-wrap justify-between">
             <x-stats-tile title="Total Balance"
@@ -286,6 +290,21 @@
             options: options
         });
 
+        function getTimeRemaining(endtime){
+            const total = Date.parse(endtime) - Date.parse(new Date());
+            const seconds = Math.floor( (total/1000) % 60 );
+            const minutes = Math.floor( (total/1000/60) % 60 );
+            const hours = Math.floor( (total/(1000*60*60)) % 24 );
+            const days = Math.floor( total/(1000*60*60*24) );
+
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
 
     </script>
 @stop
