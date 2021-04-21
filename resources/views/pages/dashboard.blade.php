@@ -3,8 +3,6 @@
 
     <div>
         <p>Last update: {!! $lastSnapshotTime !!} </p>
-        <p>Next update: {!! $nextUpdate !!}</p>
-        <p>Next update in: TODO</p>
     </div>
     <div class="flex-1">
         <!-- stats tiles -->
@@ -27,6 +25,12 @@
             <x-stats-tile title="Metamask PNL Today"
                           value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_METAMASK_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="BSC Balance"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BEP20_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="BSC PNL Today"
+                          value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BEP20_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_BEP20_PNL_DELTA_TODAY]}}/>
             <x-stats-tile title="Mexc Balance"
                           value={{$tiles[\App\Http\Controllers\ProvisionDashboard::TILE_MXC_BALANCE]}} unit="PLN"
                           percent={{null}}/>

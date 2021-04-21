@@ -11,7 +11,7 @@ class CoinGeckoControllerTest extends TestCase {
 		self::$geckoController = new CoinGeckoController();
 	}
 
-	public function testPing() {
+	public function testFavoriteCoinPrices() {
 		$favoriteCoinPrices = $this::$geckoController->favoriteCoinPrices();
 		print_r($favoriteCoinPrices);
 		self::assertIsArray($favoriteCoinPrices);

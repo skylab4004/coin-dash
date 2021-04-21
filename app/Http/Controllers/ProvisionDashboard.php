@@ -6,7 +6,6 @@ use App\Http\Controllers\API\Utils;
 use App\Models\DailyPortfolioValue;
 use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
-use Carbon\Traits\Timestamp;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -16,11 +15,13 @@ class ProvisionDashboard extends Controller {
 	const KEY_VALUE_IN_PLN = "value_in_pln";
 	const KEY_BINANCE_VALUE_IN_PLN = "binance_value_in_pln";
 	const KEY_METAMASK_VALUE_IN_PLN = "metamask_value_in_pln";
+	const KEY_BEP20_VALUE_IN_PLN = "bep20_value_in_pln";
 	const KEY_MXC_VALUE_IN_PLN = "mxc_value_in_pln";
 	const KEY_BILAXY_VALUE_IN_PLN = "bilaxy_value_in_pln";
 	const KEY_VALUE_IN_USD = "value_in_usd";
 	const KEY_BINANCE_VALUE_IN_USD = "binance_value_in_usd";
 	const KEY_METAMASK_VALUE_IN_USD = "metamask_value_in_usd";
+	const KEY_BEP20_VALUE_IN_USD = "bep20_value_in_usd";
 	const KEY_MXC_VALUE_IN_USD = "mxc_value_in_usd";
 	const KEY_BILAXY_VALUE_IN_USD = "bilaxy_value_in_usd";
 	const TILE_TOTAL_BALANCE = 'total_balance';
@@ -32,6 +33,9 @@ class ProvisionDashboard extends Controller {
 	const TILE_METAMASK_BALANCE = 'metamask_balance';
 	const TILE_METAMASK_PNL_TODAY = 'metamask_pnl_today';
 	const TILE_METAMASK_PNL_DELTA_TODAY = 'metamask_pnl_delta_today';
+	const TILE_BEP20_BALANCE = 'bep20_balance';
+	const TILE_BEP20_PNL_TODAY = 'bep20_pnl_today';
+	const TILE_BEP20_PNL_DELTA_TODAY = 'bep20_pnl_delta_today';
 	const TILE_MXC_BALANCE = 'mxc_balance';
 	const TILE_MXC_PNL_TODAY = 'mxc_pnl_today';
 	const TILE_MXC_PNL_DELTA_TODAY = 'mxc_pnl_delta_today';
@@ -173,6 +177,9 @@ class ProvisionDashboard extends Controller {
 			self::TILE_METAMASK_BALANCE         => Utils::formattedNumber($lastSnapshot[self::KEY_METAMASK_VALUE_IN_PLN], 0, ' '),
 			self::TILE_METAMASK_PNL_TODAY       => Utils::formattedNumber($todaysMetamaskPNLinPln, 0, ' '),
 			self::TILE_METAMASK_PNL_DELTA_TODAY => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
+			self::TILE_BEP20_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_BEP20_VALUE_IN_PLN], 0, ' '),
+			self::TILE_BEP20_PNL_TODAY          => Utils::formattedNumber($todaysMetamaskPNLinPln, 0, ' '),
+			self::TILE_BEP20_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
 			self::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_MXC_VALUE_IN_PLN], 0, ' '),
 			self::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
 			self::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
@@ -207,6 +214,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[self::KEY_BINANCE_VALUE_IN_USD] = 0;
 		$tilesValues[self::KEY_METAMASK_VALUE_IN_PLN] = 0;
 		$tilesValues[self::KEY_METAMASK_VALUE_IN_USD] = 0;
+		$tilesValues[self::KEY_BEP20_VALUE_IN_PLN] = 0;
+		$tilesValues[self::KEY_BEP20_VALUE_IN_USD] = 0;
 		$tilesValues[self::KEY_MXC_VALUE_IN_PLN] = 0;
 		$tilesValues[self::KEY_MXC_VALUE_IN_USD] = 0;
 		$tilesValues[self::KEY_BILAXY_VALUE_IN_PLN] = 0;
@@ -231,6 +240,9 @@ class ProvisionDashboard extends Controller {
 			} else if ($assetSnapshot['source'] == 4) {
 				$tilesValues[self::KEY_BILAXY_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
 				$tilesValues[self::KEY_BILAXY_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == 5) {
+				$tilesValues[self::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
+				$tilesValues[self::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
 			}
 		}
 		unset($assetSnapshot);

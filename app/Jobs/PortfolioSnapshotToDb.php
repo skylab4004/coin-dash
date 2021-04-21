@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
+use App\Http\Controllers\API\BscscanApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
 use App\Http\Controllers\API\MexcApiClient;
@@ -98,6 +99,12 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"sand"   => "the-sandbox",
 			"dvpn"   => "sentinel-group",
 			"matter" => "antimatter",
+			"bnb"    => "binancecoin",
+			"kpad"   => "kickpad",
+			"ork"    => "orakuru",
+			"mist"   => "mist",
+			"revv"   => "revv",
+
 		];
 
 		$ethplorerClient = new EthplorerApiClient();
@@ -150,8 +157,44 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
 			$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
 			$snapshot->save();
-			unset($assetBalance);
+			unset($bilaxyBalance);
 		}
+
+		$bscClient = new BscscanApiClient();
+		$bnbBalance = $bscClient->getBnbBalance();
+		$snapshot = new PortfolioSnapshot();
+		$snapshot->snapshot_time = $updateTime;
+		$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
+		$snapshot->asset = "BNB";
+		$snapshot->quantity = $bnbBalance;
+		$snapshot->value_in_btc = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["btc"];
+		$snapshot->value_in_eth = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["eth"];
+		$snapshot->value_in_usd = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["usd"];
+		$snapshot->value_in_pln = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["pln"];
+		$snapshot->save();
+		unset($bnbBalance);
+		unset($snapshot);
+
+		$bscTokens = [
+			"KPAD" => "0xcfefa64b0ddd611b125157c41cd3827f2e8e8615",
+			"ORK"  => "0xced0ce92f4bdc3c2201e255faf12f05cf8206da8",
+			"MIST" => "0x68e374f856bf25468d365e539b700b648bf94b67",
+		];
+		foreach ($bscTokens as $assetSymbol => $contract) {
+			$tokenBalance = $bscClient->getTokenBalance($contract);
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
+			$snapshot->asset = $assetSymbol;
+			$snapshot->quantity = $tokenBalance;
+			$snapshot->value_in_btc = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["btc"];
+			$snapshot->value_in_eth = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["eth"];
+			$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
+			$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
+			$snapshot->save();
+			unset($tokenBalance);
+		}
+		unset($snapshot);
 
 		unset($favoriteCoinPrices);
 		unset($updateTime);

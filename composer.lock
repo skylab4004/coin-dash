@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "845e6d91ec3459a4f232af8b4906cd26",
+    "content-hash": "446778a4b6772b590eff285eddacda83",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -444,6 +444,55 @@
                 }
             ],
             "time": "2020-11-24T19:55:57+00:00"
+        },
+        {
+            "name": "dzarezenko/etherscan-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dzarezenko/etherscan-api.git",
+                "reference": "679b6ea1c8ee4e1cf29487e6b177cce09d5a56b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dzarezenko/etherscan-api/zipball/679b6ea1c8ee4e1cf29487e6b177cce09d5a56b0",
+                "reference": "679b6ea1c8ee4e1cf29487e6b177cce09d5a56b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "etherscan\\api\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmytro Zarezenko",
+                    "email": "dmytro.zarezenko@gmail.com",
+                    "homepage": "https://github.com/dzarezenko",
+                    "role": "Development"
+                }
+            ],
+            "description": "PHP wrapper for the Etherscan API.",
+            "homepage": "https://github.com/dzarezenko/etherscan-api",
+            "keywords": [
+                "api",
+                "etherscan"
+            ],
+            "support": {
+                "email": "dmytro.zarezenko@gmail.com",
+                "issues": "https://github.com/dzarezenko/etherscan-api/issues",
+                "source": "https://github.com/dzarezenko/etherscan-api/tree/master"
+            },
+            "time": "2018-03-17T10:53:51+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -9545,6 +9594,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "dzarezenko/etherscan-api": 20,
         "jaggedsoft/php-binance-api": 20
     },
     "prefer-stable": true,
