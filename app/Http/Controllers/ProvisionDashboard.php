@@ -166,6 +166,9 @@ class ProvisionDashboard extends Controller {
 		$todaysMxcDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_MXC_VALUE_IN_PLN);
 		$todaysBilaxyPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BILAXY_VALUE_IN_PLN);
 		$todaysBilaxyDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BILAXY_VALUE_IN_PLN);
+		$todaysBscPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BEP20_VALUE_IN_PLN);
+		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BEP20_VALUE_IN_PLN);
+
 
 		$tiles = [
 			self::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_VALUE_IN_PLN], 0, ' '),
