@@ -104,7 +104,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"ork"    => "orakuru",
 			"mist"   => "mist",
 			"revv"   => "revv",
-
+			"ilv"    => "illuvium",
 		];
 
 		$ethplorerClient = new EthplorerApiClient();
