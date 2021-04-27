@@ -12,11 +12,13 @@ use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
 use DateTime;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class PortfolioSnapshotToDb implements ShouldQueue {
 
@@ -48,16 +50,20 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$binanceBalances = $binanceApi->balances();
 
 		foreach ($binanceBalances as $binanceAsset) {
-			$snapshot = new PortfolioSnapshot();
-			$snapshot->snapshot_time = $updateTime;
-			$snapshot->source = 1; // 1 = BINANCE
-			$snapshot->asset = $binanceAsset['asset'];
-			$snapshot->quantity = $binanceAsset['qty'];
-			$snapshot->value_in_btc = $binanceAsset['assetValueInBtc'];
-			$snapshot->value_in_eth = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
-			$snapshot->value_in_usd = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
-			$snapshot->value_in_pln = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
-			$snapshot->save();
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 1; // 1 = BINANCE
+				$snapshot->asset = $binanceAsset['asset'];
+				$snapshot->quantity = $binanceAsset['qty'];
+				$snapshot->value_in_btc = $binanceAsset['assetValueInBtc'];
+				$snapshot->value_in_eth = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
+				$snapshot->value_in_usd = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
+				$snapshot->value_in_pln = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
 			unset($binanceAsset);
 		}
 		unset($binanceBalances);
@@ -111,16 +117,20 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
 		$erc20Balances = $ethplorerClient->erc20Balances($addressInfo);
 		foreach ($erc20Balances as $erc20Asset) {
-			$snapshot = new PortfolioSnapshot();
-			$snapshot->snapshot_time = $updateTime;
-			$snapshot->source = 2; // 2 = ERC20 WALLET
-			$snapshot->asset = $erc20Asset["asset"];
-			$snapshot->quantity = $erc20Asset["qty"]; // todo: tu przydaloby sie lapac wyjatek i wypluwac na ui (np. Undefined index: usf {"exception":"[object] (ErrorException(code: 0): Undefined index: usf at /var/www/html/app/Jobs/PortfolioSnapshotToDb.php:82)
-			$snapshot->value_in_btc = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["btc"];
-			$snapshot->value_in_eth = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["eth"];
-			$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
-			$snapshot->value_in_pln = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["pln"];
-			$snapshot->save();
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 2; // 2 = ERC20 WALLET
+				$snapshot->asset = $erc20Asset["asset"];
+				$snapshot->quantity = $erc20Asset["qty"]; // todo: tu przydaloby sie lapac wyjatek i wypluwac na ui (np. Undefined index: usf {"exception":"[object] (ErrorException(code: 0): Undefined index: usf at /var/www/html/app/Jobs/PortfolioSnapshotToDb.php:82)
+				$snapshot->value_in_btc = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["btc"];
+				$snapshot->value_in_eth = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["eth"];
+				$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
+				$snapshot->value_in_pln = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
 			unset($erc20Asset);
 		}
 		unset($erc20Balances);
@@ -131,47 +141,59 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$mexcClient = new MexcApiClient();
 		$mexcBalances = $mexcClient->getBalances();
 		foreach ($mexcBalances as $assetBalance) {
-			$snapshot = new PortfolioSnapshot();
-			$snapshot->snapshot_time = $updateTime;
-			$snapshot->source = 3; // 3 = MEXC
-			$snapshot->asset = $assetBalance["asset"];
-			$snapshot->quantity = $assetBalance["qty"];
-			$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
-			$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
-			$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
-			$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
-			$snapshot->save();
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 3; // 3 = MEXC
+				$snapshot->asset = $assetBalance["asset"];
+				$snapshot->quantity = $assetBalance["qty"];
+				$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+				$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
 			unset($assetBalance);
 		}
 
 		$bilaxyClient = new BilaxyApiClient();
 		$bilaxyBalances = $bilaxyClient->getBalances();
 		foreach ($bilaxyBalances as $bilaxyBalance) {
-			$snapshot = new PortfolioSnapshot();
-			$snapshot->snapshot_time = $updateTime;
-			$snapshot->source = 4; // 4 = BILAXY
-			$snapshot->asset = $bilaxyBalance["asset"];
-			$snapshot->quantity = $bilaxyBalance["qty"];
-			$snapshot->value_in_btc = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["btc"];
-			$snapshot->value_in_eth = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["eth"];
-			$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
-			$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
-			$snapshot->save();
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 4; // 4 = BILAXY
+				$snapshot->asset = $bilaxyBalance["asset"];
+				$snapshot->quantity = $bilaxyBalance["qty"];
+				$snapshot->value_in_btc = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["btc"];
+				$snapshot->value_in_eth = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["eth"];
+				$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
+				$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
 			unset($bilaxyBalance);
 		}
 
 		$bscClient = new BscscanApiClient();
 		$bnbBalance = $bscClient->getBnbBalance();
-		$snapshot = new PortfolioSnapshot();
-		$snapshot->snapshot_time = $updateTime;
-		$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
-		$snapshot->asset = "BNB";
-		$snapshot->quantity = $bnbBalance;
-		$snapshot->value_in_btc = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["btc"];
-		$snapshot->value_in_eth = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["eth"];
-		$snapshot->value_in_usd = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["usd"];
-		$snapshot->value_in_pln = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["pln"];
-		$snapshot->save();
+		try {
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
+			$snapshot->asset = "BNB";
+			$snapshot->quantity = $bnbBalance;
+			$snapshot->value_in_btc = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["btc"];
+			$snapshot->value_in_eth = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["eth"];
+			$snapshot->value_in_usd = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["usd"];
+			$snapshot->value_in_pln = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["pln"];
+			$snapshot->save();
+		} catch (Exception $e) {
+			Log::error($e);
+		}
 		unset($bnbBalance);
 		unset($snapshot);
 
@@ -181,17 +203,21 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"MIST" => "0x68e374f856bf25468d365e539b700b648bf94b67",
 		];
 		foreach ($bscTokens as $assetSymbol => $contract) {
-			$tokenBalance = $bscClient->getTokenBalance($contract);
-			$snapshot = new PortfolioSnapshot();
-			$snapshot->snapshot_time = $updateTime;
-			$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
-			$snapshot->asset = $assetSymbol;
-			$snapshot->quantity = $tokenBalance;
-			$snapshot->value_in_btc = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["btc"];
-			$snapshot->value_in_eth = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["eth"];
-			$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
-			$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
-			$snapshot->save();
+			try {
+				$tokenBalance = $bscClient->getTokenBalance($contract);
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
+				$snapshot->asset = $assetSymbol;
+				$snapshot->quantity = $tokenBalance;
+				$snapshot->value_in_btc = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["btc"];
+				$snapshot->value_in_eth = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["eth"];
+				$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
+				$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
 			unset($tokenBalance);
 		}
 		unset($snapshot);
