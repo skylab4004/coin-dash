@@ -15,6 +15,7 @@
     "dzarezenko/etherscan-api": "dev-master",
     "fideloper/proxy": "^4.4",
     "fruitcake/laravel-cors": "^2.0",
+    "gmostafa/php-graphql-client": "^1.10",
     "guzzlehttp/guzzle": "^7.0.1",
     "jaggedsoft/php-binance-api": "@dev",
     "laravel/framework": "^8.12",
