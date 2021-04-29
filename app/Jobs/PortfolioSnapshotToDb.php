@@ -203,6 +203,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"KPAD" => "0xcfefa64b0ddd611b125157c41cd3827f2e8e8615",
 			"ORK"  => "0xced0ce92f4bdc3c2201e255faf12f05cf8206da8",
 			"MIST" => "0x68e374f856bf25468d365e539b700b648bf94b67",
+			"OCTI" => "0x6c1de9907263f0c12261d88b65ca18f31163f29d",
 		];
 		foreach ($bscTokens as $assetSymbol => $contract) {
 			try {
