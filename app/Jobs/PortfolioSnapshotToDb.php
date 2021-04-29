@@ -112,6 +112,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"revv"   => "revv",
 			"ilv"    => "illuvium",
 			"octi"   => "oction",
+			"matic"  => "matic-network",
 		];
 
 		$ethplorerClient = new EthplorerApiClient();
