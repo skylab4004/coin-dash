@@ -113,6 +113,17 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"ilv"    => "illuvium",
 			"octi"   => "oction",
 			"matic"  => "matic-network",
+			"ksm"    => "kusama",
+			"cvc"    => "civic",
+			"kmd"    => "komodo",
+			"egld"   => "elrond-erd-2",
+			"cro"    => "crypto-com-chain",
+			"dent"   => "dent",
+			"etc"    => "ethereum-classic",
+			"reef"   => "reef-finance",
+			"nxs"    => "nexus",
+			"steem"  => "steem",
+
 		];
 
 		$ethplorerClient = new EthplorerApiClient();
