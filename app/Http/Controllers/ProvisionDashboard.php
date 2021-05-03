@@ -3,49 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\API\Utils;
-use App\Models\DailyPortfolioValue;
-use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
-
-	const KEY_VALUE_IN_PLN = "value_in_pln";
-	const KEY_BINANCE_VALUE_IN_PLN = "binance_value_in_pln";
-	const KEY_METAMASK_VALUE_IN_PLN = "metamask_value_in_pln";
-	const KEY_BEP20_VALUE_IN_PLN = "bep20_value_in_pln";
-	const KEY_MXC_VALUE_IN_PLN = "mxc_value_in_pln";
-	const KEY_BILAXY_VALUE_IN_PLN = "bilaxy_value_in_pln";
-	const KEY_VALUE_IN_USD = "value_in_usd";
-	const KEY_BINANCE_VALUE_IN_USD = "binance_value_in_usd";
-	const KEY_METAMASK_VALUE_IN_USD = "metamask_value_in_usd";
-	const KEY_BEP20_VALUE_IN_USD = "bep20_value_in_usd";
-	const KEY_MXC_VALUE_IN_USD = "mxc_value_in_usd";
-	const KEY_BILAXY_VALUE_IN_USD = "bilaxy_value_in_usd";
-	const TILE_TOTAL_BALANCE = 'total_balance';
-	const TILE_TOTAL_PNL_TODAY = 'total_pnl_today';
-	const TILE_TOTAL_PNL_DELTA_TODAY = 'total_pnl_delta_today';
-	const TILE_BINANCE_BALANCE = 'binance_balance';
-	const TILE_BINANCE_PNL_TODAY = 'binance_pnl_today';
-	const TILE_BINANCE_PNL_DELTA_TODAY = 'binance_pnl_delta_today';
-	const TILE_METAMASK_BALANCE = 'metamask_balance';
-	const TILE_METAMASK_PNL_TODAY = 'metamask_pnl_today';
-	const TILE_METAMASK_PNL_DELTA_TODAY = 'metamask_pnl_delta_today';
-	const TILE_BEP20_BALANCE = 'bep20_balance';
-	const TILE_BEP20_PNL_TODAY = 'bep20_pnl_today';
-	const TILE_BEP20_PNL_DELTA_TODAY = 'bep20_pnl_delta_today';
-	const TILE_MXC_BALANCE = 'mxc_balance';
-	const TILE_MXC_PNL_TODAY = 'mxc_pnl_today';
-	const TILE_MXC_PNL_DELTA_TODAY = 'mxc_pnl_delta_today';
-	const TILE_BILAXY_BALANCE = 'bilaxy_balance';
-	const TILE_BILAXY_PNL_TODAY = 'bilaxy_pnl_today';
-	const TILE_BILAXY_PNL_DELTA_TODAY = 'bilaxy_pnl_delta_today';
-	const TILE_YESTERDAY_TOTAL_BALANCE = 'yesterday_total_balance';
-
-	private static function addCurrentSnapshotValues($currentPortfolioSnapshotTable) {
-	}
 
 	public function show() {
 		// CURRENT portfolio value and totals in PLN and USD0
@@ -130,71 +93,41 @@ class ProvisionDashboard extends Controller {
 		}
 		unset($profitAndLoss);
 
-		// PIE CHART
-		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset');
-		$pieChartValues = $currentPortfolioSnapshot->pluck(self::KEY_VALUE_IN_PLN);
-		$pieChart = ['labels' => $pieChartLabels, 'data' => $pieChartValues];
-
-		// last hour stacked chart data with 5 minutes interval
-//		$firstSnapshotOneHourAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time >= NOW()-INTERVAL 2 hour')->min('snapshot_time');
-//		 todo: show "N/A" if Snapshot wasnt found
-//		$lastOneHourPortfolioValues = PortfolioValue::where("snapshot_time", ">=", $firstSnapshotOneHourAgo)->get();
-//		$lastHourStackedChart = self::extractChartsLabelsAndDatasets($lastOneHourPortfolioValues);
-//		unset($lastOneHourPortfolioValues);
-
-		// LAST 24 HOURS STACKED CHART - 1 h interval
-//		$firstSnapshotTime24HoursAgo = DB::table('portfolio_snapshots')->whereRaw('snapshot_time>= NOW()-INTERVAL 48 hour')->min('snapshot_time');
-//		$last24HoursPortfolioValues = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime24HoursAgo)->get();
-//		$last24HoursStackedChart = self::extractChartsLabelsAndDatasets($last24HoursPortfolioValues);
-//		unset($last24HoursPortfolioValues);
-
-		// LAST 7 DAYS HOURLY STACKED CHART - todo zmienic na co 6h
-		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
-		$last7DaysSnapshots = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime7DaysAgo)->get();
-		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
-		unset($last7DaysSnapshots);
-
-		// DAILY STACKED CHART - last 30 days
-		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
-		$last30DailySnapshots = DailyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime30DaysAgo)->get();
-		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
-		unset($last30DailySnapshots);
-
 		// in PLN
-		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_VALUE_IN_PLN);
-		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_VALUE_IN_PLN);
-		$todaysBinancePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BINANCE_VALUE_IN_PLN);
-		$todaysBinanceDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BINANCE_VALUE_IN_PLN);
-		$todaysMetamaskPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_METAMASK_VALUE_IN_PLN);
-		$todaysMetamaskDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_METAMASK_VALUE_IN_PLN);
-		$todaysMxcPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_MXC_VALUE_IN_PLN);
-		$todaysMxcDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_MXC_VALUE_IN_PLN);
-		$todaysBilaxyPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BILAXY_VALUE_IN_PLN);
-		$todaysBilaxyDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BILAXY_VALUE_IN_PLN);
-		$todaysBscPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, self::KEY_BEP20_VALUE_IN_PLN);
-		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, self::KEY_BEP20_VALUE_IN_PLN);
+		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_VALUE_IN_PLN);
+		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_VALUE_IN_PLN);
+		$todaysBinancePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BINANCE_VALUE_IN_PLN);
+		$todaysBinanceDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BINANCE_VALUE_IN_PLN);
+		$todaysMetamaskPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_METAMASK_VALUE_IN_PLN);
+		$todaysMetamaskDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_METAMASK_VALUE_IN_PLN);
+		$todaysMxcPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_MXC_VALUE_IN_PLN);
+		$todaysMxcDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_MXC_VALUE_IN_PLN);
+		$todaysBilaxyPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BILAXY_VALUE_IN_PLN);
+		$todaysBilaxyDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BILAXY_VALUE_IN_PLN);
+		$todaysBscPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
+		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
 
 
 		$tiles = [
-			self::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_VALUE_IN_PLN], 0, ' '),
-			self::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 0, ' '),
-			self::TILE_TOTAL_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
-			self::TILE_BINANCE_BALANCE          => Utils::formattedNumber($lastSnapshot[self::KEY_BINANCE_VALUE_IN_PLN], 0, ' '),
-			self::TILE_BINANCE_PNL_TODAY        => Utils::formattedNumber($todaysBinancePNLinPln, 0, ' '),
-			self::TILE_BINANCE_PNL_DELTA_TODAY  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromPln, 2),
-			self::TILE_METAMASK_BALANCE         => Utils::formattedNumber($lastSnapshot[self::KEY_METAMASK_VALUE_IN_PLN], 0, ' '),
-			self::TILE_METAMASK_PNL_TODAY       => Utils::formattedNumber($todaysMetamaskPNLinPln, 0, ' '),
-			self::TILE_METAMASK_PNL_DELTA_TODAY => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
-			self::TILE_BEP20_BALANCE            => Utils::formattedNumber($lastSnapshot[self::KEY_BEP20_VALUE_IN_PLN], 0, ' '),
-			self::TILE_BEP20_PNL_TODAY          => Utils::formattedNumber($todaysBscPNLinPln, 0, ' '),
-			self::TILE_BEP20_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysBscDeltaPercentsFromPln, 2),
-			self::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[self::KEY_MXC_VALUE_IN_PLN], 0, ' '),
-			self::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
-			self::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
-			self::TILE_BILAXY_BALANCE           => Utils::formattedNumber($lastSnapshot[self::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
-			self::TILE_BILAXY_PNL_TODAY         => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
-			self::TILE_BILAXY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
-			self::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[self::KEY_VALUE_IN_PLN], 0, ' ')
+			Constants::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 0, ' '),
+			Constants::TILE_TOTAL_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
+			Constants::TILE_BINANCE_BALANCE          => Utils::formattedNumber($lastSnapshot[Constants::KEY_BINANCE_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_BINANCE_PNL_TODAY        => Utils::formattedNumber($todaysBinancePNLinPln, 0, ' '),
+			Constants::TILE_BINANCE_PNL_DELTA_TODAY  => Utils::formattedNumber($todaysBinanceDeltaPercentsFromPln, 2),
+			Constants::TILE_METAMASK_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_METAMASK_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_METAMASK_PNL_TODAY       => Utils::formattedNumber($todaysMetamaskPNLinPln, 0, ' '),
+			Constants::TILE_METAMASK_PNL_DELTA_TODAY => Utils::formattedNumber($todaysMetamaskDeltaPercentsFromPln, 2),
+			Constants::TILE_BEP20_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_BEP20_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_BEP20_PNL_TODAY          => Utils::formattedNumber($todaysBscPNLinPln, 0, ' '),
+			Constants::TILE_BEP20_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysBscDeltaPercentsFromPln, 2),
+			Constants::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[Constants::KEY_MXC_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
+			Constants::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
+			Constants::TILE_BILAXY_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_BILAXY_PNL_TODAY         => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
+			Constants::TILE_BILAXY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
+			Constants::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' ')
 		];
 
 		$retData = [
@@ -202,11 +135,6 @@ class ProvisionDashboard extends Controller {
 			'lastSnapshotTime'              => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
 			'nextUpdate'                    => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot'      => $currentPortfolioSnapshotTable,
-			'pieChart'                      => $pieChart,
-//			'lastHourStackedChart'          => $lastHourStackedChart,
-//			'last24HoursStackedChart'       => $last24HoursStackedChart,
-			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
-			'last30DaysStackedChart'        => $last30DaysStackedChart,
 			'profitAndLosses'               => $profitAndLosses,
 		];
 
@@ -216,61 +144,46 @@ class ProvisionDashboard extends Controller {
 	}
 
 	private static function loadValuesForTiles($portfolioSnapshot) {
-		$tilesValues[self::KEY_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_VALUE_IN_USD] = 0;
-		$tilesValues[self::KEY_BINANCE_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_BINANCE_VALUE_IN_USD] = 0;
-		$tilesValues[self::KEY_METAMASK_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_METAMASK_VALUE_IN_USD] = 0;
-		$tilesValues[self::KEY_BEP20_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_BEP20_VALUE_IN_USD] = 0;
-		$tilesValues[self::KEY_MXC_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_MXC_VALUE_IN_USD] = 0;
-		$tilesValues[self::KEY_BILAXY_VALUE_IN_PLN] = 0;
-		$tilesValues[self::KEY_BILAXY_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_BINANCE_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_METAMASK_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_METAMASK_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_BEP20_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_MXC_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_BILAXY_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_BILAXY_VALUE_IN_USD] = 0;
 
 		if ( ! isset($portfolioSnapshot) || ($portfolioSnapshot == null)) {
 			return [];
 		}
 
 		foreach ($portfolioSnapshot as $assetSnapshot) {
-			$tilesValues[self::KEY_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-			$tilesValues[self::KEY_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+			$tilesValues[Constants::KEY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+			$tilesValues[Constants::KEY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			if ($assetSnapshot['source'] == 1) { // todo: pobieranie na podstawie slownika dla source w db
-				$tilesValues[self::KEY_BINANCE_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-				$tilesValues[self::KEY_BINANCE_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == 2) {
-				$tilesValues[self::KEY_METAMASK_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-				$tilesValues[self::KEY_METAMASK_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+				$tilesValues[Constants::KEY_METAMASK_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_METAMASK_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == 3) {
-				$tilesValues[self::KEY_MXC_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-				$tilesValues[self::KEY_MXC_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+				$tilesValues[Constants::KEY_MXC_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == 4) {
-				$tilesValues[self::KEY_BILAXY_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-				$tilesValues[self::KEY_BILAXY_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+				$tilesValues[Constants::KEY_BILAXY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_BILAXY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == 5) {
-				$tilesValues[self::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[self::KEY_VALUE_IN_PLN];
-				$tilesValues[self::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[self::KEY_VALUE_IN_USD];
+				$tilesValues[Constants::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			}
 		}
 		unset($assetSnapshot);
 
 		return $tilesValues;
-	}
-
-	private static function extractChartsLabelsAndDatasets($portfolioValues) {
-		$assetNames = $portfolioValues->unique('asset')->pluck('asset');
-		$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
-		$datasets = [];
-		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck(self::KEY_VALUE_IN_PLN);
-			$datasets[] = ['label' => $assetName, 'data' => $datasetForAsset->toArray()];
-		}
-
-		return [
-			'labels'   => $labels,
-			'datasets' => $datasets,
-		];
 	}
 
 	private static function safeDiff($formerSnapshot, $latterSnapshot, string $key) {

@@ -48,8 +48,8 @@
                         <!-- inactive: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"-->
                         <a href="{{ route('dashboard') }}"
                            class="{{ (strpos(Route::currentRouteName(), 'dashboard') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Dashboard</a>
-                        <a href="{{ route('binance') }}"
-                                class="{{ (strpos(Route::currentRouteName(), 'binance') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Binance</a>
+                        <a href="{{ route('charts') }}"
+                                class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Charts</a>
                         <a href="{{ route('metamask') }}"
                            class="{{ (strpos(Route::currentRouteName(), 'metamask') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Metamask</a>
 
@@ -65,8 +65,8 @@
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a href="{{ route('dashboard') }}"
                class="{{ (strpos(Route::currentRouteName(), 'dashboard') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Dashboard</a>
-            <a href="{{ route('binance') }}"
-               class="{{ (strpos(Route::currentRouteName(), 'binance') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Binance</a>
+            <a href="{{ route('charts') }}"
+               class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Charts</a>
             <a href="{{ route('metamask') }}"
                class="{{ (strpos(Route::currentRouteName(), 'metamask') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Metamask</a>
         </div>
