@@ -154,6 +154,10 @@
                         </th>
                         <th scope="col"
                             class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
+                            %
+                        </th>
+                        <th scope="col"
+                            class="px-2 py-1.5 text-left text-sm font-sans font-medium text-gray-300 uppercase">
                             Quantity
                         </th>
                         <th scope="col"
@@ -171,6 +175,9 @@
                         <tr>
                             <td class="px-2 py-2.5 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">{{$assetSnapshot['asset']}}</div>
+                            </td>
+                            <td class="px-2 py-2.5 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{$assetSnapshot['percentage']}}</div>
                             </td>
                             <td class="px-2 py-2.5 whitespace-nowrap text-right">
                                 <div class="text-sm text-gray-900">{{$assetSnapshot['quantity']}}</div>

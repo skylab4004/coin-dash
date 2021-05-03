@@ -79,11 +79,16 @@ class ProvisionDashboard extends Controller {
 			->OrderBy("value_in_pln", 'desc')
 			->get()->toArray();
 
-		//     "asset" => "RUNE"
-		//    "quantity" => "148.3208700000"
-		//    "value_in_pln" => "4812.9027759800"
-		//    "value_in_usd" => "1231.8745078100"
+		$totalPortfolioValueInPln = 0;
+		$totalPortfolioValueInUsd = 0;
+		foreach ($currentPortfolioSnapshotTable as $snap) {
+			$totalPortfolioValueInPln += $snap['value_in_pln'];
+			$totalPortfolioValueInUsd += $snap['value_in_usd'];
+		}
+
+
 		foreach ($currentPortfolioSnapshotTable as &$snap) {
+			$snap['percentage'] = Utils::dashboardNumber(($snap['value_in_pln']/$totalPortfolioValueInPln)*100);
 			$snap['quantity'] = Utils::dashboardNumber($snap['quantity'], 8);
 			$snap['value_in_pln'] = Utils::dashboardNumber($snap['value_in_pln']);
 			$snap['value_in_usd'] = Utils::dashboardNumber($snap['value_in_usd']);
