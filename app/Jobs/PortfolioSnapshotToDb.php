@@ -123,6 +123,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"reef"   => "reef-finance",
 			"nxs"    => "nexus",
 			"steem"  => "steem",
+			"sota"   => "sota-finance",
 
 		];
 
@@ -215,6 +216,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"ORK"  => "0xced0ce92f4bdc3c2201e255faf12f05cf8206da8",
 			"MIST" => "0x68e374f856bf25468d365e539b700b648bf94b67",
 			"OCTI" => "0x6c1de9907263f0c12261d88b65ca18f31163f29d",
+			"SOTA" => "0x0742b62efb5f2eabbc14567dfc0860ce0565bcf4"
 		];
 		foreach ($bscTokens as $assetSymbol => $contract) {
 			try {
@@ -222,7 +224,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot = new PortfolioSnapshot();
 				$snapshot->snapshot_time = $updateTime;
 				$snapshot->source = 5; // 5 = BINANCE SMART CHAIN
-				$snapshot->asset = $assetSymbol;
+				$snapshot->asset = strtoupper($assetSymbol);
 				$snapshot->quantity = $tokenBalance;
 				$snapshot->value_in_btc = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["btc"];
 				$snapshot->value_in_eth = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["eth"];

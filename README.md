@@ -96,11 +96,11 @@ after snapshot_time;
 # Struktura aplikacji
 
 TODOS:
-* przeniesc wykresy na osobny ekran
+* ~~przeniesc wykresy na osobny ekran~~
 * dodac automatyczne zasysanie koinow do slownikow
 * dodać procenty do piecharta
 * ukrywanie małych sald tokenów
-* dodać udział procentowy tokena w tabelce z portfolio
+* ~~dodać udział procentowy tokena w tabelce z portfolio~~
 * otwarcie coingecko na clicku nazwy tokena
 
 
