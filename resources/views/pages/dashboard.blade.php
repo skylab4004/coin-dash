@@ -50,7 +50,7 @@
 
         <h1 class="text-2xl text-gray-700 justify-center">Profit and loss</h1>
         <div class="flex justify-center py-2 align-middle inline-block overflow-auto">
-            <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
+            <div class="shadow-md overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
                 <table class="table-auto divide-y divide-gray-200">
                     <thead class="bg-gray-800">
                     <tr>
@@ -112,7 +112,7 @@
         <!-- current portfolio table -->
         <h1 class="text-2xl text-gray-700 justify-center">Current portfolio</h1>
         <div class="flex justify-center py-2 align-middle inline-block overflow-auto">
-            <div class="shadow-2xl overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
+            <div class="shadow-md overflow-hidden border-b-4 border-gray-400 sm:rounded-lg">
                 <table class="table-auto divide-y divide-gray-200">
                     <thead class="bg-gray-800">
                     <tr>

@@ -14,15 +14,19 @@ class BinanceControllerTest extends TestCase {
 
 	public function testTicker() {
 		$ticker = $this::$binanceController->currentPrices();
-		print_r($ticker);
-		$this->assertIsArray($ticker);
+		self::assertIsArray($ticker);
 	}
 
-	public function testBalancesArePositive() {
+	public function testBalances() {
 		$balances = $this::$binanceController->balances();
 		$array_search = array_search('0', array_column($balances, 'qty'));
-		print_r($balances);
-		$this->assertFalse($array_search);
+		self::assertFalse($array_search);
+	}
+
+	public function testBalancesAssetNames() {
+		$balances = $this::$binanceController->balances();
+		$assetSymbols = array_column($balances, 'asset');
+		self::assertIsArray($assetSymbols);
 	}
 
 }

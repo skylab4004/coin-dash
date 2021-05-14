@@ -17,6 +17,7 @@ class MexcApiClientTest extends TestCase {
 			$assetName = $assetBalance['asset'];
 			$assetBalance = $assetBalance['qty'];
 		}
+		print_r($balances);
 		self::assertIsArray($balances);
 	}
 

@@ -12,13 +12,8 @@ class CoinGeckoControllerTest extends TestCase {
 	}
 
 	public function testFavoriteCoinPrices() {
-		$favoriteCoinPrices = $this::$geckoController->favoriteCoinPrices();
+		$favoriteCoinPrices = $this::$geckoController->portfolioCoinsPrices();
 		self::assertIsArray($favoriteCoinPrices);
-	}
-
-	public function testAddNewCoin() {
-		$coin = $this::$geckoController->addNewCoin("BNB");
-		self::assertTrue($coin);
 	}
 
 }

@@ -12,4 +12,11 @@ class BscscanApiClientTest extends TestCase {
 		self::assertIsNumeric($balance);
 	}
 
+	public function testGetEthBalance() {
+		$client = new BscscanApiClient();
+		$balance = $client->getBnbBalance();
+		print($balance);
+		self::assertIsNumeric($balance);
+	}
+
 }

@@ -60,7 +60,7 @@ return [
             'url' => Secret::$SLACK_ALERTS_WEBHOOK,
             'username' => 'Portafolio log',
             'emoji' => ':boom:',
-            'level' => env('LOG_LEVEL', 'notice'),
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'papertrail' => [
