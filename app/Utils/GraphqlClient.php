@@ -25,7 +25,6 @@ class GraphqlClient {
 			throw new ErrorException($error['message'], $error['type']);
 		}
 
-		dd($data);
 		return json_decode($data, true);
 	}
 }

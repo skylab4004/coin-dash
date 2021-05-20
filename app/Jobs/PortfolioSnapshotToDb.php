@@ -11,11 +11,13 @@ use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Http\Controllers\PortfolioCoinController;
+use App\Http\Controllers\StaticPortfolioCoinController;
 use App\Models\PortfolioSnapshot;
 use DateTime;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -46,11 +48,36 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$coinGeckoApi = new CoinGeckoController();
 		$favoriteCoinPrices = $coinGeckoApi->portfolioCoinsPrices();
 
+		$portfolioCoinController = new PortfolioCoinController();
+		$coinToSymbolMapping = $portfolioCoinController->getSymbolToCoinGeckoIdMapping();
+
+
+		// HANDLE STATIC PORTFOLIO COINS
+		$staticCoins = new StaticPortfolioCoinController();
+		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
+		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = 0; // 0 = STATIC COIN
+				$snapshot->asset = $staticPortfolioCoin['symbol'];
+				$snapshot->quantity = $staticPortfolioCoin['quantity'];
+				$snapshot->value_in_btc = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["btc"];
+				$snapshot->value_in_eth = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["eth"];
+				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
+				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+			unset($staticPortfolioCoin);
+		}
+
+
 		// HANDLE BINANCE PORTFOLIO
 		$binanceApi = new BinanceController();
 		$binanceBalances = $binanceApi->balances();
 
-		$portfolioCoinController = new PortfolioCoinController();
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($binanceBalances, 'asset'));
 		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 
@@ -76,64 +103,6 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 		// HANDLE ERC20 PORTFOLIO
 
-		$coinToSymbolMapping = [
-			"btc"    => "bitcoin",
-			"eth"    => "ethereum",
-			"rbc"    => "rubic",
-			"cliq"   => "deficliq",
-			"atom"   => "cosmos",
-			"lto"    => "lto-network",
-			"mitx"   => "morpheus-labs",
-			"rune"   => "thorchain",
-			"cvr"    => "polkacover",
-			"frm"    => "ferrum-network",
-			"apy"    => "apy-finance",
-			"chart"  => "chartex",
-			"vidya"  => "vidya",
-			"yeld"   => "yeld-finance",
-			"ethv"   => "ethverse",
-			"loot"   => "nftlootbox",
-			"azuki"  => "azuki",
-			"alpa"   => "alpaca",
-			"pylon"  => "pylon-finance",
-			"kyl"    => "kylin-network",
-			"pcx"    => "chainx",
-			"usdt"   => "tether",
-			"usf"    => "unslashed-finance",
-			"utrin"  => "utrin",
-			"swap"   => "trustswap",
-			"xrp"    => "ripple",
-			"super"  => "superfarm",
-			"bia"    => "bilaxy-token",
-			"auscm"  => "auric-network",
-			"sxp"    => "swipe",
-			"sc"     => "siacoin",
-			"sand"   => "the-sandbox",
-			"dvpn"   => "sentinel-group",
-			"matter" => "antimatter",
-			"bnb"    => "binancecoin",
-			"kpad"   => "kickpad",
-			"ork"    => "orakuru",
-			"mist"   => "mist",
-			"revv"   => "revv",
-			"ilv"    => "illuvium",
-			"octi"   => "oction",
-			"matic"  => "matic-network",
-			"ksm"    => "kusama",
-			"cvc"    => "civic",
-			"kmd"    => "komodo",
-			"egld"   => "elrond-erd-2",
-			"cro"    => "crypto-com-chain",
-			"dent"   => "dent",
-			"etc"    => "ethereum-classic",
-			"reef"   => "reef-finance",
-			"nxs"    => "nexus",
-			"steem"  => "steem",
-			"sota"   => "sota-finance",
-
-		];
-
-		$coinToSymbolMapping = $portfolioCoinController->getSymbolToCoinGeckoIdMapping();
 
 		$ethplorerClient = new EthplorerApiClient();
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
