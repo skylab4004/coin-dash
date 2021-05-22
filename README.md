@@ -130,3 +130,34 @@ TODOS:
 - stacked chart z rozbiciem portfolio od początku dnia (interwał = 5 minut)
 - stacked chart z rozbiciem portfolio z ostatniego tygodnia lub miesiąca (interwał = 1 dzień lub 12 h)
 - pie chart z procentowym rozbiciem portfolio + równowartość w pln + ilość w walucie natywnej
+
+
+## price alerts
+
+price_alert model:
+symbol - ETH
+threshold - 0.54256
+condition - 0 = cena wyzsza niz; 1 = cena niższa niż
+last_price - 0.4234
+last_price_time - timestamp, default now
+alert_sent - boolean, default false
+price_source - 0 = uniswap
+timestamps
+
+co minutę:
+
+foreach ($alerts as $alert) {
+   $current_price = getCurrentPrice($alert['symbol'], $alert['price_source']);
+   updateLastPrice($alert['symbol'], $current_price);
+
+   switch ($alert['condition']) {
+      case 0:
+         if ($current_price>=$alert['last_price'] && !$alert['alert_sent']) {
+         }
+         break;
+      case 1:
+         break;
+   }
+    {
+
+}
