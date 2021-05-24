@@ -5,13 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 class UniswapPriceGetterTest extends TestCase {
 
-	public function testGetCliqPrice() {
-		$uniswap = new UniswapPriceGetter();
-		$cliqPrice = $uniswap->getCliqPrice();
-		print_r($cliqPrice);
-		self::assertNull($cliqPrice);
-	}
-
 	public function testUniswapPrice() {
 		$uniswap = new UniswapPriceGetter();
 		$results = $uniswap->uniswapPrice("0x3431f91b3a388115f00c5ba9fdb899851d005fb5");
@@ -19,10 +12,4 @@ class UniswapPriceGetterTest extends TestCase {
 		self::assertIsNumeric($results);
 	}
 
-	public function testUniswapPrice2() {
-		$uniswap = new UniswapPriceGetter();
-		$results = $uniswap->uniswapPrice2();
-		dd($results);
-		self::assertNull(null);
-	}
 }
