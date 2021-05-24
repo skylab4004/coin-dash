@@ -166,4 +166,4 @@
 
     </div>
 
-@stop
+@endsection

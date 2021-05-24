@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\PriceAlert;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+use Session;
+use View;
 
 class PriceAlertController extends Controller {
 
@@ -16,6 +20,52 @@ class PriceAlertController extends Controller {
 	//$table->boolean('triggered')->default(0);
 	//$table->tinyInteger('price_source');
 	//$table->timestamps();
+
+	public function index() {
+		$alerts = PriceAlert::all();
+		return View::make('price-alerts.index')->with('priceAlerts', $alerts);
+	}
+
+	public function create() {
+		return view('price-alerts.create');
+	}
+
+	public function store(Request $request) {
+		$request->validate([
+			'symbol' => 'required',
+			'contract_address' => 'required',
+			'threshold' => 'required',
+			'condition' => 'required',
+			'price_source' => 'required',
+		]);
+
+		PriceAlert::create($request->all());
+
+		return redirect()->route('price-alerts.index')
+			->with('success', 'Price alert created successfully.');
+	}
+
+	public function show($id) {
+		//
+	}
+
+	public function edit($id) {
+		//
+	}
+
+	public function update($id) {
+		//
+	}
+
+	public function destroy($id) {
+		$priceAlert = PriceAlert::find($id);
+		$priceAlert->delete();
+
+		// redirect
+		Session::flash('message', 'Successfully deleted the price alert!');
+		return Redirect::to('price-alerts');
+		//
+	}
 
 	public function addPriceAlert($symbol, $threshold, $condition, $price_source) {
 		$alert = new PriceAlert();
@@ -33,6 +83,7 @@ class PriceAlertController extends Controller {
 
 	public function getSymbols() {
 		$symbols = PriceAlert::select('symbol')->distinct()->get()->toArray();
+
 		return array_column($symbols, 'symbol');
 	}
 }

@@ -53,25 +53,26 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 
 		// HANDLE STATIC PORTFOLIO COINS
-		$staticCoins = new StaticPortfolioCoinController();
-		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
-		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
-			try {
-				$snapshot = new PortfolioSnapshot();
-				$snapshot->snapshot_time = $updateTime;
-				$snapshot->source = 0; // 0 = STATIC COIN
-				$snapshot->asset = $staticPortfolioCoin['symbol'];
-				$snapshot->quantity = $staticPortfolioCoin['quantity'];
-				$snapshot->value_in_btc = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["btc"];
-				$snapshot->value_in_eth = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["eth"];
-				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
-				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
-				$snapshot->save();
-			} catch (Exception $e) {
-				Log::error($e);
-			}
-			unset($staticPortfolioCoin);
-		}
+		// TODO
+//		$staticCoins = new StaticPortfolioCoinController();
+//		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
+//		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
+//			try {
+//				$snapshot = new PortfolioSnapshot();
+//				$snapshot->snapshot_time = $updateTime;
+//				$snapshot->source = 0; // 0 = STATIC COIN
+//				$snapshot->asset = $staticPortfolioCoin['symbol'];
+//				$snapshot->quantity = $staticPortfolioCoin['quantity'];
+//				$snapshot->value_in_btc = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["btc"];
+//				$snapshot->value_in_eth = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["eth"];
+//				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
+//				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
+//				$snapshot->save();
+//			} catch (Exception $e) {
+//				Log::error($e);
+//			}
+//			unset($staticPortfolioCoin);
+//		}
 
 
 		// HANDLE BINANCE PORTFOLIO

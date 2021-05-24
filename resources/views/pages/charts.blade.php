@@ -127,4 +127,4 @@
         }
 
     </script>
-@stop
+@endsection

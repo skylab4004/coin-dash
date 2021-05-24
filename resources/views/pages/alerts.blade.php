@@ -1,4 +1,4 @@
 @extends('layouts.master')
 @section('content')
-    i am the metamask page
-@stop
+    i am the alerts page
+@endsection

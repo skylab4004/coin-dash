@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PriceAlert extends Model {
 
+	protected $fillable = ['symbol', 'contract_address', 'threshold', 'condition', 'price_source'];
+
 	use HasFactory;
 
 	public const PRICE_SOURCES = [
