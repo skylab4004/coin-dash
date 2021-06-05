@@ -96,8 +96,9 @@ after snapshot_time;
 # Struktura aplikacji
 
 TODOS:
+* zrobić wykres dniowy dla warto
 * ~~przeniesc wykresy na osobny ekran~~
-* dodac automatyczne zasysanie koinow do slownikow
+* ~~dodac automatyczne zasysanie koinow do slownikow~~
 * dodać procenty do piecharta
 * ukrywanie małych sald tokenów
 * ~~dodać udział procentowy tokena w tabelce z portfolio~~

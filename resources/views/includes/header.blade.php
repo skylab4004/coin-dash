@@ -51,7 +51,9 @@
                         <a href="{{ route('charts') }}"
                                 class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Charts</a>
                         <a href="{{ route('price-alerts.index') }}"
-                           class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Price Alerts</a>
+                           class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Price alerts</a>
+                        <a href="{{ route('portfolio-coins.index') }}"
+                           class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Portfolio coins</a>
 
                     </div>
                 </div>
@@ -69,6 +71,9 @@
                class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Charts</a>
             <a href="{{ route('price-alerts.index') }}"
                class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Price Alerts</a>
+            <a href="{{ route('portfolio-coins.index') }}"
+               class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Portfolio coins</a>
+
         </div>
     </div>
 </nav>

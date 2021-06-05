@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PortfolioCoinController;
 use App\Http\Controllers\PriceAlertController;
 use App\Http\Controllers\ProvisionCharts;
 use App\Http\Controllers\ProvisionDashboard;
@@ -15,5 +16,7 @@ Route::get('about', function () {
 
 
 Route::resource('price-alerts', PriceAlertController::class);
+
+Route::resource('portfolio-coins', PortfolioCoinController::class);
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

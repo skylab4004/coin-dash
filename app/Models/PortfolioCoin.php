@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PortfolioCoin extends Model {
 
+	protected $fillable = ['gecko_id'];
+
 	use HasFactory;
 }

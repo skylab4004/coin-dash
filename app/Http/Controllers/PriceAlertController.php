@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PriceAlert;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 use Session;
 use View;
 
@@ -66,6 +66,8 @@ class PriceAlertController extends Controller {
 		return Redirect::to('price-alerts');
 		//
 	}
+
+	// -------------------
 
 	public function addPriceAlert($symbol, $threshold, $condition, $price_source) {
 		$alert = new PriceAlert();

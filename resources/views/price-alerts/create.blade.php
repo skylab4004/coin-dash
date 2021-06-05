@@ -2,7 +2,7 @@
 
 @section('content')
     <div>
-        <h2>Add New Project</h2>
+        <h2>Add price alert</h2>
         <a href="{{ route('price-alerts.index') }}">go back</a>
     </div>
 
