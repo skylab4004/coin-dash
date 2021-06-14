@@ -1,1 +1,1 @@
-import 'alpinejs';
+require('alpinejs');

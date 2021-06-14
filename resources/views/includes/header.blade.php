@@ -49,15 +49,37 @@
                         <a href="{{ route('dashboard') }}"
                            class="{{ (strpos(Route::currentRouteName(), 'dashboard') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Dashboard</a>
                         <a href="{{ route('charts') }}"
-                                class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Charts</a>
+                           class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Charts</a>
                         <a href="{{ route('price-alerts.index') }}"
-                           class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Price alerts</a>
+                           class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Price
+                            alerts</a>
                         <a href="{{ route('portfolio-coins.index') }}"
-                           class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Portfolio coins</a>
-
+                           class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' }}">Portfolio
+                            coins</a>
                     </div>
                 </div>
             </div>
+            @auth
+                <div class="hidden sm:block flex justify-end">
+                    <form class="flex" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('logout') }}"
+                           class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                           onclick="event.preventDefault(); this.closest('form').submit();">Log Out</a>
+                    </form>
+                </div>
+            @endauth
+            @guest
+                <div class="hidden sm:block flex justify-end">
+                    <form class="flex" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('dashboard') }}"
+                           class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                           onclick="event.preventDefault(); this.closest('form').submit();">Log In</a>
+                    </form>
+                </div>
+            @endguest
+
         </div>
     </div>
 
@@ -70,10 +92,17 @@
             <a href="{{ route('charts') }}"
                class="{{ (strpos(Route::currentRouteName(), 'charts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Charts</a>
             <a href="{{ route('price-alerts.index') }}"
-               class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Price Alerts</a>
+               class="{{ (strpos(Route::currentRouteName(), 'price-alerts') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Price
+                Alerts</a>
             <a href="{{ route('portfolio-coins.index') }}"
-               class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Portfolio coins</a>
-
+               class="{{ (strpos(Route::currentRouteName(), 'portfolio-coins') === 0) ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium' }}">Portfolio
+                coins</a>
+            <form class="flex" method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}"
+                   class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Log
+                    out</a>
+            </form>
         </div>
     </div>
 </nav>
