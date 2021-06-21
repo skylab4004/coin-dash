@@ -4,6 +4,7 @@ use App\Http\Controllers\PortfolioCoinController;
 use App\Http\Controllers\PriceAlertController;
 use App\Http\Controllers\ProvisionCharts;
 use App\Http\Controllers\ProvisionDashboard;
+use App\Http\Controllers\ProvisionPortfolioCharts;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ProvisionDashboard::class, 'show'])->name('dashboard');
+
+Route::get('/portfolio-charts', [ProvisionPortfolioCharts::class, 'show'])->name('portfolio-charts');
 
 Route::get('/charts', [ProvisionCharts::class, 'show'])->name('charts');
 

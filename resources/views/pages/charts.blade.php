@@ -8,19 +8,19 @@
     <div class="flex-1">
 
         <!-- graphs -->
-        <div class="flex flex-auto">
+        <div>
             <h1 class="text-2xl text-gray-700">Last 7 days (6h interval)</h1>
             <canvas id="last-7days-stacked-chart"></canvas>
         </div>
 
-        <div class="flex flex-auto">
+        <div>
             <h1 class="text-2xl text-gray-700">Last 30 days (1d interval)</h1>
             <canvas id="last-30days-stacked-chart"></canvas>
         </div>
 
         <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Portfolio pie chart</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
+        <div>
+            <h1 class="text-2xl text-gray-700">Portfolio pie chart</h1>
             <canvas id="pieChart"></canvas>
         </div>
 
@@ -72,15 +72,15 @@
                 mode: 'nearest',
                 intersect: false,
             },
-            maintainAspectRatio: false,
+            // maintainAspectRatio: false,
             // spanGaps: false,
             scales: {
                 yAxes: [{
                     stacked: true,
-                    ticks: {
-                        mirror: true,
-                        z: 1,
-                    },
+                    // ticks: {
+                    //     mirror: true,
+                    //     z: 1,
+                    // },
 
                 }],
                 xAxes: [{

@@ -1,6 +1,6 @@
 <?php namespace Tests\Http\Controllers;
 
-use App\Http\Controllers\ProvisionDashboard;
+use App\Http\Controllers\ProvisionPortfolioCharts;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 
