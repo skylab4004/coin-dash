@@ -255,16 +255,17 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->source = PortfolioSnapshot::SOURCES['bitbay'];
 				$snapshot->asset = $bitbayAsset['asset'];
 				$snapshot->quantity = $bitbayAsset['qty'];
-				$snapshot->value_in_btc = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["btc"];
-				$snapshot->value_in_eth = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["eth"];
-				$snapshot->value_in_usd = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["usd"];
-				$snapshot->value_in_pln = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["pln"];
-
-
-//				$snapshot->value_in_btc = $bitbayAsset['assetValueInBtc'];
-//				$snapshot->value_in_eth = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
-//				$snapshot->value_in_usd = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
-//				$snapshot->value_in_pln = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
+				if (strcasecmp($bitbayAsset['asset'], 'pln')==0) {
+					$snapshot->value_in_btc = 0;
+					$snapshot->value_in_eth = 0;
+					$snapshot->value_in_usd = 0;
+					$snapshot->value_in_pln = $bitbayAsset["qty"];
+				} else {
+					$snapshot->value_in_btc = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["btc"];
+					$snapshot->value_in_eth = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["eth"];
+					$snapshot->value_in_usd = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["usd"];
+					$snapshot->value_in_pln = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["pln"];
+				}
 				$snapshot->save();
 			} catch (Exception $e) {
 				Log::error($e);
