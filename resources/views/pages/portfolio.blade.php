@@ -42,9 +42,9 @@
 
     <div>
         <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Bilaxy</h1>
+        <h1 class="text-2xl text-gray-700">Bitbay</h1>
         <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="bilaxyChart"></canvas>
+            <canvas id="bitbayChart"></canvas>
         </div>
     </div>
 
@@ -299,6 +299,39 @@
             }
         });
 
+
+        var bitbayChart = new Chart(document.getElementById('bitbayChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: {!! $bsc20Chart['labels'] !!},
+                datasets: [{
+                    label: '# of Votes',
+                    data: {!! $bsc20Chart['data'] !!},
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {
+                    colorschemes: {
+                        scheme: 'tableau.JewelBright9'
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let datasets = ctx.chart.data.datasets;
+                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = Math.round((value / sum) * 100) + '%';
+                                return percentage;
+                            } else {
+                                return percentage;
+                            }
+                        },
+                        color: '#fff',
+                    }
+                }
+            }
+        });
     </script>
 
 @endsection

@@ -102,8 +102,8 @@ class ProvisionDashboard extends Controller {
 		$todaysMetamaskDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_METAMASK_VALUE_IN_PLN);
 		$todaysMxcPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_MXC_VALUE_IN_PLN);
 		$todaysMxcDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_MXC_VALUE_IN_PLN);
-		$todaysBilaxyPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BILAXY_VALUE_IN_PLN);
-		$todaysBilaxyDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BILAXY_VALUE_IN_PLN);
+		$todaysBitbayPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BITBAY_VALUE_IN_PLN);
+		$todaysBitbayDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BITBAY_VALUE_IN_PLN);
 		$todaysBscPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
 		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
 
@@ -124,9 +124,9 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_MXC_BALANCE              => Utils::formattedNumber($lastSnapshot[Constants::KEY_MXC_VALUE_IN_PLN], 0, ' '),
 			Constants::TILE_MXC_PNL_TODAY            => Utils::formattedNumber($todaysMxcPNLinPln, 0, ' '),
 			Constants::TILE_MXC_PNL_DELTA_TODAY      => Utils::formattedNumber($todaysMxcDeltaPercentsFromPln, 2),
-			Constants::TILE_BILAXY_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_BILAXY_VALUE_IN_PLN], 0, ' '),
-			Constants::TILE_BILAXY_PNL_TODAY         => Utils::formattedNumber($todaysBilaxyPNLinPln, 0, ' '),
-			Constants::TILE_BILAXY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBilaxyDeltaPercentsFromPln, 2),
+			Constants::TILE_BITBAY_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_BITBAY_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_BITBAY_PNL_TODAY         => Utils::formattedNumber($todaysBitbayPNLinPln, 0, ' '),
+			Constants::TILE_BITBAY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBitbayDeltaPercentsFromPln, 2),
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' ')
 		];
 
@@ -154,8 +154,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_MXC_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] = 0;
-		$tilesValues[Constants::KEY_BILAXY_VALUE_IN_PLN] = 0;
-		$tilesValues[Constants::KEY_BILAXY_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] = 0;
 
 		if ( ! isset($portfolioSnapshot) || ($portfolioSnapshot == null)) {
 			return [];
@@ -173,9 +173,9 @@ class ProvisionDashboard extends Controller {
 			} else if ($assetSnapshot['source'] == 3) {
 				$tilesValues[Constants::KEY_MXC_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			} else if ($assetSnapshot['source'] == 4) {
-				$tilesValues[Constants::KEY_BILAXY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
-				$tilesValues[Constants::KEY_BILAXY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == 6) {
+				$tilesValues[Constants::KEY_BITBAY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == 5) {
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];

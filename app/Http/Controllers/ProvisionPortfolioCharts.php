@@ -108,6 +108,22 @@ class ProvisionPortfolioCharts extends Controller {
 			'data'   => $this->arrayToDataset($pieChartValues)
 		];
 
+		// bitbay
+		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, round(sum(value_in_pln), 0) as value_in_pln, sum(value_in_usd) as value_in_usd')
+			->where([
+				['snapshot_time', $lastSnapshotTime],
+				['source', PortfolioSnapshot::SOURCES['bitbay']]
+			])
+			->groupBy('asset')
+			->OrderBy("value_in_pln", 'desc')
+			->get();
+		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset')->toArray();
+		$pieChartValues = $currentPortfolioSnapshot->pluck(Constants::KEY_VALUE_IN_PLN)->toArray();
+		$bitbayChart = [
+			'labels' => $this->arrayToDataset($pieChartLabels, true),
+			'data'   => $this->arrayToDataset($pieChartValues)
+		];
+
 //		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
 		$last30DailySnapshots = DailyPortfolioValue::groupBy("snapshot_time")
 			->selectRaw('cast(snapshot_time as date) as snapshot_time, cast(sum(value_in_pln) as integer) as sum')
@@ -123,6 +139,7 @@ class ProvisionPortfolioCharts extends Controller {
 			'mexcChart'    => $mexcChart,
 			'bilaxyChart'  => $bilaxyChart,
 			'bsc20Chart'   => $bsc20Chart,
+			'bitbayChart'   => $bitbayChart,
 			'lineChart'    => $lineChart,
 		];
 

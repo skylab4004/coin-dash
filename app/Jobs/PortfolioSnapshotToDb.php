@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
+use App\Http\Controllers\API\BitbayApiClient;
 use App\Http\Controllers\API\BscscanApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
@@ -89,10 +90,18 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->source = 1; // 1 = BINANCE
 				$snapshot->asset = $binanceAsset['asset'];
 				$snapshot->quantity = $binanceAsset['qty'];
-				$snapshot->value_in_btc = $binanceAsset['assetValueInBtc'];
-				$snapshot->value_in_eth = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
-				$snapshot->value_in_usd = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
-				$snapshot->value_in_pln = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
+				if (strcasecmp($binanceAsset['asset'], "pln") == 0) {
+					$snapshot->value_in_btc = 0;
+					$snapshot->value_in_eth = 0;
+					$snapshot->value_in_usd = 0;
+					$snapshot->value_in_pln = $binanceAsset['qty'];
+				} else {
+					$snapshot->value_in_btc = $binanceAsset['assetValueInBtc'];
+					$snapshot->value_in_eth = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
+					$snapshot->value_in_usd = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
+					$snapshot->value_in_pln = $binanceAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
+
+				}
 				$snapshot->save();
 			} catch (Exception $e) {
 				Log::error($e);
@@ -236,6 +245,35 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			unset($tokenBalance);
 		}
 		unset($snapshot);
+
+		$bitbayApi = new BitbayApiClient();
+		$bitbayBalances = $bitbayApi->getBalances();
+		foreach ($bitbayBalances as $bitbayAsset) {
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = PortfolioSnapshot::SOURCES['bitbay'];
+				$snapshot->asset = $bitbayAsset['asset'];
+				$snapshot->quantity = $bitbayAsset['qty'];
+				$snapshot->value_in_btc = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["btc"];
+				$snapshot->value_in_eth = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["eth"];
+				$snapshot->value_in_usd = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["usd"];
+				$snapshot->value_in_pln = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["pln"];
+
+
+//				$snapshot->value_in_btc = $bitbayAsset['assetValueInBtc'];
+//				$snapshot->value_in_eth = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["eth"];
+//				$snapshot->value_in_usd = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["usd"];
+//				$snapshot->value_in_pln = $bitbayAsset['assetValueInBtc'] * $favoriteCoinPrices["bitcoin"]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+			unset($bitbayAsset);
+		}
+		unset($binanceBalances);
+		unset($binanceApi);
+
 
 		unset($favoriteCoinPrices);
 		unset($updateTime);
