@@ -76,22 +76,6 @@ class ProvisionPortfolioCharts extends Controller {
 			'data'   => $this->arrayToDataset($pieChartValues)
 		];
 
-		// bilaxy
-		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, round(sum(value_in_pln), 0) as value_in_pln, sum(value_in_usd) as value_in_usd')
-			->where([
-				['snapshot_time', $lastSnapshotTime],
-				['source', PortfolioSnapshot::SOURCES['bilaxy']]
-			])
-			->groupBy('asset')
-			->OrderBy("value_in_pln", 'desc')
-			->get();
-		$pieChartLabels = $currentPortfolioSnapshot->pluck('asset')->toArray();
-		$pieChartValues = $currentPortfolioSnapshot->pluck(Constants::KEY_VALUE_IN_PLN)->toArray();
-		$bilaxyChart = [
-			'labels' => $this->arrayToDataset($pieChartLabels, true),
-			'data'   => $this->arrayToDataset($pieChartValues)
-		];
-
 		// bsc20
 		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, round(sum(value_in_pln), 0) as value_in_pln, sum(value_in_usd) as value_in_usd')
 			->where([
@@ -137,9 +121,8 @@ class ProvisionPortfolioCharts extends Controller {
 			'binanceChart' => $binanceChart,
 			'erc20Chart'   => $erc20Chart,
 			'mexcChart'    => $mexcChart,
-			'bilaxyChart'  => $bilaxyChart,
+			'bitbayChart'  => $bitbayChart,
 			'bsc20Chart'   => $bsc20Chart,
-			'bitbayChart'   => $bitbayChart,
 			'lineChart'    => $lineChart,
 		];
 
@@ -157,8 +140,8 @@ class ProvisionPortfolioCharts extends Controller {
 
 	private function extractChartsLabelsAndDatasets($portfolioValues) {
 		return [
-			'labels'   => $this->arrayToDataset(array_keys($portfolioValues), true),
-			'data' => $this->arrayToDataset(array_values($portfolioValues))
+			'labels' => $this->arrayToDataset(array_keys($portfolioValues), true),
+			'data'   => $this->arrayToDataset(array_values($portfolioValues))
 		];
 	}
 

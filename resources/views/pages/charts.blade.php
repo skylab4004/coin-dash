@@ -27,27 +27,7 @@
     </div>
     <script>
 
-        var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $pieChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $pieChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    }
-                }
-            }
-        });
-
-        var options = {
+        var stackedChartOptions = {
             elements: {
                 line: {
                     tension: 0,
@@ -72,16 +52,9 @@
                 mode: 'nearest',
                 intersect: false,
             },
-            // maintainAspectRatio: false,
-            // spanGaps: false,
             scales: {
                 yAxes: [{
                     stacked: true,
-                    // ticks: {
-                    //     mirror: true,
-                    //     z: 1,
-                    // },
-
                 }],
                 xAxes: [{
                     ticks: {
@@ -92,39 +65,56 @@
             plugins: {
                 colorschemes: {
                     scheme: 'tableau.JewelBright9'
+                },
+                datalabels: {
+                    display: false,
+                },
+            }
+        };
+
+        var pieChartOptions = {
+            cutoutPercentage: 50,
+            legend: {
+                display: false,
+            },
+            plugins: {
+                colorschemes: {
+                    scheme: 'tableau.JewelBright9'
+                },
+                datalabels: {
+                    display: false,
                 }
             }
         };
+
+
+        var myChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: {!! $pieChart['labels'] !!},
+                datasets: [{
+                    label: '# of Votes',
+                    data: {!! $pieChart['data'] !!},
+                    borderWidth: 0
+                }]
+            },
+            options: pieChartOptions,
+        });
+
 
         // last 7 days stacked chart
         var last_7days_stacked_chart = new Chart('last-7days-stacked-chart', {
             type: 'line',
             data: {!!  json_encode($last7DaysSixHoursStackedChart) !!},
-            options: options
+            options: stackedChartOptions
         });
 
         // last 30 days stacked chart
         var last_30days_stacked_chart = new Chart('last-30days-stacked-chart', {
             type: 'line',
             data: {!!  json_encode($last30DaysStackedChart) !!},
-            options: options
+            options: stackedChartOptions
         });
-
-        function getTimeRemaining(endtime) {
-            const total = Date.parse(endtime) - Date.parse(new Date());
-            const seconds = Math.floor((total / 1000) % 60);
-            const minutes = Math.floor((total / 1000 / 60) % 60);
-            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-            const days = Math.floor(total / (1000 * 60 * 60 * 24));
-
-            return {
-                total,
-                days,
-                hours,
-                minutes,
-                seconds
-            };
-        }
 
     </script>
 @endsection

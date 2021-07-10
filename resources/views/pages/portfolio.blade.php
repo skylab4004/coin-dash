@@ -96,9 +96,37 @@
                     colorschemes: {
                         scheme: 'tableau.JewelBright9'
                     },
+                    datalabels: {
+                        display: false,
+                    },
                 },
             },
         });
+
+        var pieChartOptions = {
+            cutoutPercentage: 50,
+            plugins: {
+                colorschemes: {
+                    scheme: 'tableau.JewelBright9'
+                },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let datasets = ctx.chart.data.datasets;
+                        if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                            let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                            let percentage = Math.round((value / sum) * 100);
+                            if (percentage < 2) {
+                                return '';
+                            }
+                            return percentage + '%';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                    color: '#fff',
+                }
+            }
+        };
 
         var pieChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
             type: 'pie',
@@ -110,27 +138,7 @@
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
 
         var binanceChart = new Chart(document.getElementById('binanceChart').getContext('2d'), {
@@ -143,27 +151,7 @@
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
 
 
@@ -177,27 +165,7 @@
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
 
         var mexcChart = new Chart(document.getElementById('mexcChart').getContext('2d'), {
@@ -210,60 +178,7 @@
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
-        });
-
-        var bilaxyChart = new Chart(document.getElementById('bilaxyChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $bilaxyChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $bilaxyChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
 
         var bsc20Chart = new Chart(document.getElementById('bsc20Chart').getContext('2d'), {
@@ -276,61 +191,21 @@
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
 
 
         var bitbayChart = new Chart(document.getElementById('bitbayChart').getContext('2d'), {
             type: 'pie',
             data: {
-                labels: {!! $bsc20Chart['labels'] !!},
+                labels: {!! $bitbayChart['labels'] !!},
                 datasets: [{
                     label: '# of Votes',
-                    data: {!! $bsc20Chart['data'] !!},
+                    data: {!! $bitbayChart['data'] !!},
                     borderWidth: 0
                 }]
             },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
-                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = Math.round((value / sum) * 100) + '%';
-                                return percentage;
-                            } else {
-                                return percentage;
-                            }
-                        },
-                        color: '#fff',
-                    }
-                }
-            }
+            options: pieChartOptions,
         });
     </script>
 

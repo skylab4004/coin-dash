@@ -90,8 +90,8 @@ after snapshot_time;
 * poprawić timezone-y dla kontenerów
 * responsive design
 * pwa
-* autoryzacja http
-* automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny
+* ~~autoryzacja http~~
+* ~~automatyczne synchronizowanie posiadanych tokenów ERC20, by zasysać ich ceny~~
 
 # Struktura aplikacji
 
@@ -99,7 +99,7 @@ TODOS:
 * zrobić wykres dniowy dla warto
 * ~~przeniesc wykresy na osobny ekran~~
 * ~~dodac automatyczne zasysanie koinow do slownikow~~
-* dodać procenty do piecharta
+* ~~dodać procenty do piecharta~~
 * ukrywanie małych sald tokenów
 * ~~dodać udział procentowy tokena w tabelce z portfolio~~
 * otwarcie coingecko na clicku nazwy tokena
