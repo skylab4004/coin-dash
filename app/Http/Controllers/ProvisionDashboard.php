@@ -134,13 +134,22 @@ class ProvisionDashboard extends Controller {
 			'tiles'                         => $tiles,
 			'lastSnapshotTime'              => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
 			'nextUpdate'                    => $nextUpdate->format('Y-m-d H:i:s'),
-			'currentPortfolioSnapshot'      => $currentPortfolioSnapshotTable,
-			'profitAndLosses'               => $profitAndLosses,
+			'currentPortfolioSnapshot'      => self::optimize($currentPortfolioSnapshotTable),
+			'profitAndLosses'               => self::optimize($profitAndLosses),
 		];
-
 
 		return view('pages.dashboard', $retData);
 
+	}
+
+	private static function optimize(array $a): array {
+		$ret = [];
+		foreach ($a as $snapshot) {
+			if ($snapshot['value_in_pln'] > 5) {
+				$ret[] = $snapshot;
+			}
+		}
+		return $ret;
 	}
 
 	private static function loadValuesForTiles($portfolioSnapshot) {
