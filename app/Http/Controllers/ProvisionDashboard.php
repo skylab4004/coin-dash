@@ -135,7 +135,7 @@ class ProvisionDashboard extends Controller {
 			'lastSnapshotTime'              => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
 			'nextUpdate'                    => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot'      => self::optimize($currentPortfolioSnapshotTable),
-			'profitAndLosses'               => self::optimize($profitAndLosses),
+			'profitAndLosses'               => $profitAndLosses,
 		];
 
 		return view('pages.dashboard', $retData);
