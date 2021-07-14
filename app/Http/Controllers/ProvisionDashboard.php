@@ -95,7 +95,7 @@ class ProvisionDashboard extends Controller {
 				left join
 					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = cast(cast('2021-07-10 17:20:00' as date) as datetime) group by asset) as midnight
 				on now.asset=midnight.asset
-			order by value_in_pln desc
+			order by pnl_midnight desc
 			SQL;
 
 		$profitAndLosses = DB::select($query);
