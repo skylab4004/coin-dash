@@ -81,19 +81,19 @@ class ProvisionDashboard extends Controller {
 			       now.quantity-midnight.quantity as qty_delta_midnight, 
 			       now.val-midnight.val as pnl_midnight
 			from
-			( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 21:20:00' group by asset ) as now
+			( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '$lastSnapshotTime' group by asset ) as now
 				left join
-					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 21:15:00' group by asset) as 5min
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '$lastSnapshotTime'-interval 5 minute group by asset) as 5min
 				on
 					now.asset=5min.asset
 				left join
-					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 20:20:00' group by asset) as 1h
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '$lastSnapshotTime'-interval 1 hour group by asset) as 1h
 				on now.asset=1h.asset
 				left join
-					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 17:20:00' group by asset) as 3h
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '$lastSnapshotTime'-interval 3 hour group by asset) as 3h
 				on now.asset=3h.asset
 				left join
-					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = cast(cast('2021-07-10 17:20:00' as date) as datetime) group by asset) as midnight
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = cast(cast('$lastSnapshotTime' as date) as datetime) group by asset) as midnight
 				on now.asset=midnight.asset
 			order by pnl_midnight desc
 			SQL;
