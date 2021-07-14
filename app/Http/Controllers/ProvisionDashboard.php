@@ -67,26 +67,41 @@ class ProvisionDashboard extends Controller {
 			->get();
 		$yesterdaysSnapshot = self::loadValuesForTiles($yesterdaysLastPortfolioSnapshot);
 
-		$profitAndLosses = DB::select("select current.asset, current.value_in_pln, (current.value_in_pln-5minago.value_in_pln) as pnl_5_min" .
-			", (current.value_in_pln-1hago.value_in_pln) as pnl_1h, (current.value_in_pln-3hago.value_in_pln) as pnl_3h, (current.value_in_pln-midnight.value_in_pln) as pnl_midnight " .
-			" from " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}' group by asset ) as current, " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 5 minute group by asset ) as 5minago, " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 1 hour group by asset ) as 1hago, " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
-			"from `portfolio_snapshots` where snapshot_time = '{$lastSnapshotTime}'-interval 3 hour group by asset) as 3hago, " .
-			"(select asset, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln " .
-			"from `portfolio_snapshots` where snapshot_time = cast(cast('{$lastSnapshotTime}' as date) as datetime) group by asset) as midnight " .
-			"where current.asset=5minago.asset " .
-			"and current.asset=1hago.asset and current.asset=3hago.asset and current.asset=midnight.asset " .
-			"order by 6 desc");
+		$query = <<<SQL
+			select 
+			       now.asset as asset, 
+			       now.quantity as quantity, 
+			       now.val as value_in_pln, 
+			       now.quantity-5min.quantity as qty_delta_5min, 
+			       now.val-5min.val as pnl_5min,
+				   now.quantity-1h.quantity as qty_delta_1h, 
+			       now.val-1h.val as pnl_1h,
+				   now.quantity-3h.quantity as qty_delta_3h, 
+			       now.val-3h.val as pnl_3h,
+			       now.quantity-midnight.quantity as qty_delta_midnight, 
+			       now.val-midnight.val as pnl_midnight
+			from
+			( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 21:20:00' group by asset ) as now
+				left join
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 21:15:00' group by asset) as 5min
+				on
+					now.asset=5min.asset
+				left join
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 20:20:00' group by asset) as 1h
+				on now.asset=1h.asset
+				left join
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = '2021-07-10 17:20:00' group by asset) as 3h
+				on now.asset=3h.asset
+				left join
+					( select asset, sum(quantity) as quantity, sum(value_in_pln) as val from portfolio_snapshots where snapshot_time = cast(cast('2021-07-10 17:20:00' as date) as datetime) group by asset) as midnight
+				on now.asset=midnight.asset
+			SQL;
+
+		$profitAndLosses = DB::select($query);
 
 		foreach ($profitAndLosses as &$profitAndLoss) {
-			$profitAndLoss->value_in_pln = Utils::dashboardNumber($profitAndLoss->value_in_pln);
-			$profitAndLoss->pnl_5_min = Utils::dashboardNumber($profitAndLoss->pnl_5_min);
+			$profitAndLoss->val = Utils::dashboardNumber($profitAndLoss->value_in_pln);
+			$profitAndLoss->pnl_5_min = Utils::dashboardNumber($profitAndLoss->pnl_5min);
 			$profitAndLoss->pnl_1h = Utils::dashboardNumber($profitAndLoss->pnl_1h);
 			$profitAndLoss->pnl_3h = Utils::dashboardNumber($profitAndLoss->pnl_3h);
 			$profitAndLoss->pnl_midnight = Utils::dashboardNumber($profitAndLoss->pnl_midnight);
