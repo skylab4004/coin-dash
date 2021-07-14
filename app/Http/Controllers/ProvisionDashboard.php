@@ -51,7 +51,7 @@ class ProvisionDashboard extends Controller {
 
 
 		foreach ($currentPortfolioSnapshotTable as &$snap) {
-			$snap['percentage'] = Utils::dashboardNumber(($snap['value_in_pln']/$totalPortfolioValueInPln)*100);
+			$snap['percentage'] = Utils::dashboardNumber(($snap['value_in_pln'] / $totalPortfolioValueInPln) * 100);
 			$snap['quantity'] = Utils::dashboardNumber($snap['quantity'], 8);
 			$snap['value_in_pln'] = Utils::dashboardNumber($snap['value_in_pln']);
 			$snap['value_in_usd'] = Utils::dashboardNumber($snap['value_in_usd']);
@@ -72,12 +72,12 @@ class ProvisionDashboard extends Controller {
 			       now.asset as asset, 
 			       now.quantity as quantity, 
 			       now.val as value_in_pln, 
-			       now.quantity-5min.quantity as qty_delta_5min, 
-			       now.val-5min.val as pnl_5min,
-				   now.quantity-1h.quantity as qty_delta_1h, 
-			       now.val-1h.val as pnl_1h,
-				   now.quantity-3h.quantity as qty_delta_3h, 
-			       now.val-3h.val as pnl_3h,
+			       5min.quantity-now.quantity as qty_delta_5min, 
+			       5min.val-now.val as pnl_5min,
+				   1h.quantity-now.quantity as qty_delta_1h, 
+			       1h.val-now.val as pnl_1h,
+				   3h.quantity-now.quantity as qty_delta_3h, 
+			       3h.val-now.val as pnl_3h,
 			       now.quantity-midnight.quantity as qty_delta_midnight, 
 			       now.val-midnight.val as pnl_midnight
 			from
@@ -147,11 +147,11 @@ class ProvisionDashboard extends Controller {
 		];
 
 		$retData = [
-			'tiles'                         => $tiles,
-			'lastSnapshotTime'              => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
-			'nextUpdate'                    => $nextUpdate->format('Y-m-d H:i:s'),
-			'currentPortfolioSnapshot'      => self::optimize($currentPortfolioSnapshotTable),
-			'profitAndLosses'               => $profitAndLosses,
+			'tiles'                    => $tiles,
+			'lastSnapshotTime'         => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
+			'nextUpdate'               => $nextUpdate->format('Y-m-d H:i:s'),
+			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
+			'profitAndLosses'          => $profitAndLosses,
 		];
 
 		return view('pages.dashboard', $retData);
@@ -165,6 +165,7 @@ class ProvisionDashboard extends Controller {
 				$ret[] = $snapshot;
 			}
 		}
+
 		return $ret;
 	}
 
