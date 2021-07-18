@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceController;
 use App\Http\Controllers\API\BitbayApiClient;
 use App\Http\Controllers\API\BscscanApiClient;
+use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
 use App\Http\Controllers\API\MexcApiClient;
