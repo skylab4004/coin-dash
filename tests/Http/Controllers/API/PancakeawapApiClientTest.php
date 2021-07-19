@@ -13,6 +13,7 @@ class PancakeawapApiClientTest extends TestCase {
 
 	public function testGetTokenPrice() {
 		$price = $this::$apiClient->getTokenPrice("0x68e374f856bf25468d365e539b700b648bf94b67");
+		print($price);
 		self::assertIsNumeric($price);
 	}
 

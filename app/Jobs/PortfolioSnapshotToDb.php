@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\API\BilaxyApiClient;
-use App\Http\Controllers\API\BinanceController;
+use App\Http\Controllers\API\BinanceApiClient;
 use App\Http\Controllers\API\BitbayApiClient;
 use App\Http\Controllers\API\BscscanApiClient;
 use App\Http\Controllers\API\PolygonscanApiClient;
@@ -78,7 +78,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 
 		// HANDLE BINANCE PORTFOLIO
-		$binanceApi = new BinanceController();
+		$binanceApi = new BinanceApiClient();
 		$binanceBalances = $binanceApi->balances();
 
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($binanceBalances, 'asset'));

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Binance\API;
+use Exception;
 
-class BinanceController extends Controller {
+class BinanceApiClient extends Controller {
 
 	private $api;
 	protected $apiKey = null;
@@ -19,11 +20,30 @@ class BinanceController extends Controller {
 
 	public function show() {
 		$ticker = $this->api->prices(); // Make sure you have an updated ticker object for this to work
+
 		return $this->api->balances($ticker);
 	}
 
-	public function currentPrices() {
+	public function ticker() {
 		return $this->api->prices();
+	}
+
+	public function pricesInUsdt(array $coins) {
+		$allPrices = $this->api->prices();
+
+		$filteredByUsdt = array_filter($allPrices, function($key) {
+			return str_ends_with($key, "USDT");
+		}, ARRAY_FILTER_USE_KEY);
+
+		$ret = [];
+		foreach ($coins as $coin) {
+			$coin = strtoupper($coin);
+			try {
+				$ret[] = [$coin => $filteredByUsdt["{$coin}USDT"]];
+			} catch (Exception $exception) {}
+		}
+
+		return $ret;
 	}
 
 	public function currentPrice($symbol) {
@@ -33,8 +53,8 @@ class BinanceController extends Controller {
 	public function balances() {
 		$ticker = $this->api->prices();
 		$balances = $this->api->balances($ticker);
-		$btcTotal = BinanceController::totalAssetsValueInBtc($balances);
-		$ret = array();
+		$btcTotal = BinanceApiClient::totalAssetsValueInBtc($balances);
+		$ret = [];
 
 		foreach ($balances as $asset => $balance) {
 			$qty = Utils::formattedNumber($balance['available'] + $balance['onOrder']);
@@ -57,7 +77,7 @@ class BinanceController extends Controller {
 	/**
 	 * getPortfolioPieChartData returns the data for Binance portfolio pie chart
 	 * @returns array like [['coinSymbol'=>'ETH', 'percent' => 50.0, 'btcValue' => '0.211', 'available' => '1.22'], [...]]
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getPortfolioPieChartData() {
 
