@@ -220,7 +220,9 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"ork"  => "0xced0ce92f4bdc3c2201e255faf12f05cf8206da8",
 			"mist" => "0x68e374f856bf25468d365e539b700b648bf94b67",
 			"octi" => "0x6c1de9907263f0c12261d88b65ca18f31163f29d",
-			"sota" => "0x0742b62efb5f2eabbc14567dfc0860ce0565bcf4"
+			"sota" => "0x0742b62efb5f2eabbc14567dfc0860ce0565bcf4",
+			"usdc" => "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
+			"usdt" => "0x55d398326f99059ff775485246999027b3197955"
 		];
 
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_keys($bscTokens));
