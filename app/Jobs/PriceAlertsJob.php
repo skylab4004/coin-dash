@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\API\PancakeawapApiClient;
 use App\Models\PriceAlert;
 use App\Utils\UniswapPriceGetter;
 use Carbon\Carbon;
@@ -50,17 +51,25 @@ class PriceAlertsJob implements ShouldQueue {
 						$uniswap = new UniswapPriceGetter();
 						$tokenPrice = $uniswap->uniswapPrice($contract_address);
 						$coinPrices[] = [$symbol => $tokenPrice];
-						$debugArray = json_encode($coinPrices);
 						// Log::debug("Price for {$symbol} retrieved from UniSwap: \${$tokenPrice}. coinPrices[]={$debugArray}");
+						break;
+					case PriceAlert::PRICE_SOURCES['default']:
+						// code goes here
+						$uniswap = new PancakeawapApiClient();
+						$tokenPrice = $uniswap->getTokenPrice($contract_address);
+						$coinPrices[] = [$symbol => $tokenPrice];
+						$debugArray = json_encode($coinPrices);
+						// Log::debug("Price for {$symbol} retrieved from PancakeSwap: \${$tokenPrice}. coinPrices[]={$debugArray}");
 						break;
 				}
 			}
 
 			// HANDLE THE ALERT
+			$currentTokenPrice = array_column($coinPrices, $symbol)[0];
 			if ($triggered) {
 				// if already triggered and price reversed set to not triggered
-				if (($condition === PriceAlert::CONDITIONS['greater'] && array_column($coinPrices, $symbol)[0] <= $threshold) ||
-					($condition === PriceAlert::CONDITIONS['lesser'] && array_column($coinPrices, $symbol)[0] >= $threshold)) {
+				if (($condition === PriceAlert::CONDITIONS['greater'] && $currentTokenPrice <= $threshold) ||
+					($condition === PriceAlert::CONDITIONS['lesser'] && $currentTokenPrice >= $threshold)) {
 					// set triggered to false
 					// Log::debug("Price reversal. Setting alert of ({$symbol} price {$condition} than \${$threshold}) as not triggered");
 					$alert->triggered = false;
@@ -68,17 +77,17 @@ class PriceAlertsJob implements ShouldQueue {
 			} else {
 				// send an alert if necessary and mark it as triggered
 				// array_column($coinPrices, $symbol)[0]
-				if ($condition === PriceAlert::CONDITIONS['greater'] && array_column($coinPrices, $symbol)[0] >= $threshold) {
-					Log::alert("{$symbol} price is now above \${$threshold}");
+				if ($condition === PriceAlert::CONDITIONS['greater'] && $currentTokenPrice >= $threshold) {
+					Log::alert("{$symbol} price is now above \${$threshold} and is \${$currentTokenPrice}");
 					// Log::debug("Alert for {$symbol} and price above \${$threshold} is triggered.");
 					$alert->triggered = true;
-				} else if ($condition === PriceAlert::CONDITIONS['lesser'] && array_column($coinPrices, $symbol)[0] <= $threshold) {
-					Log::alert("{$symbol} price is now below \${$threshold}");
+				} else if ($condition === PriceAlert::CONDITIONS['lesser'] && $currentTokenPrice <= $threshold) {
+					Log::alert("{$symbol} price is now below \${$threshold} and is \${$currentTokenPrice}");
 					// Log::debug("Alert for {$symbol} and price below \${$threshold} is triggered.");
 					$alert->triggered = true;
 				}
 			}
-			$alert->last_price = array_column($coinPrices, $symbol)[0];
+			$alert->last_price = $currentTokenPrice;
 			$alert->last_price_time = Carbon::now();
 			// Log::debug("Setting last price of {$symbol} to \${$last_price}");
 			$alert->save();

@@ -13,6 +13,7 @@ class PriceAlert extends Model {
 
 	public const PRICE_SOURCES = [
 		'uniswap' => 1,
+		'pancakeswap' => 2,
 	];
 
 	public const CONDITIONS = [
