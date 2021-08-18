@@ -1,4 +1,6 @@
 <?php namespace App\Http\Controllers\API;
+use Exception;
+
 class BilaxyApiClient {
 
 	private static $apiUrl = "https://newapi.bilaxy.com";
@@ -27,7 +29,11 @@ class BilaxyApiClient {
 			]);
 
 		$response = curl_exec($curl);
-		$json_decode = json_decode($response, true);
+		try {
+			$json_decode = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+		} catch (Exception $ex) {
+			throw new Exception("response from Bilaxy couldn't be parsed as array: $response");
+		}
 		curl_close($curl);
 
 		$balances = [];

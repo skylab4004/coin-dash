@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\API;
 
+use Exception;
+
 class BitbayApiClient {
 
 	private static $apiUrl = "https://bitbay.net/API/Trading/tradingApi.php";
@@ -28,10 +30,11 @@ class BitbayApiClient {
 
 	public function getBalances() {
 		$info = $this->executeMethod("info");
-
-		$json_decode = json_decode($info, true)['balances'];
-
-//		dd($json_decode);
+		try {
+			$json_decode = json_decode($info, true)['balances'];
+		} catch (Exception $ex) {
+			throw new Exception("array doesn't contain 'balances' key: $info");
+		}
 
 		$balances = [];
 		foreach ($json_decode as $assetName => $balance) {
