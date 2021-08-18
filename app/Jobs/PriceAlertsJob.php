@@ -53,7 +53,7 @@ class PriceAlertsJob implements ShouldQueue {
 						$coinPrices[] = [$symbol => $tokenPrice];
 						// Log::debug("Price for {$symbol} retrieved from UniSwap: \${$tokenPrice}. coinPrices[]={$debugArray}");
 						break;
-					case PriceAlert::PRICE_SOURCES['default']:
+					case PriceAlert::PRICE_SOURCES['pancakeswap']:
 						// code goes here
 						$uniswap = new PancakeawapApiClient();
 						$tokenPrice = $uniswap->getTokenPrice($contract_address);
