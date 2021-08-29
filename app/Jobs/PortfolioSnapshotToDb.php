@@ -168,29 +168,29 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			unset($assetBalance);
 		}
 
-		$bilaxyClient = new BilaxyApiClient();
-		$bilaxyBalances = $bilaxyClient->getBalances();
+//		$bilaxyClient = new BilaxyApiClient();
+//		$bilaxyBalances = $bilaxyClient->getBalances();
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($bilaxyBalances, 'asset'));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+//		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($bilaxyBalances, 'asset'));
+//		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 
-		foreach ($bilaxyBalances as $bilaxyBalance) {
-			try {
-				$snapshot = new PortfolioSnapshot();
-				$snapshot->snapshot_time = $updateTime;
-				$snapshot->source = 4; // 4 = BILAXY
-				$snapshot->asset = $bilaxyBalance["asset"];
-				$snapshot->quantity = $bilaxyBalance["qty"];
-				$snapshot->value_in_btc = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["btc"];
-				$snapshot->value_in_eth = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["eth"];
-				$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
-				$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
-				$snapshot->save();
-			} catch (Exception $e) {
-				Log::error($e);
-			}
-			unset($bilaxyBalance);
-		}
+//		foreach ($bilaxyBalances as $bilaxyBalance) {
+//			try {
+//				$snapshot = new PortfolioSnapshot();
+//				$snapshot->snapshot_time = $updateTime;
+//				$snapshot->source = 4; // 4 = BILAXY
+//				$snapshot->asset = $bilaxyBalance["asset"];
+//				$snapshot->quantity = $bilaxyBalance["qty"];
+//				$snapshot->value_in_btc = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["btc"];
+//				$snapshot->value_in_eth = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["eth"];
+//				$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
+//				$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
+//				$snapshot->save();
+//			} catch (Exception $e) {
+//				Log::error($e);
+//			}
+//			unset($bilaxyBalance);
+//		}
 
 		$bscClient = new BscscanApiClient();
 		$bnbBalance = $bscClient->getBnbBalance();
