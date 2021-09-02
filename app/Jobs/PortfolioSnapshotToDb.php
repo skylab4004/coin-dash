@@ -147,6 +147,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$mexcClient = new MexcApiClient();
 		$mexcBalances = $mexcClient->getBalances();
 
+
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($mexcBalances, 'asset'));
 		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 

@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers\API;
 
+use Exception;
+use Log;
+
 class MexcApiClient {
 
 	private static $apiUrl = "https://www.mxc.com/";
@@ -7,13 +10,16 @@ class MexcApiClient {
 	private $api;
 
 	public function getBalances() {
-
-		$accountInfoArray = json_decode($this->getAccountInfo(), true);
-		$assets = $accountInfoArray['data'];
 		$balances = [];
-		foreach ($assets as $assetName => $balance) {
-			$assetTotal = $balance['frozen']+$balance['available'];
-			$balances[] = ['asset' => $assetName, 'qty' => $assetTotal];
+		try {
+			$accountInfoArray = json_decode($this->getAccountInfo(), true);
+			$assets = $accountInfoArray['data'];
+			foreach ($assets as $assetName => $balance) {
+				$assetTotal = $balance['frozen']+$balance['available'];
+				$balances[] = ['asset' => $assetName, 'qty' => $assetTotal];
+			}
+		} catch (Exception $e) {
+			Log::error($e);
 		}
 		return $balances;
 	}

@@ -1,13 +1,21 @@
 <?php namespace App\Http\Controllers\API;
 
+use Exception;
+use Log;
+
 class EthplorerApiClient {
 
 	private static $apiUrl = "https://api.ethplorer.io/";
 
 	public function getAddressInfo($address, $apiKey = "freekey") {
-		$response = file_get_contents("https://api.ethplorer.io/getAddressInfo/{$address}?apiKey={$apiKey}");
-
-		return json_decode($response, true);
+		$ret = [];
+		try {
+			$response = file_get_contents("https://api.ethplorer.io/getAddressInfo/{$address}?apiKey={$apiKey}");
+			$ret = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+		} catch (Exception $e) {
+			Log::error($e);
+		}
+		return $ret;
 	}
 
 	public function erc20Balances($addressInfo) {
