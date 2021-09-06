@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 class BscscanApiClientTest extends TestCase {
 
 
-	public function testGetBalances() {
+	public function testGetBnbBalance() {
 		$client = new BscscanApiClient();
 		$balance = $client->getBnbBalance();
 		self::assertIsNumeric($balance);
@@ -14,7 +14,7 @@ class BscscanApiClientTest extends TestCase {
 
 	public function testGetEthBalance() {
 		$client = new BscscanApiClient();
-		$balance = $client->getBnbBalance();
+		$balance = $client->getTokenBalance("0x2170Ed0880ac9A755fd29B2688956BD959F933F8");
 		print($balance);
 		self::assertIsNumeric($balance);
 	}

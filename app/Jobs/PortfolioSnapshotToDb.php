@@ -2,24 +2,20 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\API\BilaxyApiClient;
 use App\Http\Controllers\API\BinanceApiClient;
 use App\Http\Controllers\API\BitbayApiClient;
 use App\Http\Controllers\API\BscscanApiClient;
-use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
 use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Http\Controllers\PortfolioCoinController;
-use App\Http\Controllers\StaticPortfolioCoinController;
 use App\Models\PortfolioSnapshot;
 use DateTime;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -223,7 +219,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"octi" => "0x6c1de9907263f0c12261d88b65ca18f31163f29d",
 			"sota" => "0x0742b62efb5f2eabbc14567dfc0860ce0565bcf4",
 			"usdc" => "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
-			"usdt" => "0x55d398326f99059ff775485246999027b3197955"
+			"usdt" => "0x55d398326f99059ff775485246999027b3197955",
+			"eth"  => "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
 		];
 
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_keys($bscTokens));
@@ -259,7 +256,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->source = PortfolioSnapshot::SOURCES['bitbay'];
 				$snapshot->asset = $bitbayAsset['asset'];
 				$snapshot->quantity = $bitbayAsset['qty'];
-				if (strcasecmp($bitbayAsset['asset'], 'pln')==0) {
+				if (strcasecmp($bitbayAsset['asset'], 'pln') == 0) {
 					$snapshot->value_in_btc = 0;
 					$snapshot->value_in_eth = 0;
 					$snapshot->value_in_usd = 0;
