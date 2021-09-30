@@ -18,7 +18,7 @@ class PancakeSwapApiClient {
 		$ret = curl_exec($curl);
 
 		$json_decode = json_decode($ret, true, 512, JSON_THROW_ON_ERROR);
-		Log::debug("json_decode={$json_decode}");
+		Log::debug("json_decode={$ret}");
 
 		return $json_decode["guaranteedPrice"];
 	}
