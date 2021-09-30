@@ -1,6 +1,6 @@
 <?php namespace Tests\Http\Controllers\API;
 
-use App\Http\Controllers\API\PancakeawapApiClient;
+use App\Http\Controllers\API\PancakeSwapApiClient;
 use PHPUnit\Framework\TestCase;
 
 class PancakeawapApiClientTest extends TestCase {
@@ -8,7 +8,7 @@ class PancakeawapApiClientTest extends TestCase {
 	private static $apiClient;
 
 	public static function setUpBeforeClass(): void {
-		self::$apiClient = new PancakeawapApiClient();
+		self::$apiClient = new PancakeSwapApiClient();
 	}
 
 	public function testGetTokenPrice() {

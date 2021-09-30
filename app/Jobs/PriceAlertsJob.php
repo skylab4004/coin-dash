@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\API\PancakeawapApiClient;
+use App\Http\Controllers\API\PancakeSwapApiClient;
 use App\Models\PriceAlert;
 use App\Utils\UniswapPriceGetter;
 use Carbon\Carbon;
@@ -55,7 +55,7 @@ class PriceAlertsJob implements ShouldQueue {
 						break;
 					case PriceAlert::PRICE_SOURCES['pancakeswap']:
 						// code goes here
-						$uniswap = new PancakeawapApiClient();
+						$uniswap = new PancakeSwapApiClient();
 						$tokenPrice = $uniswap->getTokenPrice($contract_address);
 						$coinPrices[] = [$symbol => $tokenPrice];
 						$debugArray = json_encode($coinPrices);
