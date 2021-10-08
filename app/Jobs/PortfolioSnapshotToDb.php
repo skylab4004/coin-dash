@@ -8,6 +8,7 @@ use App\Http\Controllers\API\BscscanApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
 use App\Http\Controllers\API\MexcApiClient;
+use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Http\Controllers\PortfolioCoinController;
@@ -246,6 +247,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			unset($tokenBalance);
 		}
 		unset($snapshot);
+		unset($bscTokens);
 
 		$bitbayApi = new BitbayApiClient();
 		$bitbayBalances = $bitbayApi->getBalances();
@@ -273,8 +275,66 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			}
 			unset($bitbayAsset);
 		}
-		unset($binanceBalances);
-		unset($binanceApi);
+		unset($bitbayBalances);
+		unset($bitbayApi);
+
+
+		$polygonClient = new PolygonscanApiClient();
+		$maticBalance = $polygonClient->getMaticBalance();
+
+		try {
+			$snapshot = new PortfolioSnapshot();
+			$snapshot->snapshot_time = $updateTime;
+			$snapshot->source = PortfolioSnapshot::SOURCES['polygon']; // 7 = polygon
+			$snapshot->asset = "MATIC";
+			$snapshot->quantity = $maticBalance;
+			$snapshot->value_in_btc = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["btc"];
+			$snapshot->value_in_eth = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["eth"];
+			$snapshot->value_in_usd = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["usd"];
+			$snapshot->value_in_pln = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["pln"];
+			$snapshot->save();
+		} catch (Exception $e) {
+			Log::error($e);
+		}
+		unset($maticBalance);
+		unset($snapshot);
+
+		$maticTokens = [
+			"quick" => "0x831753dd7087cac61ab5644b308642cc1c33dc13",
+			"revv" => "0x70c006878a5a50ed185ac4c87d837633923de296",
+			"rbc" => "0xc3cffdaf8f3fdf07da6d5e3a89b8723d5e385ff8",
+			"gmee" => "0xcf32822ff397ef82425153a9dcb726e5ff61dca7",
+			"usdc" => "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+			"usdt" => "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+			"link" => "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39",
+			"aave" => "0xd6df932a45c0f255f85145f286ea0b292b21c90b",
+			"yfi" => "0xda537104d6a5edd53c6fbba9a898708e465260b6",
+		];
+
+		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_keys($maticTokens));
+		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+
+		foreach ($maticTokens as $assetSymbol => $contract) {
+			try {
+				$tokenBalance = $polygonClient->getTokenBalance($contract);
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = PortfolioSnapshot::SOURCES['polygon']; // 7 = polygon
+				$snapshot->asset = strtoupper($assetSymbol);
+				$snapshot->quantity = $tokenBalance;
+
+				$snapshot->value_in_btc = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["btc"];
+				$snapshot->value_in_eth = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["eth"];
+				$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
+				$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+			unset($tokenBalance);
+		}
+		unset($snapshot);
+		unset($maticTokens);
 
 
 		unset($favoriteCoinPrices);

@@ -122,7 +122,8 @@ class ProvisionDashboard extends Controller {
 		$todaysBitbayDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BITBAY_VALUE_IN_PLN);
 		$todaysBscPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
 		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
-
+		$todaysPolygonPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);;
+		$todaysPolygonDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);
 
 		$tiles = [
 			Constants::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
@@ -143,6 +144,12 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_BITBAY_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_BITBAY_VALUE_IN_PLN], 0, ' '),
 			Constants::TILE_BITBAY_PNL_TODAY         => Utils::formattedNumber($todaysBitbayPNLinPln, 0, ' '),
 			Constants::TILE_BITBAY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBitbayDeltaPercentsFromPln, 2),
+
+			Constants::TILE_POLYGON_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_POLYGON_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_POLYGON_PNL_TODAY         => Utils::formattedNumber($todaysPolygonPNLinPln, 0, ' '),
+			Constants::TILE_POLYGON_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysPolygonDeltaPercentsFromPln, 2),
+
+
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' ')
 		];
 
@@ -182,6 +189,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_USD] = 0;
 
 		if ( ! isset($portfolioSnapshot) || ($portfolioSnapshot == null)) {
 			return [];
@@ -205,6 +214,9 @@ class ProvisionDashboard extends Controller {
 			} else if ($assetSnapshot['source'] == 5) {
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['polygon']) {
+				$tilesValues[Constants::KEY_POLYGON_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_POLYGON_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			}
 		}
 		unset($assetSnapshot);

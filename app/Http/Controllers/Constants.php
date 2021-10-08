@@ -33,5 +33,10 @@ class Constants {
 	public const TILE_BITBAY_PNL_DELTA_TODAY = 'bitbay_pnl_delta_today';
 	public const TILE_MXC_BALANCE = 'mxc_balance';
 	public const TILE_BEP20_PNL_DELTA_TODAY = 'bep20_pnl_delta_today';
+	public const TILE_POLYGON_BALANCE = "polygon_balance";
+	public const TILE_POLYGON_PNL_TODAY = "polygon_pnl_today";
+	public const TILE_POLYGON_PNL_DELTA_TODAY = "polygon_pnl_delta_today";
+	public const KEY_POLYGON_VALUE_IN_PLN = "polygon_value_in_pln";
+	public const KEY_POLYGON_VALUE_IN_USD =  "polygon_value_in_usd";
 
 }

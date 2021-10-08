@@ -43,6 +43,14 @@
             <x-stats-tile title="Bitbay PNL Today"
                           value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_DELTA_TODAY]}}/>
+
+            <x-stats-tile title="Polygon Balance"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Polygon PNL Today"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_DELTA_TODAY]}}/>
+
             <x-stats-tile title="Yesterday closing"
                           value={{$tiles[\App\Http\Controllers\Constants::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
                           percent={{null}}/>
