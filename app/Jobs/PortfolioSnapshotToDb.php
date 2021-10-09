@@ -79,7 +79,6 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$binanceBalances = $binanceApi->balances();
 
 		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($binanceBalances, 'asset'));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 
 		foreach ($binanceBalances as $binanceAsset) {
 			try {
@@ -116,8 +115,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
 		$erc20Balances = $ethplorerClient->erc20Balances($addressInfo);
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($erc20Balances, 'asset'));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($erc20Balances, 'asset')));
 
 		foreach ($erc20Balances as $erc20Asset) {
 			try {
@@ -145,8 +143,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$mexcBalances = $mexcClient->getBalances();
 
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_column($mexcBalances, 'asset'));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($mexcBalances, 'asset')));
 
 		foreach ($mexcBalances as $assetBalance) {
 			try {
@@ -193,8 +190,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$bscClient = new BscscanApiClient();
 		$bnbBalance = $bscClient->getBnbBalance();
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(['bnb']);
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(['bnb']));
 
 		try {
 			$snapshot = new PortfolioSnapshot();
@@ -224,8 +220,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"eth"  => "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
 		];
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_keys($bscTokens));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_keys($bscTokens)));
 
 		foreach ($bscTokens as $assetSymbol => $contract) {
 			try {
@@ -309,10 +304,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			"link" => "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39",
 			"aave" => "0xd6df932a45c0f255f85145f286ea0b292b21c90b",
 			"yfi" => "0xda537104d6a5edd53c6fbba9a898708e465260b6",
+			"weth" => "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
 		];
 
-		$coinsMissingInDb = $portfolioCoinController->returnCoinsMissingInDb(array_keys($maticTokens));
-		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_keys($maticTokens)));
 
 		foreach ($maticTokens as $assetSymbol => $contract) {
 			try {
@@ -336,6 +331,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($snapshot);
 		unset($maticTokens);
 
+		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 
 		unset($favoriteCoinPrices);
 		unset($updateTime);

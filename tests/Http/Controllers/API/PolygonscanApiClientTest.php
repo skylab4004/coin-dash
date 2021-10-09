@@ -15,7 +15,7 @@ class PolygonscanApiClientTest extends TestCase {
 
 	public function testGetTokenBalance() {
 		$client = new PolygonscanApiClient();
-		$balance = $client->getTokenBalance('0xa4eed63db85311e22df4473f87ccfc3dadcfa3e3');
+		$balance = $client->getTokenBalance('0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619');
 		print($balance);
 		self::assertIsNumeric($balance);
 	}
@@ -23,8 +23,17 @@ class PolygonscanApiClientTest extends TestCase {
 	public function testGetTransactions() {
 		$client = new PolygonscanApiClient();
 		$txList = $client->getTxList();
-		dd($txList);
 		self::assertIsNumeric($txList);
+	}
+
+	public function testMergeArrays() {
+		$arr1 = ["a", "b", "c"];
+		$arr2 = ["c", "1", "2"];
+
+		$arr1 = array_merge($arr1, $arr2);
+
+		self::assertEquals(["a", "b", "c", "c", "1", "2"], $arr1);
+
 	}
 
 }
