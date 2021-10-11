@@ -125,6 +125,13 @@ class ProvisionDashboard extends Controller {
 		$todaysPolygonPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);;
 		$todaysPolygonDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);
 
+		// get ROI
+		$investment_in_pln = 50000;
+		$xx = $lastSnapshot[Constants::KEY_VALUE_IN_PLN];
+		$roiInPln = $xx - $investment_in_pln;
+		$roiInPercents = (($lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln) / $investment_in_pln) * 100;
+
+
 		$tiles = [
 			Constants::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 			Constants::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 0, ' '),
@@ -145,12 +152,15 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_BITBAY_PNL_TODAY         => Utils::formattedNumber($todaysBitbayPNLinPln, 0, ' '),
 			Constants::TILE_BITBAY_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysBitbayDeltaPercentsFromPln, 2),
 
-			Constants::TILE_POLYGON_BALANCE           => Utils::formattedNumber($lastSnapshot[Constants::KEY_POLYGON_VALUE_IN_PLN], 0, ' '),
-			Constants::TILE_POLYGON_PNL_TODAY         => Utils::formattedNumber($todaysPolygonPNLinPln, 0, ' '),
-			Constants::TILE_POLYGON_PNL_DELTA_TODAY   => Utils::formattedNumber($todaysPolygonDeltaPercentsFromPln, 2),
+			Constants::TILE_POLYGON_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_POLYGON_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_POLYGON_PNL_TODAY       => Utils::formattedNumber($todaysPolygonPNLinPln, 0, ' '),
+			Constants::TILE_POLYGON_PNL_DELTA_TODAY => Utils::formattedNumber($todaysPolygonDeltaPercentsFromPln, 2),
 
+			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
-			Constants::TILE_YESTERDAY_TOTAL_BALANCE  => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' ')
+			Constants::KEY_ROI_IN_PLN => Utils::formattedNumber($roiInPln, 0, ' '),
+			Constants::KEY_ROI_IN_PERCENTS => Utils::formattedNumber($roiInPercents, 0,' '),
+
 		];
 
 		$retData = [
@@ -191,6 +201,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_ROI_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_ROI_IN_PERCENTS] = 0;
 
 		if ( ! isset($portfolioSnapshot) || ($portfolioSnapshot == null)) {
 			return [];
@@ -224,7 +236,7 @@ class ProvisionDashboard extends Controller {
 		return $tilesValues;
 	}
 
-	private static function safeDiff($formerSnapshot, $latterSnapshot, string $key) {
+	private static function safeDiff(array $formerSnapshot, array $latterSnapshot, string $key) {
 		$diffVal = 0;
 		$nextVal = 0;
 		$prevVal = 0;

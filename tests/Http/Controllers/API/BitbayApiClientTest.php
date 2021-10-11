@@ -13,7 +13,7 @@ class BitbayApiClientTest extends TestCase {
 
 	public function testGetBalances() {
 		$balances = $this::$apiClient->getBalances();
-		print_r($balances);
+		print_r(array_column($balances, 'asset'));
 		self::assertIsArray($balances);
 	}
 

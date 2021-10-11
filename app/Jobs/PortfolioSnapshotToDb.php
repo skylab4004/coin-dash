@@ -244,8 +244,12 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($snapshot);
 		unset($bscTokens);
 
+
 		$bitbayApi = new BitbayApiClient();
 		$bitbayBalances = $bitbayApi->getBalances();
+
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($bitbayBalances, 'asset')));
+
 		foreach ($bitbayBalances as $bitbayAsset) {
 			try {
 				$snapshot = new PortfolioSnapshot();
@@ -331,6 +335,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($snapshot);
 		unset($maticTokens);
 
+		$coinsMissingInDb = array_diff($coinsMissingInDb, ["pln", "usd"]);
 		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 
 		unset($favoriteCoinPrices);

@@ -38,5 +38,7 @@ class Constants {
 	public const TILE_POLYGON_PNL_DELTA_TODAY = "polygon_pnl_delta_today";
 	public const KEY_POLYGON_VALUE_IN_PLN = "polygon_value_in_pln";
 	public const KEY_POLYGON_VALUE_IN_USD =  "polygon_value_in_usd";
+	public const KEY_ROI_IN_PLN = "roi_in_pln";
+	public const KEY_ROI_IN_PERCENTS = "roi_in_percents";
 
 }
