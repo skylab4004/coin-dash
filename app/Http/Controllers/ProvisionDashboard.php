@@ -159,7 +159,7 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
 			Constants::KEY_ROI_IN_PLN => Utils::formattedNumber($roiInPln, 0, ' '),
-			Constants::KEY_ROI_IN_PERCENTS => Utils::formattedNumber($roiInPercents, 0,' '),
+			Constants::KEY_ROI_IN_PERCENTS => Utils::formattedNumber($roiInPercents, 2,' '),
 
 		];
 
