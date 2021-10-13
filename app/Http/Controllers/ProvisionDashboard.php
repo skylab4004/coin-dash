@@ -125,6 +125,13 @@ class ProvisionDashboard extends Controller {
 		$todaysPolygonPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);;
 		$todaysPolygonDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);
 
+		$todaysAscendexPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_ASCENDEX_VALUE_IN_PLN);;
+		$todaysAscendexDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_ASCENDEX_VALUE_IN_PLN);
+
+		$todaysCoinbasePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);;
+		$todaysCoinbaseDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);
+
+
 		// get ROI
 		$investment_in_pln = 50000;
 		$xx = $lastSnapshot[Constants::KEY_VALUE_IN_PLN];
@@ -155,6 +162,14 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_POLYGON_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_POLYGON_VALUE_IN_PLN], 0, ' '),
 			Constants::TILE_POLYGON_PNL_TODAY       => Utils::formattedNumber($todaysPolygonPNLinPln, 0, ' '),
 			Constants::TILE_POLYGON_PNL_DELTA_TODAY => Utils::formattedNumber($todaysPolygonDeltaPercentsFromPln, 2),
+
+			Constants::TILE_ASCENDEX_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_ASCENDEX_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_ASCENDEX_PNL_TODAY       => Utils::formattedNumber($todaysAscendexPNLinPln, 0, ' '),
+			Constants::TILE_ASCENDEX_PNL_DELTA_TODAY => Utils::formattedNumber($todaysAscendexDeltaPercentsFromPln, 2),
+
+			Constants::TILE_COINBASE_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_COINBASE_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_COINBASE_PNL_TODAY       => Utils::formattedNumber($todaysAscendexPNLinPln, 0, ' '),
+			Constants::TILE_COINBASE_PNL_DELTA_TODAY => Utils::formattedNumber($todaysAscendexDeltaPercentsFromPln, 2),
 
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
@@ -201,6 +216,10 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_POLYGON_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_ASCENDEX_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_ASCENDEX_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_COINBASE_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PERCENTS] = 0;
 
@@ -229,6 +248,12 @@ class ProvisionDashboard extends Controller {
 			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['polygon']) {
 				$tilesValues[Constants::KEY_POLYGON_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_POLYGON_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['ascendex']) {
+				$tilesValues[Constants::KEY_ASCENDEX_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_ASCENDEX_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['coinbase']) {
+				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			}
 		}
 		unset($assetSnapshot);

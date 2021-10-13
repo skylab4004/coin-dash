@@ -38,7 +38,17 @@ class Constants {
 	public const TILE_POLYGON_PNL_DELTA_TODAY = "polygon_pnl_delta_today";
 	public const KEY_POLYGON_VALUE_IN_PLN = "polygon_value_in_pln";
 	public const KEY_POLYGON_VALUE_IN_USD =  "polygon_value_in_usd";
+	public const KEY_ASCENDEX_VALUE_IN_PLN = "ascendex_value_in_pln";
+	public const KEY_ASCENDEX_VALUE_IN_USD = "ascendex_value_in_usd";
+	public const TILE_ASCENDEX_BALANCE = "ascendex_balance";
+	public const TILE_ASCENDEX_PNL_TODAY = "ascedex_pnl_today";
+	public const TILE_ASCENDEX_PNL_DELTA_TODAY = "ascendex_pnl_delta_today";
 	public const KEY_ROI_IN_PLN = "roi_in_pln";
 	public const KEY_ROI_IN_PERCENTS = "roi_in_percents";
+	public const KEY_COINBASE_VALUE_IN_PLN = "coinbase_value_in_pln";
+	public const KEY_COINBASE_VALUE_IN_USD = "coinbase_value_in_usd";
+	public const TILE_COINBASE_BALANCE = "coinbase_balance";
+	public const TILE_COINBASE_PNL_TODAY = "coinbase_pnl_today";
+	public const TILE_COINBASE_PNL_DELTA_TODAY = "coinbase_pnl_delta_today";
 
 }
