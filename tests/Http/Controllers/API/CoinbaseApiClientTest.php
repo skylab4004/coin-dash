@@ -17,4 +17,9 @@ class CoinbaseApiClientTest extends TestCase {
 		self::assertIsArray($info);
 	}
 
+	public function testGetBalances() {
+		$info = $this::$apiClient->getBalances();
+		print_r($info);
+		self::assertIsArray($info);
+	}
 }

@@ -335,6 +335,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($snapshot);
 		unset($maticTokens);
 
+
+
 		$coinsMissingInDb = array_diff($coinsMissingInDb, ["pln", "usd"]);
 		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
 

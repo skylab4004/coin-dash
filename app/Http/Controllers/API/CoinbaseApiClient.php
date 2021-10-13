@@ -43,4 +43,17 @@ class CoinbaseApiClient {
 		return $json_decode;
 	}
 
+	public function getBalances() {
+		$accounts = $this->getAccounts();
+
+		$balances = [];
+		foreach ($accounts as $account) {
+			if ($account['balance'] > 0) {
+				$balances[] = ['asset' => $account['currency'], 'qty' => $account['balance']];
+			}
+		}
+
+		return $balances;
+	}
+
 }
