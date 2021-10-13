@@ -15,6 +15,8 @@ class PortfolioSnapshot extends Model {
 		'bsc20' => 5,
 		'bitbay' => 6,
 		'polygon' => 7,
+		'ascendex' => 8,
+		'coinbase' => 9,
 	];
 	use HasFactory;
 }
