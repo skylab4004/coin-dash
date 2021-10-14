@@ -168,8 +168,8 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_ASCENDEX_PNL_DELTA_TODAY => Utils::formattedNumber($todaysAscendexDeltaPercentsFromPln, 2),
 
 			Constants::TILE_COINBASE_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_COINBASE_VALUE_IN_PLN], 0, ' '),
-			Constants::TILE_COINBASE_PNL_TODAY       => Utils::formattedNumber($todaysAscendexPNLinPln, 0, ' '),
-			Constants::TILE_COINBASE_PNL_DELTA_TODAY => Utils::formattedNumber($todaysAscendexDeltaPercentsFromPln, 2),
+			Constants::TILE_COINBASE_PNL_TODAY       => Utils::formattedNumber($todaysCoinbasePNLinPln, 0, ' '),
+			Constants::TILE_COINBASE_PNL_DELTA_TODAY => Utils::formattedNumber($todaysCoinbaseDeltaPercentsFromPln, 2),
 
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
