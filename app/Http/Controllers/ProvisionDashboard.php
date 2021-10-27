@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
 
+	private $stableCoins = ['pln', 'usdt', 'usdc', 'ust']; // todo - needs to be retrieved from database + crud
+
 	public function show() {
 		// CURRENT portfolio value and totals in PLN and USD0
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
@@ -222,6 +224,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PERCENTS] = 0;
+		$tilesValues[Constants::TILE_STABLECOINS_BALANCE] = 0;
+		$tilesValues[Constants::TILE_STABLECOINS_IN_PERCENTS] = 0;
 
 		if ( ! isset($portfolioSnapshot) || ($portfolioSnapshot == null)) {
 			return [];
@@ -255,8 +259,13 @@ class ProvisionDashboard extends Controller {
 				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			}
+
+			// STABLECOINS TILE
+
 		}
 		unset($assetSnapshot);
+
+
 
 		return $tilesValues;
 	}

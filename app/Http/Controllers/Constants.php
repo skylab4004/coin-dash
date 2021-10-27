@@ -50,5 +50,7 @@ class Constants {
 	public const TILE_COINBASE_BALANCE = "coinbase_balance";
 	public const TILE_COINBASE_PNL_TODAY = "coinbase_pnl_today";
 	public const TILE_COINBASE_PNL_DELTA_TODAY = "coinbase_pnl_delta_today";
+	public const TILE_STABLECOINS_BALANCE = "stablecoins_balance";
+	public const TILE_STABLECOINS_IN_PERCENTS = "stablecoins_in_percents";
 
 }
