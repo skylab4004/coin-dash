@@ -9,6 +9,7 @@ use App\Http\Controllers\API\BscscanApiClient;
 use App\Http\Controllers\API\CoinbaseApiClient;
 use App\Http\Controllers\API\CoinGeckoController;
 use App\Http\Controllers\API\EthplorerApiClient;
+use App\Http\Controllers\API\KucoinApiClient;
 use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\Secret;
@@ -385,7 +386,29 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		}
 		unset($coibaseBalances);
 
-
+		// handle kucoin
+		$kucoinApiClient = new KucoinApiClient();
+		$kucoinBalances = $kucoinApiClient->getBalances();
+		$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($kucoinBalances, 'asset')));
+		foreach ($kucoinBalances as $assetBalance) {
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = PortfolioSnapshot::SOURCES['kucoin'];
+				$snapshot->asset = $assetBalance["asset"];
+				$snapshot->quantity = $assetBalance["qty"];
+				$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+				$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+			unset($assetBalance);
+		}
+		unset($kucoinBalances);
+		
 		// add missing coins to db
 		$coinsMissingInDb = array_diff($coinsMissingInDb, ["pln", "usd"]);
 		$portfolioCoinController->addMissingCoinsToDb($coinsMissingInDb);
