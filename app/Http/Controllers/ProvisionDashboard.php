@@ -133,6 +133,10 @@ class ProvisionDashboard extends Controller {
 		$todaysCoinbasePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);;
 		$todaysCoinbaseDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);
 
+		$todaysKucoinPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);;
+		$todaysKucoinDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);
+
+
 
 		// get ROI
 		$investment_in_pln = 50000;
@@ -172,6 +176,11 @@ class ProvisionDashboard extends Controller {
 			Constants::TILE_COINBASE_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_COINBASE_VALUE_IN_PLN], 0, ' '),
 			Constants::TILE_COINBASE_PNL_TODAY       => Utils::formattedNumber($todaysCoinbasePNLinPln, 0, ' '),
 			Constants::TILE_COINBASE_PNL_DELTA_TODAY => Utils::formattedNumber($todaysCoinbaseDeltaPercentsFromPln, 2),
+
+			Constants::TILE_KUCOIN_BALANCE         => Utils::formattedNumber($lastSnapshot[Constants::KEY_KUCOIN_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_KUCOIN_PNL_TODAY       => Utils::formattedNumber($todaysKucoinPNLinPln, 0, ' '),
+			Constants::TILE_KUCOIN_PNL_DELTA_TODAY => Utils::formattedNumber($todaysKucoinDeltaPercentsFromPln, 2),
+
 
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
@@ -222,6 +231,8 @@ class ProvisionDashboard extends Controller {
 		$tilesValues[Constants::KEY_ASCENDEX_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_COINBASE_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_KUCOIN_VALUE_IN_PLN] = 0;
+		$tilesValues[Constants::KEY_KUCOIN_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_ROI_IN_PERCENTS] = 0;
 		$tilesValues[Constants::TILE_STABLECOINS_BALANCE] = 0;
@@ -258,6 +269,9 @@ class ProvisionDashboard extends Controller {
 			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['coinbase']) {
 				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_COINBASE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['kucoin']) {
+				$tilesValues[Constants::KEY_KUCOIN_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_KUCOIN_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			}
 
 			// STABLECOINS TILE

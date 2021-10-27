@@ -69,6 +69,12 @@
             <x-stats-tile title="Coinbase PNL Today"
                           value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="Kucoin Balance"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="Kucoin PNL Today"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}}/>
         </div>
 
         <h1 class="text-2xl text-gray-700 justify-center">Profit and loss</h1>

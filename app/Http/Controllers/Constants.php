@@ -52,5 +52,10 @@ class Constants {
 	public const TILE_COINBASE_PNL_DELTA_TODAY = "coinbase_pnl_delta_today";
 	public const TILE_STABLECOINS_BALANCE = "stablecoins_balance";
 	public const TILE_STABLECOINS_IN_PERCENTS = "stablecoins_in_percents";
+	public const KEY_KUCOIN_VALUE_IN_PLN = "kucoin_value_in_pln";
+	public const KEY_KUCOIN_VALUE_IN_USD = "kucoin_value_in_usd";
+	public const TILE_KUCOIN_BALANCE = "kucoin_balance";
+	public const TILE_KUCOIN_PNL_TODAY = "kucoin_pnl_today";
+	public const TILE_KUCOIN_PNL_DELTA_TODAY = "kucoin_pnl_delta_today";
 
 }
