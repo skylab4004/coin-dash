@@ -12,9 +12,11 @@
     "devDependencies": {
         "autoprefixer": "^10.1.0",
         "axios": "^0.21",
+        "datatables.net": "^1.11.3",
         "laravel-mix": "^6.0.37",
         "lodash": "^4.17.19",
         "postcss": "^8.2.1",
+        "resolve-url-loader": "^4.0.0",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0"
     },
