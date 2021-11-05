@@ -10,7 +10,6 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "alpinejs": "^2.7.3",
         "autoprefixer": "^10.1.0",
         "axios": "^0.21",
         "laravel-mix": "^6.0.37",
@@ -23,7 +22,6 @@
     },
     "dependencies": {
         "@tailwindcss/aspect-ratio": "^0.2.0",
-        "alpinejs": "^2.8.1",
         "chart.js": "^2.9.4",
         "chartjs-plugin-colorschemes": "^0.4.0",
         "chartjs-plugin-datalabels": "^1.0.0"
