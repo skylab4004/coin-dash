@@ -14,6 +14,8 @@
         "axios": "^0.21",
         "bootstrap": "^4.6.0",
         "datatables.net": "^1.11.3",
+        "jquery": "^3.6.0",
+        "jquery-ui": "^1.13.0",
         "laravel-mix": "^6.0.37",
         "lodash": "^4.17.19",
         "postcss": "^8.2.1",

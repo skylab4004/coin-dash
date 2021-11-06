@@ -15,7 +15,6 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -25,6 +24,16 @@
 
 <!-- Core plugin JavaScript-->
 <script src="{{ asset('js/vendor/jquery-easing/jquery.easing.min.js') }}" defer></script>
+
+
+<!-- Tables Page level plugins -->
+{{--<script src="{{ asset('js/vendor/datatables/jquery.dataTables.min.js') }}"></script>--}}
+{{--<script src="{{ asset('js/vendor/datatables/jquery.dataTables.min.js') }}"></script>--}}
+{{--<script src="{{ asset('js/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>--}}
+
+<!-- Tables Page level custom scripts -->
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+
 
 <!-- Page level plugins -->
 <script src="{{ asset('js/vendor/chart.js/Chart.min.js') }}" defer></script>
