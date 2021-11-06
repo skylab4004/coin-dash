@@ -30,8 +30,6 @@
 {{--<script src="{{ asset('js/vendor/datatables/jquery.dataTables.min.js') }}"></script>--}}
 {{--<script src="{{ asset('js/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>--}}
 
-<!-- Tables Page level custom scripts -->
-{{--<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>--}}
 
 
 <!-- Page level plugins -->

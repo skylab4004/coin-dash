@@ -1,9 +1,9 @@
 import 'bootstrap';
-import 'jquery';
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 // var $ = require( "jquery" );
-// window.$ = window.jQuery = $;
 // import 'jquery-ui/ui/widgets/datepicker.js';
 // $('.datepicker').datepicker();
-import 'datatables.net-bs4'
-// import 'datatables.net';
+import 'datatables.net/js/jquery.dataTables.min';
+import 'datatables.net-bs4/js/dataTables.bootstrap4.min';
 
