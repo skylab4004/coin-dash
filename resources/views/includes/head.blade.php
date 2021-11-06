@@ -32,4 +32,4 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/chart-area-demo.js') }}" defer></script>
 <script src="{{ asset('js/demo/chart-bar-demo.js') }}" defer></script>
-<script src="{{ asset('js/demo/chart-area-pie.js') }}" defer></script>
+<script src="{{ asset('js/demo/chart-pie-demo.js') }}" defer></script>
