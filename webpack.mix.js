@@ -10,14 +10,13 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+mix.autoload({
+        jquery: ['$', 'window.jQuery', 'jQuery'], // more than one
+    }
+);
+
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/scss/app.scss', 'public/css')
     .js('node_modules/popper.js/dist/popper.js', 'public/js').sourceMaps();
-    // .autoload({
-    //         jquery: ['$', 'window.jQuery', 'jQuery'], // more than one
-    //     }
-    // );
 
-// mix.autoload({
-//     jquery: ['$', 'window.jQuery', 'jQuery'], // more than one
-// });
