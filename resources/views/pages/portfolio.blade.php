@@ -1,60 +1,169 @@
 @extends('layouts.master')
 @section('content')
 
-    <div>
-        <h1 class="text-2xl text-gray-700">Portfolio value</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="lineChart"></canvas>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Portfolio</h1>
         </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Line Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Full history</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Pie Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Wallets</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Binance -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Binance</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="binanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Ethereum -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Ethereum</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="erc20Chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Mexc -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Mexc</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="mexcChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Bitbay -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Bitbay</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="bitbayChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Binance Smart Chain -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Binance Smart Chain</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="bsc20Chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Portfolio by wallets</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="pieChart"></canvas>
-        </div>
-    </div>
+    {{--    <div>--}}
+    {{--        <!-- pie chart -->--}}
+    {{--        <h1 class="text-2xl text-gray-700">Bitbay</h1>--}}
+    {{--        <div class="flex justify-center py-2 align-middle inline-block">--}}
+    {{--            <canvas id="bitbayChart"></canvas>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Binance</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="binanceChart"></canvas>
-        </div>
-    </div>
-
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Erc20</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="erc20Chart"></canvas>
-        </div>
-    </div>
-
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Mexc</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="mexcChart"></canvas>
-        </div>
-    </div>
-
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Bitbay</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="bitbayChart"></canvas>
-        </div>
-    </div>
-
-    <div>
-        <!-- pie chart -->
-        <h1 class="text-2xl text-gray-700">Bsc20</h1>
-        <div class="flex justify-center py-2 align-middle inline-block">
-            <canvas id="bsc20Chart"></canvas>
-        </div>
-    </div>
+    {{--    <div>--}}
+    {{--        <!-- pie chart -->--}}
+    {{--        <h1 class="text-2xl text-gray-700">Bsc20</h1>--}}
+    {{--        <div class="flex justify-center py-2 align-middle inline-block">--}}
+    {{--            <canvas id="bsc20Chart"></canvas>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
     <script>
 

@@ -16,7 +16,9 @@ mix.autoload({
     }
 );
 
-mix.js('resources/js/app.js', 'public/js')
+
+mix.js(['resources/js/app.js', 'resources/js/sb-admin-2.js'], 'public/js')
     .sass('resources/scss/app.scss', 'public/css')
-    .js('node_modules/popper.js/dist/popper.js', 'public/js').sourceMaps();
+    // .js('node_modules/popper.js/dist/popper.js', 'public/js')
+    .sourceMaps();
 

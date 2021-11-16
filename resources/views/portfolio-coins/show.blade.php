@@ -1,87 +1,94 @@
 @extends('layouts.master')
 
-
-{{--$table->id();--}}
-{{--$table->string('gecko_id')->unique(); // "id": "dexfin",--}}
-{{--$table->string('symbol')->unique(); // "symbol": "dxf",--}}
-{{--$table->string('gecko_name'); //    "name": "Dexfin"--}}
-{{--$table->json('platforms')->nullable();--}}
-{{--$table->string('cg_url', 2048)->nullable();--}}
-{{--$table->string('trade_url', 2048)->nullable();--}}
-{{--$table->string('img_url', 2048)->nullable();--}}
-{{--$table->string('chart_url', 2048)->nullable();--}}
-{{--$table->integer('price_source')->nullable(); // null,0 -> coingecko; 1 -> uniswap;--}}
-{{--$table->timestamps();--}}
-
-
 @section('content')
-    <div>
-        <h1>{{ $coin-> gecko_name}}</h1>
-        <img src="{{ $coin-> img_url}}"/>
-        <h2>{{ $coin-> symbol}}</h2>
-        <table class="table-auto border border-gray-800">
-            <thead>
-            <tr>
-                <td>Attribute</td>
-                <td>Value</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>id</td>
-                <td>{{ $coin-> id}}</td>
-            </tr>
-            <tr>
-                <td>gecko_id</td>
-                <td>{{ $coin-> gecko_id}}</td>
-            </tr>
-            <tr>
-                <td>symbol</td>
-                <td class="uppercase">{{ $coin-> symbol}}</td>
-            </tr>
-            <tr>
-                <td>gecko_name</td>
-                <td>{{ $coin-> gecko_name}}</td>
-            </tr>
-            <tr>
-                <td>platforms</td>
-                <td>{{ $coin-> platforms}}</td>
-            </tr>
-            <tr>
-                <td>cg_url</td>
-                <td>{{ $coin-> cg_url}}</td>
-            </tr>
-            <tr>
-                <td>trade_url</td>
-                <td>{{ $coin-> trade_url}}</td>
-            </tr>
-            <tr>
-                <td>img_url</td>
-                <td>{{ $coin-> img_url}}</td>
-            </tr>
-            <tr>
-                <td>chart_url</td>
-                <td>{{ $coin-> chart_url}}</td>
-            </tr>
-            <tr>
-                <td>price_source</td>
-                <td>{{ $coin->price_source }}</td>
-            </tr>
-            <tr>
-                <td>created_at</td>
-                <td>{{ $coin-> created_at}}</td>
-            </tr>
-            <tr>
-                <td>updated_at</td>
-                <td>{{ $coin-> updated_at}}</td>
-            </tr>
-            </tbody>
 
-        </table>
+    <div class="container-fluid">
 
-    </div>
-    <div class="pull-right">
-        <a class="btn btn-primary" href="{{ route('portfolio-coins.index') }}" title="Go back">Go back</a>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Portfolio Coin - {{ $coin-> gecko_name}} ({{ $coin-> symbol}})</h1>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ $coin-> gecko_name}} ({{ $coin-> symbol}})</h6>
+            </div>
+            <div class="card-body">
+
+
+                @if ($errors->any())
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Whoops!</strong> There were some problems with your input.
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                    <form action="{{ route('portfolio-coins.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label>gecko_id</label>
+                            <input type="text" name="gecko_id" value="{{ $coin-> gecko_id}}" class="form-control" placeholder="Gecko ID" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>symbol</label>
+                            <input type="text" name="symbol" value="{{ $coin->symbol}}" class="form-control" placeholder="Ticker symbol" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>gecko_name</label>
+                            <input type="text" name="gecko_name" value="{{ $coin->gecko_name}}" class="form-control" placeholder="CoinGecko Name" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>platforms</label>
+                            <input type="text" name="platforms" value="{{ $coin->platforms}}" class="form-control" placeholder="Platforms in JSON" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>cg_url</label>
+                            <input type="text" name="cg_url" value="{{ $coin->cg_url}}" class="form-control" placeholder="CoinGecko URL" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>trade_url</label>
+                            <input type="text" name="trade_url" value="{{ $coin->trade_url}}" class="form-control" placeholder="Trading URL" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>img_url</label>
+                            <input type="text" name="img_url" value="{{ $coin->img_url}}" class="form-control" placeholder="URL to image" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>chart_url</label>
+                            <input type="text" name="chart_url" value="{{ $coin->chart_url}}" class="form-control" placeholder="URL to charts" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>price_source</label>
+                            <input type="text" name="price_source" value="{{ $coin->price_source}}" class="form-control" placeholder="Price source ID" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>created_at</label>
+                            <div>{{ $coin-> created_at}}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>updated_at</label>
+                            <div>{{ $coin-> updated_at}}</div>
+                        </div>
+
+{{--                        <button type="submit" class="btn btn-primary" disabled>Submit</button>--}}
+                        <a href="{{ route('portfolio-coins.index') }}" class="btn btn-primary">Close</a>
+                    </form>
+
+            </div>
+
+        </div>
     </div>
 
 @endsection
