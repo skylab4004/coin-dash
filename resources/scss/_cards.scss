@@ -1,8 +1,19 @@
 // Custom Card Styling
 
 .card {
+  background: $card-bg;
+  border: none;
   .card-header {
     // Format Dropdowns in Card Headings
+    background: $card-bg;
+    border: none;
+    .header-title {
+      margin-bottom: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      font-size: .9rem;
+      margin-top: 0
+    }
     .dropdown {
       line-height: 1;
       .dropdown-menu {
@@ -14,6 +25,7 @@
   .card-header[data-toggle="collapse"] {
     text-decoration: none;
     position: relative;
+    border: none;
     padding: 0.75rem 3.25rem 0.75rem 1.25rem;
     &::after {
       position: absolute;
@@ -27,10 +39,14 @@
       color: $gray-400;
     }
     &.collapsed {
-      border-radius: $card-border-radius;
+      border: none;
+      //border-radius: $card-border-radius;
       &::after {
         content: '\f105';
       }
     }
+  }
+  .card-body {
+    border: none;
   }
 }

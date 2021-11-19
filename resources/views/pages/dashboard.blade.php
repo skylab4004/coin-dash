@@ -4,17 +4,23 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
+
+{{--        <div class="d-sm-flex align-items-center justify-content-between mb-4">--}}
+{{--            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>--}}
+{{--        </div>--}}
+
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div class="page-title-box">
+            <h4 class="page-title">Dashboard</h4>
         </div>
+
 
         <!-- Content Row -->
         <div class="row">
 
             <!-- Total balance Card -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card border-left-primary h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -39,7 +45,7 @@
 
             <!-- Profit And Loss Today Card -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
+                <div class="card border-left-success h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -63,7 +69,7 @@
 
             <!-- Return on Investment -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
+                <div class="card border-left-info h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -87,7 +93,7 @@
 
             <!-- Yesterday's closing Card -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card border-left-warning h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -109,9 +115,9 @@
 
 
         <!-- Balances per DEX/CEX -->
-        <div class="card shadow mb-4">
+        <div class="card mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Balances per CEX/DEX</h6>
+                <h4 class="header-title mb-3">Balances per CEX/DEX</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -193,7 +199,7 @@
         </div>
 
         <!-- Profit and Loss Today -->
-        <div class="card shadow mb-4">
+        <div class="card mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Profit and Loss Today</h6>
             </div>
@@ -228,7 +234,7 @@
         </div>
 
         <!-- Current Portfolio -->
-        <div class="card shadow mb-4">
+        <div class="card mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Current portfolio</h6>
             </div>
