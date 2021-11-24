@@ -4,9 +4,22 @@
   font-size: .7rem;
 }
 
+.text-sm {
+  font-size: .9rem;
+}
+
 .text-lg {
   font-size: 1.2rem;
 }
+
+.text-xl {
+  font-size: 1.5rem;
+}
+
+.text-xxl {
+  font-size: 2rem;
+}
+
 
 .text-gray-100 {
   color: $gray-100 !important;
@@ -42,6 +55,10 @@
 
 .text-gray-900 {
   color: $gray-900 !important;
+}
+
+.text-cyan {
+  color: $cyan !important;
 }
 
 .icon-circle {
@@ -128,12 +145,12 @@
   font-weight: 700
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
-  margin-bottom: .75rem;
-  font-weight: 500;
-  line-height: 1.1
-}
+//.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+//  margin-top: 0;
+//  margin-bottom: .75rem;
+//  font-weight: 500;
+//  line-height: 1.1
+//}
 
 .h1, h1 {
   font-size: calc(1.35rem + 1.2vw)

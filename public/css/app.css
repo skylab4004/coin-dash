@@ -11547,6 +11547,33 @@ h3 {
     border-color: #424a55;
   }
 }
+.form-switch {
+  padding-left: 2.5em;
+}
+
+.form-switch .form-check-input {
+  width: 2em;
+  margin-left: -2.5em;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23515a65'/%3e%3c/svg%3e");
+  background-position: left center;
+  border-radius: 2em;
+  transition: background-position 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-switch .form-check-input {
+    transition: none;
+  }
+}
+.form-switch .form-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23555f6b'/%3e%3c/svg%3e");
+}
+
+.form-switch .form-check-input:checked {
+  background-position: right center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -11759,8 +11786,20 @@ a:focus {
   font-size: 0.7rem;
 }
 
+.text-sm {
+  font-size: 0.9rem;
+}
+
 .text-lg {
   font-size: 1.2rem;
+}
+
+.text-xl {
+  font-size: 1.5rem;
+}
+
+.text-xxl {
+  font-size: 2rem;
 }
 
 .text-gray-100 {
@@ -11797,6 +11836,10 @@ a:focus {
 
 .text-gray-900 {
   color: #f1f1f1 !important;
+}
+
+.text-cyan {
+  color: #39afd1 !important;
 }
 
 .icon-circle {
@@ -11875,13 +11918,6 @@ a:focus {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
   font-weight: 700;
-}
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-  line-height: 1.1;
 }
 
 .h1, h1 {
@@ -12735,6 +12771,16 @@ a > code {
   padding: 0.5rem 1rem;
 }
 
+.badge-success {
+  color: #033d2d;
+  background-color: #0acf97;
+}
+
+.badge-danger {
+  color: #540313;
+  background-color: #fa5c7c;
+}
+
 .card {
   background: #37404a;
   border: none;
@@ -12918,133 +12964,133 @@ form.user .btn-user {
 
 @-webkit-keyframes noise-anim {
   0% {
-    clip: rect(69px, 9999px, 73px, 0);
+    clip: rect(23px, 9999px, 32px, 0);
   }
   5% {
-    clip: rect(58px, 9999px, 6px, 0);
+    clip: rect(61px, 9999px, 98px, 0);
   }
   10% {
-    clip: rect(79px, 9999px, 31px, 0);
+    clip: rect(68px, 9999px, 97px, 0);
   }
   15% {
-    clip: rect(6px, 9999px, 5px, 0);
+    clip: rect(67px, 9999px, 52px, 0);
   }
   20% {
-    clip: rect(11px, 9999px, 29px, 0);
+    clip: rect(21px, 9999px, 15px, 0);
   }
   25% {
-    clip: rect(15px, 9999px, 83px, 0);
+    clip: rect(44px, 9999px, 83px, 0);
   }
   30% {
-    clip: rect(60px, 9999px, 25px, 0);
+    clip: rect(48px, 9999px, 43px, 0);
   }
   35% {
-    clip: rect(55px, 9999px, 26px, 0);
+    clip: rect(25px, 9999px, 58px, 0);
   }
   40% {
-    clip: rect(60px, 9999px, 46px, 0);
+    clip: rect(81px, 9999px, 14px, 0);
   }
   45% {
-    clip: rect(6px, 9999px, 37px, 0);
+    clip: rect(26px, 9999px, 84px, 0);
   }
   50% {
-    clip: rect(41px, 9999px, 39px, 0);
+    clip: rect(63px, 9999px, 56px, 0);
   }
   55% {
-    clip: rect(32px, 9999px, 82px, 0);
+    clip: rect(30px, 9999px, 18px, 0);
   }
   60% {
-    clip: rect(3px, 9999px, 10px, 0);
+    clip: rect(71px, 9999px, 32px, 0);
   }
   65% {
-    clip: rect(72px, 9999px, 73px, 0);
+    clip: rect(21px, 9999px, 89px, 0);
   }
   70% {
-    clip: rect(59px, 9999px, 66px, 0);
+    clip: rect(59px, 9999px, 94px, 0);
   }
   75% {
-    clip: rect(82px, 9999px, 55px, 0);
+    clip: rect(59px, 9999px, 13px, 0);
   }
   80% {
-    clip: rect(33px, 9999px, 53px, 0);
+    clip: rect(9px, 9999px, 87px, 0);
   }
   85% {
-    clip: rect(39px, 9999px, 45px, 0);
+    clip: rect(5px, 9999px, 38px, 0);
   }
   90% {
-    clip: rect(91px, 9999px, 13px, 0);
+    clip: rect(9px, 9999px, 4px, 0);
   }
   95% {
-    clip: rect(50px, 9999px, 95px, 0);
+    clip: rect(52px, 9999px, 87px, 0);
   }
   100% {
-    clip: rect(24px, 9999px, 82px, 0);
+    clip: rect(66px, 9999px, 7px, 0);
   }
 }
 
 @keyframes noise-anim {
   0% {
-    clip: rect(69px, 9999px, 73px, 0);
+    clip: rect(23px, 9999px, 32px, 0);
   }
   5% {
-    clip: rect(58px, 9999px, 6px, 0);
+    clip: rect(61px, 9999px, 98px, 0);
   }
   10% {
-    clip: rect(79px, 9999px, 31px, 0);
+    clip: rect(68px, 9999px, 97px, 0);
   }
   15% {
-    clip: rect(6px, 9999px, 5px, 0);
+    clip: rect(67px, 9999px, 52px, 0);
   }
   20% {
-    clip: rect(11px, 9999px, 29px, 0);
+    clip: rect(21px, 9999px, 15px, 0);
   }
   25% {
-    clip: rect(15px, 9999px, 83px, 0);
+    clip: rect(44px, 9999px, 83px, 0);
   }
   30% {
-    clip: rect(60px, 9999px, 25px, 0);
+    clip: rect(48px, 9999px, 43px, 0);
   }
   35% {
-    clip: rect(55px, 9999px, 26px, 0);
+    clip: rect(25px, 9999px, 58px, 0);
   }
   40% {
-    clip: rect(60px, 9999px, 46px, 0);
+    clip: rect(81px, 9999px, 14px, 0);
   }
   45% {
-    clip: rect(6px, 9999px, 37px, 0);
+    clip: rect(26px, 9999px, 84px, 0);
   }
   50% {
-    clip: rect(41px, 9999px, 39px, 0);
+    clip: rect(63px, 9999px, 56px, 0);
   }
   55% {
-    clip: rect(32px, 9999px, 82px, 0);
+    clip: rect(30px, 9999px, 18px, 0);
   }
   60% {
-    clip: rect(3px, 9999px, 10px, 0);
+    clip: rect(71px, 9999px, 32px, 0);
   }
   65% {
-    clip: rect(72px, 9999px, 73px, 0);
+    clip: rect(21px, 9999px, 89px, 0);
   }
   70% {
-    clip: rect(59px, 9999px, 66px, 0);
+    clip: rect(59px, 9999px, 94px, 0);
   }
   75% {
-    clip: rect(82px, 9999px, 55px, 0);
+    clip: rect(59px, 9999px, 13px, 0);
   }
   80% {
-    clip: rect(33px, 9999px, 53px, 0);
+    clip: rect(9px, 9999px, 87px, 0);
   }
   85% {
-    clip: rect(39px, 9999px, 45px, 0);
+    clip: rect(5px, 9999px, 38px, 0);
   }
   90% {
-    clip: rect(91px, 9999px, 13px, 0);
+    clip: rect(9px, 9999px, 4px, 0);
   }
   95% {
-    clip: rect(50px, 9999px, 95px, 0);
+    clip: rect(52px, 9999px, 87px, 0);
   }
   100% {
-    clip: rect(24px, 9999px, 82px, 0);
+    clip: rect(66px, 9999px, 7px, 0);
   }
 }
 .error:after {
@@ -13062,133 +13108,133 @@ form.user .btn-user {
 
 @-webkit-keyframes noise-anim-2 {
   0% {
-    clip: rect(55px, 9999px, 33px, 0);
+    clip: rect(76px, 9999px, 91px, 0);
   }
   5% {
-    clip: rect(82px, 9999px, 53px, 0);
+    clip: rect(37px, 9999px, 61px, 0);
   }
   10% {
-    clip: rect(50px, 9999px, 49px, 0);
+    clip: rect(11px, 9999px, 76px, 0);
   }
   15% {
-    clip: rect(54px, 9999px, 57px, 0);
+    clip: rect(92px, 9999px, 59px, 0);
   }
   20% {
-    clip: rect(10px, 9999px, 41px, 0);
+    clip: rect(73px, 9999px, 65px, 0);
   }
   25% {
-    clip: rect(6px, 9999px, 69px, 0);
+    clip: rect(10px, 9999px, 53px, 0);
   }
   30% {
-    clip: rect(34px, 9999px, 9px, 0);
+    clip: rect(45px, 9999px, 25px, 0);
   }
   35% {
-    clip: rect(92px, 9999px, 77px, 0);
+    clip: rect(56px, 9999px, 8px, 0);
   }
   40% {
-    clip: rect(23px, 9999px, 8px, 0);
+    clip: rect(15px, 9999px, 74px, 0);
   }
   45% {
-    clip: rect(60px, 9999px, 83px, 0);
+    clip: rect(90px, 9999px, 62px, 0);
   }
   50% {
-    clip: rect(64px, 9999px, 95px, 0);
+    clip: rect(98px, 9999px, 66px, 0);
   }
   55% {
-    clip: rect(30px, 9999px, 66px, 0);
+    clip: rect(68px, 9999px, 97px, 0);
   }
   60% {
-    clip: rect(65px, 9999px, 55px, 0);
+    clip: rect(97px, 9999px, 74px, 0);
   }
   65% {
-    clip: rect(43px, 9999px, 44px, 0);
+    clip: rect(47px, 9999px, 80px, 0);
   }
   70% {
-    clip: rect(76px, 9999px, 17px, 0);
+    clip: rect(88px, 9999px, 88px, 0);
   }
   75% {
-    clip: rect(70px, 9999px, 12px, 0);
+    clip: rect(64px, 9999px, 99px, 0);
   }
   80% {
-    clip: rect(8px, 9999px, 13px, 0);
+    clip: rect(63px, 9999px, 33px, 0);
   }
   85% {
-    clip: rect(88px, 9999px, 83px, 0);
+    clip: rect(11px, 9999px, 27px, 0);
   }
   90% {
-    clip: rect(75px, 9999px, 90px, 0);
+    clip: rect(44px, 9999px, 72px, 0);
   }
   95% {
-    clip: rect(57px, 9999px, 49px, 0);
+    clip: rect(19px, 9999px, 73px, 0);
   }
   100% {
-    clip: rect(98px, 9999px, 72px, 0);
+    clip: rect(94px, 9999px, 89px, 0);
   }
 }
 
 @keyframes noise-anim-2 {
   0% {
-    clip: rect(55px, 9999px, 33px, 0);
+    clip: rect(76px, 9999px, 91px, 0);
   }
   5% {
-    clip: rect(82px, 9999px, 53px, 0);
+    clip: rect(37px, 9999px, 61px, 0);
   }
   10% {
-    clip: rect(50px, 9999px, 49px, 0);
+    clip: rect(11px, 9999px, 76px, 0);
   }
   15% {
-    clip: rect(54px, 9999px, 57px, 0);
+    clip: rect(92px, 9999px, 59px, 0);
   }
   20% {
-    clip: rect(10px, 9999px, 41px, 0);
+    clip: rect(73px, 9999px, 65px, 0);
   }
   25% {
-    clip: rect(6px, 9999px, 69px, 0);
+    clip: rect(10px, 9999px, 53px, 0);
   }
   30% {
-    clip: rect(34px, 9999px, 9px, 0);
+    clip: rect(45px, 9999px, 25px, 0);
   }
   35% {
-    clip: rect(92px, 9999px, 77px, 0);
+    clip: rect(56px, 9999px, 8px, 0);
   }
   40% {
-    clip: rect(23px, 9999px, 8px, 0);
+    clip: rect(15px, 9999px, 74px, 0);
   }
   45% {
-    clip: rect(60px, 9999px, 83px, 0);
+    clip: rect(90px, 9999px, 62px, 0);
   }
   50% {
-    clip: rect(64px, 9999px, 95px, 0);
+    clip: rect(98px, 9999px, 66px, 0);
   }
   55% {
-    clip: rect(30px, 9999px, 66px, 0);
+    clip: rect(68px, 9999px, 97px, 0);
   }
   60% {
-    clip: rect(65px, 9999px, 55px, 0);
+    clip: rect(97px, 9999px, 74px, 0);
   }
   65% {
-    clip: rect(43px, 9999px, 44px, 0);
+    clip: rect(47px, 9999px, 80px, 0);
   }
   70% {
-    clip: rect(76px, 9999px, 17px, 0);
+    clip: rect(88px, 9999px, 88px, 0);
   }
   75% {
-    clip: rect(70px, 9999px, 12px, 0);
+    clip: rect(64px, 9999px, 99px, 0);
   }
   80% {
-    clip: rect(8px, 9999px, 13px, 0);
+    clip: rect(63px, 9999px, 33px, 0);
   }
   85% {
-    clip: rect(88px, 9999px, 83px, 0);
+    clip: rect(11px, 9999px, 27px, 0);
   }
   90% {
-    clip: rect(75px, 9999px, 90px, 0);
+    clip: rect(44px, 9999px, 72px, 0);
   }
   95% {
-    clip: rect(57px, 9999px, 49px, 0);
+    clip: rect(19px, 9999px, 73px, 0);
   }
   100% {
-    clip: rect(98px, 9999px, 72px, 0);
+    clip: rect(94px, 9999px, 89px, 0);
   }
 }
 .error:before {
@@ -13215,4 +13261,338 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+table {
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-accent-bg: transparent;
+  --bs-table-striped-color: #aab8c5;
+  --bs-table-striped-bg: rgba(64, 73, 84, 0.8);
+  --bs-table-active-color: #aab8c5;
+  --bs-table-active-bg: rgba(70, 79, 91, 0.4);
+  --bs-table-hover-color: #aab8c5;
+  --bs-table-hover-bg: #404954;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  color: #aab8c5;
+  vertical-align: top;
+  border-color: #464f5b;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.95rem 0.95rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.table > tbody {
+  vertical-align: inherit;
+}
+
+.table > thead {
+  vertical-align: bottom;
+}
+
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: #4c5460;
+}
+
+.caption-top {
+  caption-side: top;
+}
+
+.table-sm > :not(caption) > * > * {
+  padding: 0.5rem 0.5rem;
+}
+
+.table-bordered > :not(caption) > * {
+  border-width: 1px 0;
+}
+
+.table-bordered > :not(caption) > * > * {
+  border-width: 0 1px;
+}
+
+.table-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  --bs-table-accent-bg: var(--bs-table-striped-bg);
+  color: var(--bs-table-striped-color);
+}
+
+.table-active {
+  --bs-table-accent-bg: var(--bs-table-active-bg);
+  color: var(--bs-table-active-color);
+}
+
+.table-hover > tbody > tr:hover {
+  --bs-table-accent-bg: var(--bs-table-hover-bg);
+  color: var(--bs-table-hover-color);
+}
+
+.table-primary {
+  --bs-table-bg: #e3e5fd;
+  --bs-table-striped-bg: #59616e;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #9ea3b5;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #d6d9f0;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #d2d5eb;
+}
+
+.table-secondary {
+  --bs-table-bg: #f5f6f8;
+  --bs-table-striped-bg: #5d646d;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #a9adb2;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #e7e8eb;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #e2e4e7;
+}
+
+.table-success {
+  --bs-table-bg: #cef5ea;
+  --bs-table-striped-bg: #55646a;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #92adaa;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #c3e7de;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #bfe3da;
+}
+
+.table-info {
+  --bs-table-bg: #d7eff6;
+  --bs-table-striped-bg: #57636c;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #97a9b1;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #cbe2e9;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #c7dee5;
+}
+
+.table-warning {
+  --bs-table-bg: #fff2cc;
+  --bs-table-striped-bg: #5f6464;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #afab98;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #f0e5c2;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #ebe0bf;
+}
+
+.table-danger {
+  --bs-table-bg: #fedee5;
+  --bs-table-striped-bg: #5f6069;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #ae9fa7;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #efd2d9;
+  --bs-table-hover-color: #37404a;
+  color: #37404a;
+  border-color: #eaced6;
+}
+
+.table-light {
+  --bs-table-bg: #464f5b;
+  --bs-table-striped-bg: #dadcde;
+  --bs-table-striped-color: #37404a;
+  --bs-table-active-bg: #90959d;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #545c67;
+  --bs-table-hover-color: #fff;
+  color: #fff;
+  border-color: #59616b;
+}
+
+.table-dark {
+  --bs-table-bg: #464f5b;
+  --bs-table-striped-bg: #dadcde;
+  --bs-table-striped-color: #37404a;
+  --bs-table-active-bg: #90959d;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #545c67;
+  --bs-table-hover-color: #fff;
+  color: #fff;
+  border-color: #59616b;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 575.98px) {
+  .table-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 767.98px) {
+  .table-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 991.98px) {
+  .table-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 1199.98px) {
+  .table-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 1399.98px) {
+  .table-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+.table .action-icon {
+  color: #ced4da;
+  display: inline-block;
+  padding: 0 3px;
+}
+
+.table .action-icon:hover {
+  color: #dee2e6;
+}
+
+.table-nowrap td, .table-nowrap th {
+  white-space: nowrap;
+}
+
+.form-check {
+  display: block;
+  min-height: 1.35rem;
+  padding-left: 1.612em;
+  margin-bottom: 0;
+}
+
+.form-check .form-check-input {
+  float: left;
+  margin-left: -1.612em;
+}
+
+.form-check-input {
+  width: 1.112em;
+  height: 1.112em;
+  margin-top: 0.194em;
+  vertical-align: top;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid #4a525d;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+  transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-check-input {
+    transition: none;
+  }
+}
+.form-check-input[type=checkbox] {
+  border-radius: 0.25em;
+}
+
+.form-check-input[type=radio] {
+  border-radius: 50%;
+}
+
+.form-check-input:active {
+  filter: brightness(90%);
+}
+
+.form-check-input:focus {
+  border-color: #555f6b;
+  outline: 0;
+  box-shadow: none;
+}
+
+.form-check-input:checked {
+  background-color: #727cf5;
+  border-color: #727cf5;
+}
+
+.form-check-input:checked[type=checkbox] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.form-check-input:checked[type=radio] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.form-check-input[type=checkbox]:indeterminate {
+  background-color: #727cf5;
+  border-color: #727cf5;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+
+.form-check-input:disabled {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.5;
+}
+
+.form-check-input:disabled ~ .form-check-label, .form-check-input[disabled] ~ .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch {
+  padding-left: 2.5em;
+}
+
+.form-switch .form-check-input {
+  width: 2em;
+  margin-left: -2.5em;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23515a65'/%3e%3c/svg%3e");
+  background-position: left center;
+  border-radius: 2em;
+  transition: background-position 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-switch .form-check-input {
+    transition: none;
+  }
+}
+.form-switch .form-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23555f6b'/%3e%3c/svg%3e");
+}
+
+.form-switch .form-check-input:checked {
+  background-position: right center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.form-check-inline {
+  display: inline-block;
+  margin-right: 1rem;
 }

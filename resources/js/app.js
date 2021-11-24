@@ -1,7 +1,7 @@
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 import 'bootstrap';
-// import $ from 'jquery';
-// window.$ = window.jQuery = $;
-global.$ = global.jQuery = require('jquery');
+// global.$ = global.jQuery = require('jquery');
 
 // import 'jquery-ui/ui/widgets/datepicker.js';
 // $('.datepicker').datepicker();

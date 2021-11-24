@@ -15,9 +15,9 @@ class ProvisionDashboard extends Controller {
 	public function show() {
 		// CURRENT portfolio value and totals in PLN and USD0
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
-		$lastSnapshotDateTime = new DateTime($lastSnapshotTime);
-		$nextUpdate = $lastSnapshotDateTime;
-		$nextUpdate->add(new DateInterval('P5M'));
+//		$lastSnapshotDateTime = new DateTime($lastSnapshotTime);
+//		$nextUpdate = $lastSnapshotDateTime;
+//		$nextUpdate->add(new DateInterval('P5M'));
 
 //		$currentPortfolioSnapshotTiles = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTime)
 //			->OrderBy("value_in_pln", 'desc')
@@ -191,8 +191,8 @@ class ProvisionDashboard extends Controller {
 
 		$retData = [
 			'tiles'                    => $tiles,
-			'lastSnapshotTime'         => $lastSnapshotDateTime->format('Y-m-d H:i:s'),
-			'nextUpdate'               => $nextUpdate->format('Y-m-d H:i:s'),
+			'lastSnapshotTime' => $lastSnapshotTime, // DateTime->format('Y-m-d H:i:s'),
+//			'nextUpdate'               => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
 			'profitAndLosses'          => $profitAndLosses,
 		];

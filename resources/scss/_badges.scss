@@ -1,0 +1,9 @@
+.badge-success {
+  color: darken($green, 30%);
+  background-color: $green;
+}
+
+.badge-danger {
+  color: darken($red, 50%);
+  background-color: $red;
+}

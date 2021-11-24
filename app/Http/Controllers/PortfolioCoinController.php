@@ -68,7 +68,7 @@ class PortfolioCoinController extends Controller {
 	public function edit(PortfolioCoin  $portfolio_coin) {
 //		$coin = PortfolioCoin::find($id);
 
-		return view('portfolio-coins.edit',compact('portfolio_coin'));
+		return view('portfolio-coins.edit', compact('portfolio_coin'));
 //		return View::make('portfolio-coins.edit')
 //			->with('coin', $coin);
 	}

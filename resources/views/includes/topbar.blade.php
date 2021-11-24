@@ -1,12 +1,17 @@
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light topbar mb-4 static-top">
+<nav class="navbar navbar-expand navbar-light topbar static-top">
 
-{{--    Last update: {!! $lastSnapshotTime !!}--}}
-
-    <!-- Sidebar Toggle (Topbar) -->
+<!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
+
+    <!-- Custom Switch -->
+    <div class="form-check form-switch">
+        <input type="checkbox" class="form-check-input" onclick="toggleAutoRefresh(this);" id="reloadCB">
+{{--        <input type="checkbox" class="form-check-input" id="customSwitch1">--}}
+        <label class="form-check-label" for="reloadCB">Auto refresh</label>
+    </div>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -17,7 +22,8 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+{{--                {{ Auth::user()->name }}--}}
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Username or Login button here</span>
                 <img class="img-profile rounded-circle"
                      src="img/undraw_profile.svg">
             </a>
@@ -37,10 +43,22 @@
                     Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
+            {{--                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">--}}
+            {{--                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>--}}
+            {{--                    Logout--}}
+            {{--                </a>--}}
+
+            <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <a class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </form>
+
+
             </div>
         </li>
 
@@ -48,3 +66,26 @@
 
 </nav>
 <!-- End of Topbar -->
+
+<script>
+    var reloading;
+
+    function checkReloading() {
+        if (window.location.hash=="#autoreload") {
+            reloading=setTimeout("window.location.reload();", 300000);
+            document.getElementById("reloadCB").checked=true;
+        }
+    }
+
+    function toggleAutoRefresh(cb) {
+        if (cb.checked) {
+            window.location.replace("#autoreload");
+            reloading=setTimeout("window.location.reload();", 300000);
+        } else {
+            window.location.replace("#");
+            clearTimeout(reloading);
+        }
+    }
+
+    window.onload=checkReloading;
+</script>

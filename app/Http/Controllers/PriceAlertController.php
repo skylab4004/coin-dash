@@ -46,11 +46,14 @@ class PriceAlertController extends Controller {
 	}
 
 	public function show($id) {
-		//
+		$alert = PriceAlert::find($id);
+
+		return View::make('price-alerts.show')->with('alert', $alert);
 	}
 
 	public function edit($id) {
-		//
+		$alert = PriceAlert::find($id);
+		return view('price-alerts.edit')->with('alert', $alert);
 	}
 
 	public function update($id) {
