@@ -22,6 +22,6 @@ mix.js(['resources/js/app.js', 'resources/js/sb-admin-2.js', 'resources/js/custo
     .sass('resources/scss/app.scss', 'public/css')
     .purgeCss({
         enabled: false,
-    });
+    })
     // .js('node_modules/popper.js/dist/popper.js', 'public/js')
-    // .sourceMaps();
+    .sourceMaps();

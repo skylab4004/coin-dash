@@ -16,11 +16,6 @@
             </button>
         </div>
 
-        <div class="alert alert-success" id="success-alert">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>Success! </strong> Product have added to your wishlist.
-        </div>
-
         <!-- Content Row -->
         <div class="row">
 
@@ -192,7 +187,7 @@
     <!-- Tables Page level custom scripts -->
 {{--    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>--}}
 
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
         // $(document).ready(function() {
@@ -205,7 +200,7 @@
             // show the alert
             setTimeout(function() {
                 $(".alert").alert('close');
-            }, 2000);
+            }, 10000);
         });
     </script>
 
