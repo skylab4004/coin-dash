@@ -15,6 +15,11 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <span id="time">5:00</span>
+        <div class="progress mx-auto mb-2" style="max-width: 300px;">
+            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>
+        </div>
+
 
         <!-- Content Row -->
         <div class="row">
@@ -190,18 +195,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-        // $(document).ready(function() {
-        //     $("#success-alert").delay(4000).slideUp(200, function() {
-        //         $(this).alert('close');
-        //     });
-        // });
 
         $(document).ready(function() {
             // show the alert
             setTimeout(function() {
                 $(".alert").alert('close');
-            }, 10000);
+            }, 15000);
         });
+
+        function startTimer(duration, display, bar) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                var totalSeconds = 5 * 60
+                    , remainingSeconds = minutes * 60 + seconds
+
+                bar.style.width = (remainingSeconds*100/totalSeconds) + "%";
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var minutes = 60 * 5,
+                display = document.querySelector('#time');
+            bar = document.querySelector('#progressBar');
+            startTimer(minutes, display, bar);
+        };
     </script>
 
 @endsection
