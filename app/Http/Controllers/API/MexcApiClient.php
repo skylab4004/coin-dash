@@ -5,7 +5,7 @@ use Log;
 
 class MexcApiClient {
 
-	private static $apiUrl = "https://www.mxc.com/";
+	private static $apiUrl = "https://www.mexc.com/";
 
 	private $api;
 
