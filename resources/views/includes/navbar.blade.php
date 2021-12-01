@@ -77,6 +77,16 @@
     </li>
 
 
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Links & Stuff
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('links') }}">
+            <i class="fas fa-coins"></i>
+            <span>Links</span></a>
+    </li>
 
 {{--    <!-- Nav Item - Pages Collapse Menu -->--}}
 {{--    <li class="nav-item">--}}

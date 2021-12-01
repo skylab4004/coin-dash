@@ -24,9 +24,10 @@ Route::get('/portfolio-charts', [ProvisionPortfolioCharts::class, 'show'])->name
 
 Route::get('/charts', [ProvisionCharts::class, 'show'])->name('charts');
 
-Route::get('about', function () {
-	return view('pages.about');
-})->name('about');
+Route::get('/links', function () {
+	return view('pages.links');
+})->name('links');
+
 
 Route::resource('price-alerts', PriceAlertController::class)->middleware(['auth']);
 
