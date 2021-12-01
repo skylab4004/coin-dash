@@ -9,13 +9,13 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
 
-        <div class="alert alert-info alert-dismissible fade show" role="alert" id="alert-snapshot">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert-snapshot">
             Last update: <strong> {!! $lastSnapshotTime !!} </strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <span id="time">5:00</span>
+{{--        <span id="time">5:00</span>--}}
         <div class="progress mx-auto mb-2" style="max-width: 300px;">
             <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>
         </div>
@@ -196,12 +196,12 @@
 
     <script>
 
-        $(document).ready(function() {
-            // show the alert
-            setTimeout(function() {
-                $(".alert").alert('close');
-            }, 15000);
-        });
+        // $(document).ready(function() {
+        //     // show the alert
+        //     setTimeout(function() {
+        //         $(".alert").alert('close');
+        //     }, 15000);
+        // });
 
         function startTimer(duration, display, bar) {
             var timer = duration, minutes, seconds;
