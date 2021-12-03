@@ -73,7 +73,7 @@ class ProvisionDashboard extends Controller {
 			select 
 			       now.asset as asset, 
 			       now.quantity as quantity, 
-			       cast(now.val as integer) as value_in_pln, 
+			       now.val as value_in_pln, 
 			       now.quantity-5min.quantity as qty_delta_5min, 
 			       now.val-5min.val as pnl_5min,
 				   now.quantity-1h.quantity as qty_delta_1h, 
@@ -140,10 +140,8 @@ class ProvisionDashboard extends Controller {
 
 		// get ROI
 		$investment_in_pln = 50000;
-		$xx = $lastSnapshot[Constants::KEY_VALUE_IN_PLN];
-		$roiInPln = $xx - $investment_in_pln;
+		$roiInPln = $lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln;
 		$roiInPercents = (($lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln) / $investment_in_pln) * 100;
-
 
 		$tiles = [
 			Constants::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
