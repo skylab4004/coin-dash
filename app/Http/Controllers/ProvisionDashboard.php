@@ -103,7 +103,7 @@ class ProvisionDashboard extends Controller {
 		$profitAndLosses = DB::select($query);
 
 		foreach ($profitAndLosses as &$profitAndLoss) {
-			$profitAndLoss->val = Utils::dashboardNumber($profitAndLoss->value_in_pln);
+			$profitAndLoss->value_in_pln = Utils::dashboardNumber($profitAndLoss->value_in_pln);
 			$profitAndLoss->pnl_5_min = Utils::dashboardNumber($profitAndLoss->pnl_5min);
 			$profitAndLoss->pnl_1h = Utils::dashboardNumber($profitAndLoss->pnl_1h);
 			$profitAndLoss->pnl_3h = Utils::dashboardNumber($profitAndLoss->pnl_3h);
