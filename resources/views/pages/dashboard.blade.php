@@ -48,74 +48,71 @@
                     <thead>
                     <tr>
                         <th>Source</th>
-                        <th>Balance</th>
                         <th>PNL today</th>
                         <th>Δ today</th>
+                        <th>Balance</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>Binance</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_DELTA_TODAY]}}%</td>
-{{--                        <td>--}}
-{{--                            <x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_DELTA_TODAY]}}/>--}}
-{{--                        </td>--}}
                     </tr>
                     <tr>
                         <td>Metamask</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_DELTA_TODAY]}}%</td>
                     </tr>
                     <tr>
                         <td>BSC</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>Mexc</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_MXC_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>Bitbay</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>Polygon</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>Ascendex</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_BALANCE]}} </td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>Coinbase</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_BALANCE]}} </td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_DELTA_TODAY]}}%</td>
                     </tr>
 
                     <tr>
                         <td>KuCoin</td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}}</td>
-                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}}%</td>
                     </tr>
                     </tbody>
                 </table>

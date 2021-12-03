@@ -73,7 +73,7 @@ class ProvisionDashboard extends Controller {
 			select 
 			       now.asset as asset, 
 			       now.quantity as quantity, 
-			       now.val as value_in_pln, 
+			       cast(now.val as integer) as value_in_pln, 
 			       now.quantity-5min.quantity as qty_delta_5min, 
 			       now.val-5min.val as pnl_5min,
 				   now.quantity-1h.quantity as qty_delta_1h, 
