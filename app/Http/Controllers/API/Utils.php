@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Constants;
+
 class Utils {
 
 	public static function millisToTimestamp($millis) {
@@ -59,5 +61,20 @@ class Utils {
 
 	public static function implodeWithQuotes($array){
 		return "\"" . implode ( "\", ", $array ) . "\"";
+	}
+
+	public static function extractChartsLabelsAndDatasets($portfolioValues) {
+		$assetNames = $portfolioValues->unique('asset')->pluck('asset');
+		$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
+		$datasets = [];
+		foreach ($assetNames as $assetName) {
+			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck(Constants::KEY_VALUE_IN_PLN);
+			$datasets[] = ['label' => $assetName, 'data' => $datasetForAsset->toArray()];
+		}
+
+		return [
+			'labels'   => $labels,
+			'datasets' => $datasets,
+		];
 	}
 }

@@ -28,9 +28,14 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('portfolio-charts') }}">
+        <a class="nav-link" href="{{ route('portfolio-overview') }}">
             <i class="fas fa-wallet"></i>
             <span>Portfolio</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('portfolio-binance') }}">
+            <i class="fas fa-wallet"></i>
+            <span>Binance</span></a>
     </li>
 
     <!-- Divider -->

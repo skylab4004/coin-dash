@@ -126,7 +126,7 @@ class ProvisionPortfolioCharts extends Controller {
 			'lineChart'    => $lineChart,
 		];
 
-		return view('pages.portfolio', $retData);
+		return view('pages.portfolio-overview', $retData);
 
 	}
 

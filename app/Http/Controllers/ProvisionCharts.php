@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\Utils;
 use App\Models\DailyPortfolioValue;
 use App\Models\HourlyPortfolioValue;
 use App\Models\PortfolioSnapshot;
@@ -31,13 +32,13 @@ class ProvisionCharts {
 		// LAST 7 DAYS HOURLY STACKED CHART - todo zmienic na co 6h
 		$firstSnapshotTime7DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 7 DAY)')->min('snapshot_time');
 		$last7DaysSnapshots = HourlyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime7DaysAgo)->get();
-		$last7DaysSixHoursStackedChart = self::extractChartsLabelsAndDatasets($last7DaysSnapshots);
+		$last7DaysSixHoursStackedChart = Utils::extractChartsLabelsAndDatasets($last7DaysSnapshots);
 		unset($last7DaysSnapshots);
 
 		// DAILY STACKED CHART - last 30 days
 		$firstSnapshotTime30DaysAgo = DB::table('portfolio_snapshots')->whereRaw('CAST(snapshot_time AS DATE) >= DATE(NOW()-INTERVAL 30 DAY)')->min('snapshot_time');
 		$last30DailySnapshots = DailyPortfolioValue::where("snapshot_time", ">=", $firstSnapshotTime30DaysAgo)->get();
-		$last30DaysStackedChart = self::extractChartsLabelsAndDatasets($last30DailySnapshots);
+		$last30DaysStackedChart = Utils::extractChartsLabelsAndDatasets($last30DailySnapshots);
 		unset($last30DailySnapshots);
 
 		$retData = [
@@ -48,21 +49,6 @@ class ProvisionCharts {
 		];
 
 		return view('pages.charts', $retData);
-	}
-
-	private static function extractChartsLabelsAndDatasets($portfolioValues) {
-		$assetNames = $portfolioValues->unique('asset')->pluck('asset');
-		$labels = $portfolioValues->unique('snapshot_time')->sort()->pluck('snapshot_time');
-		$datasets = [];
-		foreach ($assetNames as $assetName) {
-			$datasetForAsset = $portfolioValues->where('asset', $assetName)->pluck(Constants::KEY_VALUE_IN_PLN);
-			$datasets[] = ['label' => $assetName, 'data' => $datasetForAsset->toArray()];
-		}
-
-		return [
-			'labels'   => $labels,
-			'datasets' => $datasets,
-		];
 	}
 
 }
