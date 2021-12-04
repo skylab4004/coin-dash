@@ -10,11 +10,11 @@
                 <div class="col mr-2">
                     <div class="text-sm font-weight-bold text-gray-400 text-uppercase mb-1">{{$title}}</div>
                     @if ($value < 0)
-                        <div class="mb-0 font-weight-bold text-danger text-xxl">{{$value}}
+                        <div class="mb-0 font-weight-bold text-danger text-xxl text-nowrap">{{$value}}
                             <span class="text-sm mb-0 font-weight-bold text-gray-400"> PLN</span>
                         </div>
                     @else
-                        <div class="mb-0 font-weight-bold text-success text-xxl">{{$value}}
+                        <div class="mb-0 font-weight-bold text-success text-xxl text-nowrap">{{$value}}
                             <span class="text-sm mb-0 font-weight-bold text-gray-400"> PLN</span>
                         </div>
                     @endif
@@ -29,12 +29,12 @@
             <!-- Percents badge -->
             <div class="row no-gutters align-items-center">
                 @if ($percent < 0 )
-                <span class="badge-pill badge-danger font-weight-bolder">
+                <span class="badge-pill badge-danger font-weight-bolder text-nowrap">
                     <i class="fas fa-caret-down"></i>
                     {{$percent}}%
                 </span>
                 @else
-                    <span class="badge-pill badge-success font-weight-bolder">
+                    <span class="badge-pill badge-success font-weight-bolder text-nowrap">
                         <i class="fas fa-caret-up"></i>
                         {{$percent}}%
                     </span>

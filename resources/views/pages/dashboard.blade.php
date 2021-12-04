@@ -43,7 +43,7 @@
             <div class="card-header pt-4">
                 <h4 class="header-title">Balances per CEX/DEX</h4>
             </div>
-            <div class="card-body pt-0">
+            <div class="card-body table-responsive pt-0">
                 <table class="table table-sm table-hover table-centered mb-0">
                     <thead>
                     <tr>
@@ -110,7 +110,7 @@
 
                     <tr>
                         <td>KuCoin</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}}unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit=""/></td>
                         <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}}</td>
                     </tr>
@@ -124,7 +124,7 @@
             <div class="card-header pt-4">
                 <h4 class="header-title">Profit and Loss Today</h4>
             </div>
-            <div class="card-body pt-0">
+            <div class="card-body table-responsive pt-0">
                 <table class="table table-sm table-centered mb-0">
                     <thead>
                     <tr>
@@ -152,7 +152,9 @@
                             <td>
                                 <x-percent-badge value="{{$profitAndLoss->pnl_5_min}}" unit=""/>
                             </td>
-                            <td>{{$profitAndLoss->value_in_pln}}</td>
+                            <td>
+                                <span class="text-nowrap">{{$profitAndLoss->value_in_pln}}</span>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -165,7 +167,7 @@
             <div class="card-header pt-4">
                 <h4 class="header-title">Current portfolio</h4>
             </div>
-            <div class="card-body pt-0">
+            <div class="card-body table-responsive pt-0">
                 <table class="table table-hover table-centered mb-0">
                     <thead>
                     <tr>
