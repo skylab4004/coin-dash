@@ -110,7 +110,7 @@
 
                     <tr>
                         <td>KuCoin</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit=""/></td>
+                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}}unit=""/></td>
                         <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}} unit="%"/></td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}}</td>
                     </tr>
@@ -129,22 +129,30 @@
                     <thead>
                     <tr>
                         <th>Coin</th>
-                        <th>PLN</th>
                         <th>Midnight</th>
                         <th>3h</th>
                         <th>1h</th>
                         <th>5m</th>
+                        <th>PLN</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($profitAndLosses as $profitAndLoss)
                         <tr>
                             <td>{{$profitAndLoss->asset}}</td>
+                            <td>
+                                <x-percent-badge value="{{$profitAndLoss->pnl_midnight}}" unit=""/>
+                            </td>
+                            <td>
+                                <x-percent-badge value="{{$profitAndLoss->pnl_3h}}" unit=""/>
+                            </td>
+                            <td>
+                                <x-percent-badge value="{{$profitAndLoss->pnl_1h}}" unit=""/>
+                            </td>
+                            <td>
+                                <x-percent-badge value="{{$profitAndLoss->pnl_5_min}}" unit=""/>
+                            </td>
                             <td>{{$profitAndLoss->value_in_pln}}</td>
-                            <td>{{$profitAndLoss->pnl_midnight}}</td>
-                            <td>{{$profitAndLoss->pnl_3h}}</td>
-                            <td>{{$profitAndLoss->pnl_1h}}</td>
-                            <td>{{$profitAndLoss->pnl_5_min}}</td>
                         </tr>
                     @endforeach
                     </tbody>

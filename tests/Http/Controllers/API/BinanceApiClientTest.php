@@ -17,6 +17,12 @@ class BinanceApiClientTest extends TestCase {
 		self::assertIsArray($ticker);
 	}
 
+	public function testgetPurchaseHistory() {
+		$purchaseHistory = $this::$binanceController->getPurchaseHistory("");
+		var_dump($purchaseHistory);
+
+	}
+
 	public function testPricesInUsdt() {
 		$ticker = $this::$binanceController->pricesInUsdt(['btc', 'eth', 'rune', 'luna', 'null']);
 		dd($ticker);
