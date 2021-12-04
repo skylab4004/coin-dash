@@ -29,14 +29,31 @@
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('portfolio-overview') }}">
-            <i class="fas fa-wallet"></i>
-            <span>Portfolio</span></a>
+            <i class="fas fa-chart-pie"></i>
+            <span>Overview</span></a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('portfolio-binance') }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+           aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-wallet"></i>
-            <span>Binance</span></a>
+            <span>Wallets</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('portfolio-binance') }}">Binance</a>
+                <a class="collapse-item" href="{{ route('portfolio-ethereum') }}">Ethereum</a>
+                <a class="collapse-item" href="{{ route('portfolio-mexc') }}">Mexc</a>
+                <a class="collapse-item" href="{{ route('portfolio-bsc') }}">BSC</a>
+                <a class="collapse-item" href="{{ route('portfolio-bitbay') }}">BitBay</a>
+                <a class="collapse-item" href="{{ route('portfolio-polygon') }}">Polygon</a>
+                <a class="collapse-item" href="{{ route('portfolio-ascendex') }}">AscendEx</a>
+                <a class="collapse-item" href="{{ route('portfolio-coinbase') }}">CoinBase</a>
+                <a class="collapse-item" href="{{ route('portfolio-kucoin') }}">KuCoin</a>
+            </div>
+        </div>
     </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">

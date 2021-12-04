@@ -10,7 +10,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Portfolio - Binance</h1>
+            <h1 class="h3 mb-0 text-gray-800">Portfolio - {{$walletName}}</h1>
         </div>
 
         <!-- Content Row -->
@@ -59,7 +59,7 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <div class="card-header pt-4">
-                        <h4 class="header-title">Wallets</h4>
+                        <h4 class="header-title">Wallet - {{$walletName}}</h4>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
@@ -74,7 +74,7 @@
         <!-- Current Portfolio -->
         <div class="card mb-4">
             <div class="card-header pt-4">
-                <h4 class="header-title">Current portfolio - Binance</h4>
+                <h4 class="header-title">Current portfolio - {{$walletName}}</h4>
             </div>
             <div class="card-body pt-0">
                 <table class="table table-hover table-centered mb-0">

@@ -4,8 +4,9 @@ use App\Http\Controllers\PortfolioCoinController;
 use App\Http\Controllers\PriceAlertController;
 use App\Http\Controllers\ProvisionCharts;
 use App\Http\Controllers\ProvisionDashboard;
-use App\Http\Controllers\ProvisionPortfolioBinance;
+use App\Http\Controllers\ProvisionPortfolioWallet;
 use App\Http\Controllers\ProvisionPortfolioCharts;
+use App\Models\PortfolioSnapshot;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +22,53 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProvisionDashboard::class, 'show'])->name('dashboard');
 
-Route::get('/portfolio-overview', [ProvisionPortfolioCharts::class, 'show'])->name('portfolio-overview');
-Route::get('/portfolio-binance', [ProvisionPortfolioBinance::class, 'show'])->name('portfolio-binance');
+Route::get('/portfolio/overview', [ProvisionPortfolioCharts::class, 'show'])->name('portfolio-overview');
+
+Route::get('/portfolio/binance', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['binance']]);
+})->name('portfolio-binance');
+
+Route::get('/portfolio/ethereum', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['erc20']]);
+})->name('portfolio-ethereum');
+
+Route::get('/portfolio/mexc', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['mexc']]);
+})->name('portfolio-mexc');
+
+Route::get('/portfolio/bsc', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['bsc20']]);
+})->name('portfolio-bsc');
+
+Route::get('/portfolio/bitbay', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['bitbay']]);
+})->name('portfolio-bitbay');
+
+Route::get('/portfolio/polygon', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['polygon']]);
+})->name('portfolio-polygon');
+
+Route::get('/portfolio/ascendex', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['ascendex']]);
+})->name('portfolio-ascendex');
+
+Route::get('/portfolio/coinbase', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['coinbase']]);
+})->name('portfolio-coinbase');
+
+Route::get('/portfolio/kucoin', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['kucoin']]);
+})->name('portfolio-kucoin');
+
 
 Route::get('/charts', [ProvisionCharts::class, 'show'])->name('charts');
 

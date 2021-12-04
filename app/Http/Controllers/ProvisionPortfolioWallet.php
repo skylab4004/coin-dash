@@ -6,14 +6,14 @@ use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
 use Illuminate\Support\Facades\DB;
 
-class ProvisionPortfolioBinance extends Controller {
+class ProvisionPortfolioWallet extends Controller {
 
-	public function show() {
+	public function show($sourceId) {
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
 
 		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, quantity, value_in_pln, value_in_usd')
 			->where('snapshot_time', $lastSnapshotTime)
-			->where('source', PortfolioSnapshot::SOURCES['binance'])
+			->where('source', $sourceId)
 			->OrderBy("value_in_pln", 'desc')
 			->get();
 
@@ -42,13 +42,13 @@ class ProvisionPortfolioBinance extends Controller {
 				) as t,
 				(
 				-- distinct assets of given wallet
-				select distinct asset from portfolio_snapshots where source=1 and snapshot_time between '$start' and '$end'
+				select distinct asset from portfolio_snapshots where source=$sourceId and snapshot_time between '$start' and '$end'
 				) as a
 			) d 
 			left join 
 			( 
 				-- portfolio_snapshots
-				select snapshot_time, source, asset, quantity, value_in_pln, value_in_usd, value_in_btc, value_in_eth from portfolio_snapshots where source=1 and snapshot_time between '$start' and '$end'
+				select snapshot_time, source, asset, quantity, value_in_pln, value_in_usd, value_in_btc, value_in_eth from portfolio_snapshots where source=$sourceId and snapshot_time between '$start' and '$end'
 			) b
 			on b.snapshot_time=d.snapshot_time and b.asset=d.asset
 			order by 1, 2
@@ -66,7 +66,7 @@ class ProvisionPortfolioBinance extends Controller {
 		// DAILY STACKED CHART
 		// query for daily stacked chart by source id and date range
 		$query = <<<SQL
-			select d.snapshot_time, d.asset, coalesce(b.source, 1), coalesce(b.quantity, 0) as quantity, coalesce(b.value_in_pln, 0) as value_in_pln, coalesce(b.value_in_usd, 0) as value_in_usd, coalesce(b.value_in_btc, 0) as value_in_btc, coalesce(b.value_in_eth, 0) as value_in_eth from 
+			select d.snapshot_time, d.asset, coalesce(b.source, $sourceId), coalesce(b.quantity, 0) as quantity, coalesce(b.value_in_pln, 0) as value_in_pln, coalesce(b.value_in_usd, 0) as value_in_usd, coalesce(b.value_in_btc, 0) as value_in_btc, coalesce(b.value_in_eth, 0) as value_in_eth from 
 			(
 			    -- snapshot times x assets
 				select t.snapshot_time, a.asset from  
@@ -76,13 +76,13 @@ class ProvisionPortfolioBinance extends Controller {
 				) as t,
 				(
 				-- distinct assets of given wallet
-				select distinct asset from portfolio_snapshots where source=1 and snapshot_time between '$start' and '$end'
+				select distinct asset from portfolio_snapshots where source=$sourceId and snapshot_time between '$start' and '$end'
 				) as a
 			) d 
 			left join 
 			( 
 				-- portfolio_snapshots
-				select snapshot_time, source, asset, quantity, value_in_pln, value_in_usd, value_in_btc, value_in_eth from portfolio_snapshots where source=1 and snapshot_time between '$start' and '$end'
+				select snapshot_time, source, asset, quantity, value_in_pln, value_in_usd, value_in_btc, value_in_eth from portfolio_snapshots where source=$sourceId and snapshot_time between '$start' and '$end'
 			) b
 			on b.snapshot_time=d.snapshot_time and b.asset=d.asset
 			order by 1, 2
@@ -93,6 +93,7 @@ class ProvisionPortfolioBinance extends Controller {
 		unset($stackedChart);
 
 		$retData = [
+			'walletName'                    => ucfirst(array_search($sourceId, PortfolioSnapshot::SOURCES)),
 			'lastSnapshotTime'              => $lastSnapshotTime,
 			'pieChart'                      => $pieChart,
 			'last7DaysSixHoursStackedChart' => $last7DaysSixHoursStackedChart,
@@ -100,7 +101,7 @@ class ProvisionPortfolioBinance extends Controller {
 			'snapshot'                      => $currentPortfolioSnapshot,
 		];
 
-		return view('pages.portfolio-binance', $retData);
+		return view('pages.portfolio-wallet', $retData);
 
 	}
 
