@@ -5,7 +5,7 @@ use App\Http\Controllers\PriceAlertController;
 use App\Http\Controllers\ProvisionCharts;
 use App\Http\Controllers\ProvisionDashboard;
 use App\Http\Controllers\ProvisionPortfolioWallet;
-use App\Http\Controllers\ProvisionPortfolioCharts;
+use App\Http\Controllers\ProvisionPortfolioOverview;
 use App\Models\PortfolioSnapshot;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProvisionDashboard::class, 'show'])->name('dashboard');
 
-Route::get('/portfolio/overview', [ProvisionPortfolioCharts::class, 'show'])->name('portfolio-overview');
+Route::get('/portfolio/overview', [ProvisionPortfolioOverview::class, 'show'])->name('portfolio-overview');
 
 Route::get('/portfolio/binance', function() {
 	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',

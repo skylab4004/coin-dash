@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\DailyPortfolioValue;
 use App\Models\PortfolioSnapshot;
+use App\Models\PortfolioTotal;
 
-class ProvisionPortfolioCharts extends Controller {
+class ProvisionPortfolioOverview extends Controller {
 
 	public function show() {
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
@@ -37,16 +38,18 @@ class ProvisionPortfolioCharts extends Controller {
 			->get()->toArray();
 
 
-		$last30DailySnapshots = DailyPortfolioValue::groupBy("snapshot_time")
-			->selectRaw('cast(snapshot_time as date) as snapshot_time, cast(sum(value_in_pln) as integer) as sum')
-			->pluck('sum', 'snapshot_time')->toArray();
-		$lineChart = $this->extractChartsLabelsAndDatasets($last30DailySnapshots);
-		unset($last30DailySnapshots);
+		$portfolioTotals = PortfolioTotal::selectRaw('cast(snapshot_time as date) as snapshot_time, cast(value_in_pln as integer) as sum')
+			->whereRaw('HOUR(snapshot_time)=0 and minute(snapshot_time)=0')
+			->pluck('sum', 'snapshot_time')
+			->toArray();
+
+		$lineChart = $this->extractChartsLabelsAndDatasets($portfolioTotals);
+		unset($portfolioTotals);
 
 		$retData = [
 			'pieChart'  => $pieChart,
 			'lineChart' => $lineChart,
-			'snapshot'    => $snapshot,
+			'snapshot'  => $snapshot,
 		];
 
 		return view('pages.portfolio-overview', $retData);
