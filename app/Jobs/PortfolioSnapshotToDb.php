@@ -53,6 +53,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		$portfolioCoinController = new PortfolioCoinController();
 		$coinToSymbolMapping = $portfolioCoinController->getSymbolToCoinGeckoIdMapping();
 
+		$totalPln = 0;
+		$totalUsd = 0;
+		$totalBtc = 0;
+		$totalEth = 0;
 
 		// HANDLE STATIC PORTFOLIO COINS
 		// TODO
@@ -103,6 +107,12 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 				}
 				$snapshot->save();
+
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
+
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -132,6 +142,11 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["usd"];
 				$snapshot->value_in_pln = $erc20Asset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($erc20Asset["asset"])]]["pln"];
 				$snapshot->save();
+
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -160,6 +175,11 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
 				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
 				$snapshot->save();
+
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -184,6 +204,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 //				$snapshot->value_in_usd = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["usd"];
 //				$snapshot->value_in_pln = $bilaxyBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bilaxyBalance["asset"])]]["pln"];
 //				$snapshot->save();
+//		$totalPln += $snapshot->value_in_pln;
+//		$totalUsd += $snapshot->value_in_usd;
+//		$totalEth += $snapshot->value_in_eth;
+//		$totalBtc += $snapshot->value_in_btc;
 //			} catch (Exception $e) {
 //				Log::error($e);
 //			}
@@ -206,6 +230,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot->value_in_usd = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["usd"];
 			$snapshot->value_in_pln = $bnbBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("bnb")]]["pln"];
 			$snapshot->save();
+			$totalPln += $snapshot->value_in_pln;
+			$totalUsd += $snapshot->value_in_usd;
+			$totalEth += $snapshot->value_in_eth;
+			$totalBtc += $snapshot->value_in_btc;
 		} catch (Exception $e) {
 			Log::error($e);
 		}
@@ -239,6 +267,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
 				$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
 				$snapshot->save();
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -272,6 +304,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 					$snapshot->value_in_pln = $bitbayAsset["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($bitbayAsset["asset"])]]["pln"];
 				}
 				$snapshot->save();
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -295,6 +331,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$snapshot->value_in_usd = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["usd"];
 			$snapshot->value_in_pln = $maticBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower("matic")]]["pln"];
 			$snapshot->save();
+			$totalPln += $snapshot->value_in_pln;
+			$totalUsd += $snapshot->value_in_usd;
+			$totalEth += $snapshot->value_in_eth;
+			$totalBtc += $snapshot->value_in_btc;
 		} catch (Exception $e) {
 			Log::error($e);
 		}
@@ -330,6 +370,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["usd"];
 				$snapshot->value_in_pln = $tokenBalance * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetSymbol)]]["pln"];
 				$snapshot->save();
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -355,6 +399,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
 				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
 				$snapshot->save();
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -379,6 +427,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
 				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
 				$snapshot->save();
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
@@ -402,12 +454,23 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
 				$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
 				$snapshot->save();
+
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
 			unset($assetBalance);
 		}
 		unset($kucoinBalances);
+
+		// store total portfolio values to dedicated table
+		//		$totalPln
+		//		$totalUsd
+		//		$totalEth
+		//		$totalBtc
 
 		// add missing coins to db
 		$coinsMissingInDb = array_diff($coinsMissingInDb, ["pln", "usd"]);
