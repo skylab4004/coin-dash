@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\Utils;
 use App\Http\Controllers\PortfolioCoinController;
 use App\Models\PortfolioSnapshot;
+use App\Models\PortfolioTotal;
 use DateTime;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -467,10 +468,13 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		unset($kucoinBalances);
 
 		// store total portfolio values to dedicated table
-		//		$totalPln
-		//		$totalUsd
-		//		$totalEth
-		//		$totalBtc
+		$totals = new PortfolioTotal();
+		$totals->snapshot_time = $updateTime;
+		$totals->value_in_btc = $totalBtc;
+		$totals->value_in_eth = $totalEth;
+		$totals->value_in_usd = $totalUsd;
+		$totals->value_in_pln = $totalPln;
+		$totals->save();
 
 		// add missing coins to db
 		$coinsMissingInDb = array_diff($coinsMissingInDb, ["pln", "usd"]);
