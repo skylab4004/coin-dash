@@ -13,6 +13,7 @@ class CoinGeckoControllerTest extends TestCase {
 
 	public function testFavoriteCoinPrices() {
 		$favoriteCoinPrices = $this::$geckoController->portfolioCoinsPrices();
+//		dd($favoriteCoinPrices);
 		self::assertIsArray($favoriteCoinPrices);
 	}
 

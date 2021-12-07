@@ -47,123 +47,38 @@
             </div>
         </div>
 
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Binance -->
-            <div class="col-xl">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Binance</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area h-auto">
-                            <canvas id="binanceChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+        <!-- Current Portfolio -->
+        <div class="card mb-4">
+            <div class="card-header pt-4">
+                <h4 class="header-title">Current portfolio</h4>
             </div>
-        </div>
-
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Ethereum -->
-            <div class="col-xl">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Ethereum</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area h-auto">
-                            <canvas id="erc20Chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Mexc -->
-            <div class="col-xl">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Mexc</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area h-auto">
-                            <canvas id="mexcChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Bitbay -->
-            <div class="col-xl">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Bitbay</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area h-auto">
-                            <canvas id="bitbayChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Binance Smart Chain -->
-            <div class="col-xl">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Binance Smart Chain</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area h-auto">
-                            <canvas id="bsc20Chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-body pt-0">
+                <table class="table table-hover table-centered mb-0">
+                    <thead>
+                    <tr>
+                        <th>Coin</th>
+                        <th>Source</th>
+                        <th>Quantity</th>
+                        <th>PLN</th>
+                        <th>USD</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($snapshot as $assetSnapshot)
+                        <tr>
+                            <td>{{$assetSnapshot['asset']}}</td>
+                            <td>{{$assetSnapshot['source']}}</td>
+                            <td>{{$assetSnapshot['quantity']}}</td>
+                            <td>{{$assetSnapshot['value_in_pln']}}</td>
+                            <td>{{$assetSnapshot['value_in_usd']}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
     </div>
-
-    {{--    <div>--}}
-    {{--        <!-- pie chart -->--}}
-    {{--        <h1 class="text-2xl text-gray-700">Bitbay</h1>--}}
-    {{--        <div class="flex justify-center py-2 align-middle inline-block">--}}
-    {{--            <canvas id="bitbayChart"></canvas>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
-    {{--    <div>--}}
-    {{--        <!-- pie chart -->--}}
-    {{--        <h1 class="text-2xl text-gray-700">Bsc20</h1>--}}
-    {{--        <div class="flex justify-center py-2 align-middle inline-block">--}}
-    {{--            <canvas id="bsc20Chart"></canvas>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
 
     <script>
 
@@ -250,72 +165,6 @@
             options: pieChartOptions,
         });
 
-        var binanceChart = new Chart(document.getElementById('binanceChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $binanceChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $binanceChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: pieChartOptions,
-        });
-
-
-        var erc20Chart = new Chart(document.getElementById('erc20Chart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $erc20Chart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $erc20Chart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: pieChartOptions,
-        });
-
-        var mexcChart = new Chart(document.getElementById('mexcChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $mexcChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $mexcChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: pieChartOptions,
-        });
-
-        var bsc20Chart = new Chart(document.getElementById('bsc20Chart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $bsc20Chart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $bsc20Chart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: pieChartOptions,
-        });
-
-
-        var bitbayChart = new Chart(document.getElementById('bitbayChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: {!! $bitbayChart['labels'] !!},
-                datasets: [{
-                    label: '# of Votes',
-                    data: {!! $bitbayChart['data'] !!},
-                    borderWidth: 0
-                }]
-            },
-            options: pieChartOptions,
-        });
     </script>
 
 @endsection

@@ -13,9 +13,10 @@ class CoinGeckoController extends Controller {
 	private static $vsCurrencies = "btc,eth,usd,pln";
 
 	public function portfolioCoinsPrices() {
-		$portfolioCoinsSymbols = (new PortfolioCoinController())->getCoinGeckoIdsForPortfolioCoins();
+//		$portfolioCoinsSymbols = (new PortfolioCoinController())->getCoinGeckoIdsForPortfolioCoins();
 		$api = new CoinGeckoClient();
-		return $api->simple()->getPrice($portfolioCoinsSymbols, $this::$vsCurrencies);
+//		return $api->simple()->getPrice($portfolioCoinsSymbols, $this::$vsCurrencies);
+		return $api->simple()->getPrice($this::$favoriteCoins, $this::$vsCurrencies);
 	}
 
 
