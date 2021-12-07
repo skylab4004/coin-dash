@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
+use App\Models\PortfolioTotal;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,11 @@ class ProvisionDashboard extends Controller {
 		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
 			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')
 			->max('snapshot_time');
+
+
+		$lastSnapshotTimeYesterday = PortfolioTotal::selectRaw('max(snapshot_time) as snapshot_time')
+			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')->first()->toArray()['snapshot_time'];
+
 		$yesterdaysLastPortfolioSnapshot = PortfolioSnapshot::where('snapshot_time', $lastSnapshotTimeYesterday)
 			->OrderBy("value_in_pln", 'desc')
 			->get();
