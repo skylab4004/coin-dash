@@ -62,9 +62,9 @@ class ProvisionDashboard extends Controller {
 		unset($snap);
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
-		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
-			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')
-			->max('snapshot_time');
+//		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
+//			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')
+//			->max('snapshot_time');
 
 
 		$lastSnapshotTimeYesterday = PortfolioTotal::selectRaw('max(snapshot_time) as snapshot_time')
