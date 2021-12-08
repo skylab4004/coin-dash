@@ -16,11 +16,10 @@
             </button>
         </div>
 {{--        <span id="time">5:00</span>--}}
-        <div class="progress mx-auto mb-2" style="max-width: 300px;">
-            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>
-        </div>
-
-
+{{--        <div class="progress mx-auto mb-2" style="max-width: 300px;">--}}
+{{--            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>--}}
+{{--        </div>--}}
+        
         <!-- Content Row -->
         <div class="row">
 
