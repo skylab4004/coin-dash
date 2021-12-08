@@ -62,11 +62,6 @@ class ProvisionDashboard extends Controller {
 		unset($snap);
 
 		// YESTERDAY's portfolio value and totals in PLN and USD
-//		$lastSnapshotTimeYesterday = DB::table('portfolio_snapshots')
-//			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')
-//			->max('snapshot_time');
-
-
 		$lastSnapshotTimeYesterday = PortfolioTotal::selectRaw('max(snapshot_time) as snapshot_time')
 			->whereRaw('CAST(snapshot_time AS DATE) = DATE(NOW()-INTERVAL 1 DAY)')->first()->toArray()['snapshot_time'];
 
@@ -132,13 +127,10 @@ class ProvisionDashboard extends Controller {
 		$todaysBscDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_BEP20_VALUE_IN_PLN);
 		$todaysPolygonPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);;
 		$todaysPolygonDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_POLYGON_VALUE_IN_PLN);
-
 		$todaysAscendexPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_ASCENDEX_VALUE_IN_PLN);;
 		$todaysAscendexDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_ASCENDEX_VALUE_IN_PLN);
-
 		$todaysCoinbasePNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);;
 		$todaysCoinbaseDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);
-
 		$todaysKucoinPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);;
 		$todaysKucoinDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);
 
