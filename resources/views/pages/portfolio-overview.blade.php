@@ -14,13 +14,32 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Full history</h6>
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Portfolio value in PLN</h4>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area h-auto">
                             <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Line Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Portfolio value in BTC</h4>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="btcTotals"></canvas>
                         </div>
                     </div>
                 </div>
@@ -82,6 +101,41 @@
 
     <script>
 
+        var lineChartOptions = {
+            elements: {
+                line: {
+                    tension: 0,
+                    borderWidth: 0,
+                },
+                point: {
+                    radius: 0,
+                },
+            },
+            legend: {
+                display: false,
+            },
+            datasets: [{
+                fill: true,
+            }],
+            responsive: true,
+            tooltips: {
+                mode: 'nearest',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: false,
+            },
+            plugins: {
+                colorschemes: {
+                    scheme: 'tableau.JewelBright9'
+                },
+                datalabels: {
+                    display: false,
+                },
+            },
+        };
+
         var lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {
             type: 'line',
             data: {
@@ -91,40 +145,19 @@
                     data: {!! $lineChart['data'] !!},
                 }]
             },
-            options: {
-                elements: {
-                    line: {
-                        tension: 0,
-                        borderWidth: 0,
-                    },
-                    point: {
-                        radius: 0,
-                    },
-                },
-                legend: {
-                    display: false,
-                },
+            options: lineChartOptions,
+        });
+
+        var btcTotals = new Chart(document.getElementById('btcTotals').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {!! $totalsBtc['labels'] !!},
                 datasets: [{
-                    fill: true,
-                }],
-                responsive: true,
-                tooltips: {
-                    mode: 'nearest',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: false,
-                },
-                plugins: {
-                    colorschemes: {
-                        scheme: 'tableau.JewelBright9'
-                    },
-                    datalabels: {
-                        display: false,
-                    },
-                },
+                    label: 'Value in BTC',
+                    data: {!! $totalsBtc['data'] !!},
+                }]
             },
+            options: lineChartOptions,
         });
 
         var pieChartOptions = {

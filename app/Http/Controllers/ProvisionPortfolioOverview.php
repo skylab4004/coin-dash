@@ -38,17 +38,20 @@ class ProvisionPortfolioOverview extends Controller {
 			->get()->toArray();
 
 
-		$portfolioTotals = PortfolioTotal::selectRaw('cast(snapshot_time as date) as snapshot_time, cast(value_in_pln as integer) as sum')
-			->whereRaw('HOUR(snapshot_time)=0 and minute(snapshot_time)=0')
-			->pluck('sum', 'snapshot_time')
-			->toArray();
+		$portfolioTotals = PortfolioTotal::selectRaw('cast(snapshot_time as date) as snapshot_time, cast(value_in_pln as integer) as value_in_pln, value_in_btc')
+			->whereRaw('HOUR(snapshot_time)=0 and minute(snapshot_time)=0')->get();
 
-		$lineChart = $this->extractChartsLabelsAndDatasets($portfolioTotals);
+		$totalsInPln = $portfolioTotals->pluck('value_in_pln', 'snapshot_time')->toArray();
+		$totalsInBtc = $portfolioTotals->pluck('value_in_btc', 'snapshot_time')->toArray();
+
+		$lineChart = $this->extractChartsLabelsAndDatasets($totalsInPln);
+		$lineChartTotalsInBtc = $this->extractChartsLabelsAndDatasets($totalsInBtc);
 		unset($portfolioTotals);
 
 		$retData = [
 			'pieChart'  => $pieChart,
 			'lineChart' => $lineChart,
+			'totalsBtc' => $lineChartTotalsInBtc,
 			'snapshot'  => $snapshot,
 		];
 
