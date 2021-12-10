@@ -9,7 +9,6 @@
 
         <!-- Content Row -->
         <div class="row">
-
             <!-- Line Chart -->
             <div class="col-xl">
                 <div class="card shadow mb-4">
@@ -48,13 +47,51 @@
 
         <!-- Content Row -->
         <div class="row">
+            <!-- Line Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Last 7D in PLN</h4>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="last24hInPlnChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Line Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Last 7D in BTC</h4>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="last24hInBtcChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
 
             <!-- Pie Chart -->
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Wallets</h6>
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Wallets</h4>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
@@ -159,6 +196,31 @@
             },
             options: lineChartOptions,
         });
+
+        var last24hInPlnChart = new Chart(document.getElementById('last24hInPlnChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {!! $last24hInPlnChart['labels'] !!},
+                datasets: [{
+                    label: 'Value in PLN',
+                    data: {!! $last24hInPlnChart['data'] !!},
+                }]
+            },
+            options: lineChartOptions,
+        });
+
+        var last24hInBtcChart = new Chart(document.getElementById('last24hInBtcChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {!! $last24hInBtcChart['labels'] !!},
+                datasets: [{
+                    label: 'Value in PLN',
+                    data: {!! $last24hInBtcChart['data'] !!},
+                }]
+            },
+            options: lineChartOptions,
+        });
+
 
         var pieChartOptions = {
             cutoutPercentage: 50,
