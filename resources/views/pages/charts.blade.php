@@ -109,7 +109,8 @@
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'tableau.JewelBright9'
+                    // scheme: 'tableau.JewelBright9'
+                    scheme: ['#2c8ef8', '#727cf5', '#6b5eae', '#ff679b', '#fa5c7c', '#fd7e14', '#ffbc00', '#0acf97', '#02a8b5', '#39afd1']
                 },
                 datalabels: {
                     display: false,
@@ -124,7 +125,8 @@
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'tableau.JewelBright9'
+                    // scheme: 'tableau.JewelBright9'
+                    scheme: ['#2c8ef8', '#727cf5', '#6b5eae', '#ff679b', '#fa5c7c', '#fd7e14', '#ffbc00', '#0acf97', '#02a8b5', '#39afd1']
                 },
                 datalabels: {
                     display: false,

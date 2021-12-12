@@ -40,14 +40,11 @@
         <div class="row">
             <div class="col-sm">
                 <div class="card mb-4">
-                    <div class="card-header pt-4">
-                        <h4 class="header-title">Gainers</h4>
-                    </div>
-                    <div class="card-body table-responsive pt-0">
-                        <table class="table table-sm table-hover table-centered mb-0">
+                    <div class="card-body table-responsive">
+                        <table class="table table-sm table-borderless table-hover table-centered mb-0">
                             <thead>
                             <tr>
-                                <th>Coin</th>
+                                <th>Gainer</th>
                                 <th>Midnight</th>
                                 <th>3h</th>
                                 <th>1h</th>
@@ -85,14 +82,11 @@
 
             <div class="col-sm">
                 <div class="card mb-4">
-                    <div class="card-header pt-4">
-                        <h4 class="header-title">Losers</h4>
-                    </div>
-                    <div class="card-body table-responsive pt-0">
-                        <table class="table table-sm table-hover table-centered mb-0">
+                    <div class="card-body table-responsive">
+                        <table class="table table-sm table-borderless table-hover table-centered mb-0">
                             <thead>
                             <tr>
-                                <th>Coin</th>
+                                <th>Loser</th>
                                 <th>Midnight</th>
                                 <th>3h</th>
                                 <th>1h</th>
@@ -134,7 +128,7 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header pt-4">
+                    <div class="card-header pt-4 pb-0">
                         <h4 class="header-title">Portfolio value in PLN</h4>
                     </div>
                     <!-- Card Body -->
@@ -150,7 +144,7 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header pt-4">
+                    <div class="card-header pt-4 pb-0">
                         <h4 class="header-title">Last 7D in PLN</h4>
                     </div>
                     <!-- Card Body -->
@@ -446,7 +440,9 @@
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'tableau.JewelBright9'
+                    // scheme: 'tableau.JewelBright9',
+                    scheme: ['#727cf5', '#6b5eae', '#ff679b', '#fa5c7c', '#fd7e14', '#ffbc00', '#0acf97', '#02a8b5', '#39afd1', '#2c8ef8']
+
                 },
                 datalabels: {
                     display: false,
