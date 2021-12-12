@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-    <!-- Page Heading -->
+        <!-- Page Heading -->
         <div class="page-title-box">
             <h4 class="page-title">Dashboard</h4>
         </div>
@@ -15,26 +15,118 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-{{--        <span id="time">5:00</span>--}}
-{{--        <div class="progress mx-auto mb-2" style="max-width: 300px;">--}}
-{{--            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>--}}
-{{--        </div>--}}
-        
-        <!-- Content Row -->
+    {{--        <span id="time">5:00</span>--}}
+    {{--        <div class="progress mx-auto mb-2" style="max-width: 300px;">--}}
+    {{--            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>--}}
+    {{--        </div>--}}
+
+    <!-- Content Row -->
         <div class="row">
 
-                <x-stats-tile title="Total Balance"
-                              value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_BALANCE]}} unit="PLN"
-                              percent={{null}}/>
-                <x-stats-tile title="PNL Today"
-                              value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
-                              percent={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_DELTA_TODAY]}}/>
-                <x-stats-tile title="ROI"
-                              value={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PLN]}} unit="PLN"
-                              percent={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PERCENTS]}}/>
-                <x-stats-tile title="Yesterday closing"
-                              value={{$tiles[\App\Http\Controllers\Constants::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
-                              percent={{null}}/>
+            <x-stats-tile title="Total Balance"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+            <x-stats-tile title="PNL Today"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_DELTA_TODAY]}}/>
+            <x-stats-tile title="ROI"
+                          value={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PLN]}} unit="PLN"
+                          percent={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PERCENTS]}}/>
+            <x-stats-tile title="Yesterday closing"
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
+                          percent={{null}}/>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="card mb-4">
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Gainers</h4>
+                    </div>
+                    <div class="card-body table-responsive pt-0">
+                        <table class="table table-sm table-hover table-centered mb-0">
+                            <thead>
+                            <tr>
+                                <th>Coin</th>
+                                <th>Midnight</th>
+                                <th>3h</th>
+                                <th>1h</th>
+                                <th>5m</th>
+                                <th>PLN</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($topGainers as $gainer)
+                                <tr>
+                                    <td><span class="text-success font-weight-bold font-20">{{$gainer->asset}}</span>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$gainer->pnl_midnight}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$gainer->pnl_3h}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$gainer->pnl_1h}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$gainer->pnl_5_min}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <span class="text-nowrap">{{$gainer->value_in_pln}}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card mb-4">
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Losers</h4>
+                    </div>
+                    <div class="card-body table-responsive pt-0">
+                        <table class="table table-sm table-hover table-centered mb-0">
+                            <thead>
+                            <tr>
+                                <th>Coin</th>
+                                <th>Midnight</th>
+                                <th>3h</th>
+                                <th>1h</th>
+                                <th>5m</th>
+                                <th>PLN</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($topLosers as $loser)
+                                <tr>
+                                    <td><span class="text-danger font-weight-bold font-20">{{$loser->asset}}</span></td>
+                                    <td>
+                                        <x-percent-badge value="{{$loser->pnl_midnight}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$loser->pnl_3h}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$loser->pnl_1h}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <x-percent-badge value="{{$loser->pnl_5_min}}" unit=""/>
+                                    </td>
+                                    <td>
+                                        <span class="text-nowrap">{{$loser->value_in_pln}}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Balances per DEX/CEX -->
@@ -55,62 +147,116 @@
                     <tbody>
                     <tr>
                         <td>Binance</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BINANCE_BALANCE]}}</td>
                     </tr>
                     <tr>
                         <td>Metamask</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_METAMASK_BALANCE]}}</td>
                     </tr>
                     <tr>
                         <td>BSC</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BEP20_BALANCE]}}</td>
                     </tr>
 
                     <tr>
                         <td>Mexc</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_MXC_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_MXC_BALANCE]}}</td>
                     </tr>
 
                     <tr>
                         <td>Bitbay</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_BITBAY_BALANCE]}}</td>
                     </tr>
 
                     <tr>
                         <td>Polygon</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_POLYGON_BALANCE]}}</td>
                     </tr>
 
                     <tr>
                         <td>Ascendex</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_ASCENDEX_BALANCE]}} </td>
                     </tr>
 
                     <tr>
                         <td>Coinbase</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_COINBASE_BALANCE]}} </td>
                     </tr>
 
                     <tr>
                         <td>KuCoin</td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit=""/></td>
-                        <td><x-percent-badge value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}} unit="%"/></td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}}</td>
                     </tr>
                     </tbody>
@@ -196,7 +342,7 @@
     <!-- /.container-fluid -->
 
     <!-- Tables Page level custom scripts -->
-{{--    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>--}}
+    {{--    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>--}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -218,7 +364,7 @@
                 var totalSeconds = 5 * 60
                     , remainingSeconds = minutes * 60 + seconds
 
-                bar.style.width = (remainingSeconds*100/totalSeconds) + "%";
+                bar.style.width = (remainingSeconds * 100 / totalSeconds) + "%";
 
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;

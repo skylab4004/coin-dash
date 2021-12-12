@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\API\Utils;
 use App\Models\PortfolioSnapshot;
 use App\Models\PortfolioTotal;
-use DateInterval;
-use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ProvisionDashboard extends Controller {
@@ -112,6 +110,14 @@ class ProvisionDashboard extends Controller {
 		}
 		unset($profitAndLoss);
 
+		$topGainers = collect($profitAndLosses);
+		$topLosers = $topGainers->splice(5);
+		$topLosers = $topLosers->reverse(); //->splice(5);
+		$topLosers->splice(5);
+
+		$topGainers = $topGainers->toArray();
+		$topLosers = $topLosers->toArray();
+
 		// in PLN
 		$todaysTotalPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_VALUE_IN_PLN);
 		$todaysTotalDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_VALUE_IN_PLN);
@@ -133,7 +139,6 @@ class ProvisionDashboard extends Controller {
 		$todaysCoinbaseDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_COINBASE_VALUE_IN_PLN);
 		$todaysKucoinPNLinPln = ProvisionDashboard::safeDiff($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);;
 		$todaysKucoinDeltaPercentsFromPln = ProvisionDashboard::safeDelta($lastSnapshot, $yesterdaysSnapshot, Constants::KEY_KUCOIN_VALUE_IN_PLN);
-
 
 
 		// get ROI
@@ -180,14 +185,16 @@ class ProvisionDashboard extends Controller {
 
 			Constants::TILE_YESTERDAY_TOTAL_BALANCE => Utils::formattedNumber($yesterdaysSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
 
-			Constants::KEY_ROI_IN_PLN => Utils::formattedNumber($roiInPln, 0, ' '),
-			Constants::KEY_ROI_IN_PERCENTS => Utils::formattedNumber($roiInPercents, 2,' '),
+			Constants::KEY_ROI_IN_PLN      => Utils::formattedNumber($roiInPln, 0, ' '),
+			Constants::KEY_ROI_IN_PERCENTS => Utils::formattedNumber($roiInPercents, 2, ' '),
 
 		];
 
 		$retData = [
+			'lastSnapshotTime'         => $lastSnapshotTime, // DateTime->format('Y-m-d H:i:s'),
 			'tiles'                    => $tiles,
-			'lastSnapshotTime' => $lastSnapshotTime, // DateTime->format('Y-m-d H:i:s'),
+			'topGainers'               => $topGainers,
+			'topLosers'                => $topLosers,
 //			'nextUpdate'               => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
 			'profitAndLosses'          => $profitAndLosses,
@@ -274,7 +281,6 @@ class ProvisionDashboard extends Controller {
 
 		}
 		unset($assetSnapshot);
-
 
 
 		return $tilesValues;
