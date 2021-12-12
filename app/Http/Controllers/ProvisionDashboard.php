@@ -195,6 +195,11 @@ class ProvisionDashboard extends Controller {
 		$totalsInPln = $portfolioTotals->pluck('value_in_pln', 'snapshot_time')->toArray();
 		$lineChart = $this->extractChartsLabelsAndDatasets($totalsInPln);
 
+		$last24h = PortfolioTotal::selectRaw('snapshot_time, cast(value_in_pln as integer) as value_in_pln, value_in_btc')
+			->whereRaw('snapshot_time >= NOW()-INTERVAL 7 DAY AND mod(minute(snapshot_time), 30)=0')->get();
+		$last24hInPln = $last24h->pluck('value_in_pln', 'snapshot_time')->toArray();
+		$last24hInPlnChart = $this->extractChartsLabelsAndDatasets($last24hInPln);
+
 		$retData = [
 			'lastSnapshotTime'         => $lastSnapshotTime, // DateTime->format('Y-m-d H:i:s'),
 			'tiles'                    => $tiles,
@@ -204,6 +209,7 @@ class ProvisionDashboard extends Controller {
 			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
 			'profitAndLosses'          => $profitAndLosses,
 			'lineChart'                => $lineChart,
+			'last24hInPlnChart' => $last24hInPlnChart,
 		];
 
 		return view('pages.dashboard', $retData);

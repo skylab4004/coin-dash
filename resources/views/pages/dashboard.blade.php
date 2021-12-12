@@ -145,7 +145,24 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Line Chart -->
+            <div class="col-xl">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header pt-4">
+                        <h4 class="header-title">Last 7D in PLN</h4>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="last24hInPlnChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
         <!-- Balances per DEX/CEX -->
         <div class="card mb-4">
@@ -435,6 +452,13 @@
                     display: false,
                 },
             },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }]
+            }
         };
 
         var lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {
@@ -449,6 +473,17 @@
             options: lineChartOptions,
         });
 
+        var last24hInPlnChart = new Chart(document.getElementById('last24hInPlnChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {!! $last24hInPlnChart['labels'] !!},
+                datasets: [{
+                    label: 'Value in PLN',
+                    data: {!! $last24hInPlnChart['data'] !!},
+                }]
+            },
+            options: lineChartOptions,
+        });
     </script>
 
 @endsection
