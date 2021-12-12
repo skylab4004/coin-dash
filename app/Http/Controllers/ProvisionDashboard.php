@@ -190,6 +190,11 @@ class ProvisionDashboard extends Controller {
 
 		];
 
+		$portfolioTotals = PortfolioTotal::selectRaw('cast(snapshot_time as date) as snapshot_time, cast(value_in_pln as integer) as value_in_pln, value_in_btc')
+			->whereRaw('HOUR(snapshot_time)=0 and minute(snapshot_time)=0')->get();
+		$totalsInPln = $portfolioTotals->pluck('value_in_pln', 'snapshot_time')->toArray();
+		$lineChart = $this->extractChartsLabelsAndDatasets($totalsInPln);
+
 		$retData = [
 			'lastSnapshotTime'         => $lastSnapshotTime, // DateTime->format('Y-m-d H:i:s'),
 			'tiles'                    => $tiles,
@@ -198,6 +203,7 @@ class ProvisionDashboard extends Controller {
 //			'nextUpdate'               => $nextUpdate->format('Y-m-d H:i:s'),
 			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
 			'profitAndLosses'          => $profitAndLosses,
+			'lineChart'                => $lineChart,
 		];
 
 		return view('pages.dashboard', $retData);
@@ -325,6 +331,21 @@ class ProvisionDashboard extends Controller {
 		}
 
 		return $deltaVal;
+	}
+
+	private function arrayToDataset(array $array, bool $quotes = false) {
+		if ($quotes) {
+			return "['" . implode("','", $array) . "']";
+		}
+
+		return "[" . implode(",", $array) . "]";
+	}
+
+	private function extractChartsLabelsAndDatasets($portfolioValues) {
+		return [
+			'labels' => $this->arrayToDataset(array_keys($portfolioValues), true),
+			'data'   => $this->arrayToDataset(array_values($portfolioValues))
+		];
 	}
 
 }
