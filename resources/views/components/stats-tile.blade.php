@@ -8,7 +8,7 @@
         <div class="card-body py-md-2">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <div class="text-sm font-weight-bold text-gray-400 text-uppercase mb-1">{{$title}}</div>
+                    <div class="text-sm font-weight-bold text-secondary text-uppercase mb-1">{{$title}}</div>
                     @if ($value < 0)
                         <div class="mb-0 font-weight-bold text-danger text-xxl text-nowrap">{{$value}}
                             <span class="text-sm mb-0 font-weight-bold text-gray-400"> PLN</span>

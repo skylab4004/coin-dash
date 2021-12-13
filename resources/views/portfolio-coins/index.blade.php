@@ -30,8 +30,7 @@
             <div class="card-header pt-3 pb-0">
                 <a href="{{ route('portfolio-coins.create') }}" class="btn btn-primary">Create</a>
             </div>
-            <div class="card-body">
-
+            <div class="card-body table-responsive">
                 <table class="table table-hover table-centered my-0">
                     <thead>
                     <tr>
@@ -86,7 +85,7 @@
 
 
 
-                <div class="table-responsive">
+                <div>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>

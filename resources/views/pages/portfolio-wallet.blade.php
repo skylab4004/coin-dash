@@ -76,7 +76,7 @@
             <div class="card-header pt-4">
                 <h4 class="header-title">Current portfolio - {{$walletName}}</h4>
             </div>
-            <div class="card-body pt-0">
+            <div class="card-body table-responsive pt-0">
                 <table class="table table-hover table-centered mb-0">
                     <thead>
                     <tr>
