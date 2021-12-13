@@ -40,8 +40,8 @@
         <div class="row">
             <div class="col-sm">
                 <div class="card mb-4">
-                    <div class="card-body table-responsive">
-                        <table class="table table-sm table-borderless table-hover table-centered mb-0">
+                    <div class="card-body table-responsive align-middle">
+                        <table class="table table-sm table-borderless table-hover table-centered mb-0 align-middle">
                             <thead>
                             <tr>
                                 <th>Gainer</th>
@@ -55,21 +55,21 @@
                             <tbody>
                             @foreach($topGainers as $gainer)
                                 <tr>
-                                    <td><span class="text-success font-weight-bold font-20">{{$gainer->asset}}</span>
+                                    <td class="align-middle"><span class="text-success font-weight-bold font-20">{{$gainer->asset}}</span>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$gainer->pnl_midnight}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$gainer->pnl_3h}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$gainer->pnl_1h}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$gainer->pnl_5_min}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <span class="text-nowrap">{{$gainer->value_in_pln}}</span>
                                     </td>
                                 </tr>
@@ -97,20 +97,20 @@
                             <tbody>
                             @foreach($topLosers as $loser)
                                 <tr>
-                                    <td><span class="text-danger font-weight-bold font-20">{{$loser->asset}}</span></td>
-                                    <td>
+                                    <td class="align-middle"><span class="text-danger font-weight-bold font-20">{{$loser->asset}}</span></td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$loser->pnl_midnight}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$loser->pnl_3h}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$loser->pnl_1h}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <x-percent-badge value="{{$loser->pnl_5_min}}" unit=""/>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <span class="text-nowrap">{{$loser->value_in_pln}}</span>
                                     </td>
                                 </tr>
