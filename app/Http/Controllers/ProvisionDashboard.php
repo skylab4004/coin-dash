@@ -107,6 +107,7 @@ class ProvisionDashboard extends Controller {
 			$profitAndLoss->pnl_1h = Utils::dashboardNumber($profitAndLoss->pnl_1h);
 			$profitAndLoss->pnl_3h = Utils::dashboardNumber($profitAndLoss->pnl_3h);
 			$profitAndLoss->pnl_midnight = Utils::dashboardNumber($profitAndLoss->pnl_midnight);
+
 		}
 		unset($profitAndLoss);
 

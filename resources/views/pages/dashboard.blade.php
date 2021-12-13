@@ -451,9 +451,14 @@
             scales: {
                 xAxes: [{
                     ticks: {
-                        display: false
-                    }
-                }]
+                        display: false,
+                    },
+                }],
+                yAxes: [{
+                    ticks: {
+                        display: false,
+                    },
+                }],
             }
         };
 
