@@ -3,11 +3,18 @@
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Portfolio</h1>
+
+        <!-- Page Heading -->
+        <div class="page-title-box">
+            <h4 class="page-title">Portfolio</h4>
         </div>
-        <div>
-            <p>Last update: {!! $lastSnapshotTime !!} </p>
+
+        <!-- Last update alert -->
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert-snapshot">
+            Last update: <strong> {!! $lastSnapshotTime !!} </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
 
 
@@ -18,9 +25,10 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Last 7 days (6h interval)</h6>
+                    <div class="card-header pt-4 pb-0">
+                        <h4 class="header-title">Last 7 days (6h interval)</h4>
                     </div>
+
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area h-auto">
@@ -36,10 +44,12 @@
             <!-- Stacked Chart -->
             <div class="col-xl">
                 <div class="card shadow mb-4">
+
                     <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Last 30 days (1d interval)</h6>
+                    <div class="card-header pt-4 pb-0">
+                        <h4 class="header-title">Last 30 days (1d interval)</h4>
                     </div>
+
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area h-auto">
@@ -56,8 +66,8 @@
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Portfolio pie chart</h6>
+                    <div class="card-header pt-4 pb-0">
+                        <h4 class="header-title">Portfolio pie chart</h4>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">

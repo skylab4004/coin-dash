@@ -6,7 +6,7 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <!-- Custom Switch -->
+    <!-- Autoreload switch -->
     <div class="form-check form-switch">
         <input type="checkbox" class="form-check-input" id="reloadCB" onclick="toggleAutoRefresh(this);">
         <label class="form-check-label" for="reloadCB">Auto refresh</label>

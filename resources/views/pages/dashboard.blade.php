@@ -9,18 +9,21 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
 
+        <!-- Last update alert -->
         <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert-snapshot">
             Last update: <strong> {!! $lastSnapshotTime !!} </strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+
+    {{--    <!-- Progress bar - time until next reload -->--}}
     {{--        <span id="time">5:00</span>--}}
     {{--        <div class="progress mx-auto mb-2" style="max-width: 300px;">--}}
     {{--            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" id="progressBar" style="width: 100%" aria-valuenow="time"></div>--}}
     {{--        </div>--}}
 
-    <!-- Content Row -->
+    <!-- Stats tiles row -->
         <div class="row">
 
             <x-stats-tile title="Total Balance"
@@ -37,7 +40,10 @@
                           percent={{null}}/>
         </div>
 
+        <!-- Content Row -->
         <div class="row">
+
+            <!-- Top 5 Gainers today -->
             <div class="col-sm">
                 <div class="card mb-4">
                     <div class="card-body table-responsive align-middle">
@@ -80,6 +86,7 @@
                 </div>
             </div>
 
+            <!-- Top 5 Losers today -->
             <div class="col-sm">
                 <div class="card mb-4">
                     <div class="card-body table-responsive">
@@ -124,7 +131,8 @@
 
         <!-- Content Row -->
         <div class="row">
-            <!-- Line Chart -->
+
+            <!-- Line chart for portfolio value in PLN (full history, daily) -->
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
@@ -140,7 +148,7 @@
                 </div>
             </div>
 
-            <!-- Line Chart -->
+            <!-- Line chart for portfolio value in PLN (last 7 days, each 30 minutes) -->
             <div class="col-xl">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
@@ -158,7 +166,7 @@
         </div>
 
 
-        <!-- Balances per DEX/CEX -->
+        <!-- Balance change per DEX/CEX wallet -->
         <div class="card mb-4">
             <div class="card-header pt-4">
                 <h4 class="header-title">Balances per CEX/DEX</h4>
@@ -336,10 +344,10 @@
             </div>
         </div>
 
-        <!-- Current Portfolio -->
+        <!-- Current Portfolio snapshot -->
         <div class="card mb-4">
             <div class="card-header pt-4">
-                <h4 class="header-title">Current portfolio</h4>
+                <h4 class="header-title">Current portfolio snapshot</h4>
             </div>
             <div class="card-body table-responsive pt-0">
                 <table class="table table-hover table-centered mb-0">
