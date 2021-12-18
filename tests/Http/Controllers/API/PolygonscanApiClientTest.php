@@ -23,7 +23,8 @@ class PolygonscanApiClientTest extends TestCase {
 	public function testGetTransactions() {
 		$client = new PolygonscanApiClient();
 		$txList = $client->getTxList();
-		self::assertIsNumeric($txList);
+		print_r($txList);
+		self::assertIsArray($txList);
 	}
 
 	public function testMergeArrays() {

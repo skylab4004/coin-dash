@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DailyPortfolioValue;
 use App\Models\PortfolioSnapshot;
 use App\Models\PortfolioTotal;
 
@@ -59,12 +58,12 @@ class ProvisionPortfolioOverview extends Controller {
 		unset($last24h);
 
 		$retData = [
-			'pieChart'  => $pieChart,
-			'lineChart' => $lineChart,
-			'totalsBtc' => $lineChartTotalsInBtc,
+			'pieChart'          => $pieChart,
+			'lineChart'         => $lineChart,
+			'totalsBtc'         => $lineChartTotalsInBtc,
 			'last24hInPlnChart' => $last24hInPlnChart,
 			'last24hInBtcChart' => $last24hInBtcChart,
-			'snapshot'  => $snapshot,
+			'snapshot'          => $snapshot,
 		];
 
 		return view('pages.portfolio-overview', $retData);
