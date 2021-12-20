@@ -58,6 +58,7 @@ class ProvisionPortfolioOverview extends Controller {
 		unset($last24h);
 
 		$retData = [
+			'enum'              => PortfolioSnapshot::SOURCES,
 			'pieChart'          => $pieChart,
 			'lineChart'         => $lineChart,
 			'totalsBtc'         => $lineChartTotalsInBtc,

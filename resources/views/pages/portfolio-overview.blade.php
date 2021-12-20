@@ -123,7 +123,7 @@
                     @foreach($snapshot as $assetSnapshot)
                         <tr>
                             <td>{{$assetSnapshot['asset']}}</td>
-                            <td>{{$assetSnapshot['source']}}</td>
+                            <td>{{  ucfirst( array_search($assetSnapshot['source'], $enum) ) }}</td>
                             <td>{{$assetSnapshot['quantity']}}</td>
                             <td>{{$assetSnapshot['value_in_pln']}}</td>
                             <td>{{$assetSnapshot['value_in_usd']}}</td>
