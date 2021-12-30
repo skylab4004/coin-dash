@@ -13,6 +13,7 @@ use App\Http\Controllers\API\KucoinApiClient;
 use App\Http\Controllers\API\MexcApiClient;
 use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\Secret;
+use App\Http\Controllers\API\TerraApiClient;
 use App\Http\Controllers\API\Utils;
 use App\Http\Controllers\PortfolioCoinController;
 use App\Models\PortfolioSnapshot;
@@ -509,6 +510,38 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				unset($assetBalance);
 			}
 			unset($kucoinBalances);
+		} catch (Exception $ex) {
+			Log::error($ex);
+		}
+
+		try {
+			// handle terra
+			$terraApiClient = new TerraApiClient();
+			$terraBalances = $terraApiClient->getBalances();
+			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($terraBalances, 'asset')));
+			foreach ($terraBalances as $assetBalance) {
+				try {
+					$snapshot = new PortfolioSnapshot();
+					$snapshot->snapshot_time = $updateTime;
+					$snapshot->source = PortfolioSnapshot::SOURCES['terra'];
+					$snapshot->asset = $assetBalance["asset"];
+					$snapshot->quantity = $assetBalance["qty"];
+					$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+					$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+					$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+					$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+					$snapshot->save();
+
+					$totalPln += $snapshot->value_in_pln;
+					$totalUsd += $snapshot->value_in_usd;
+					$totalEth += $snapshot->value_in_eth;
+					$totalBtc += $snapshot->value_in_btc;
+				} catch (Exception $e) {
+					Log::error($e);
+				}
+				unset($assetBalance);
+			}
+			unset($terraBalances);
 		} catch (Exception $ex) {
 			Log::error($ex);
 		}

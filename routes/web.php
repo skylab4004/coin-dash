@@ -69,6 +69,10 @@ Route::get('/portfolio/kucoin', function() {
 		['sourceId' => PortfolioSnapshot::SOURCES['kucoin']]);
 })->name('portfolio-kucoin');
 
+Route::get('/portfolio/terra', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['terra']]);
+})->name('portfolio-terra');
 
 Route::get('/charts', [ProvisionCharts::class, 'show'])->name('charts');
 

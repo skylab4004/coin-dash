@@ -50,6 +50,7 @@
                 <a class="collapse-item" href="{{ route('portfolio-ascendex') }}">AscendEx</a>
                 <a class="collapse-item" href="{{ route('portfolio-coinbase') }}">CoinBase</a>
                 <a class="collapse-item" href="{{ route('portfolio-kucoin') }}">KuCoin</a>
+                <a class="collapse-item" href="{{ route('portfolio-terra') }}">Terra</a>
             </div>
         </div>
     </li>

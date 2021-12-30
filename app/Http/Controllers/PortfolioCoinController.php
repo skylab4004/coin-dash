@@ -121,23 +121,21 @@ class PortfolioCoinController extends Controller {
 
 		switch (count($matchingCoins)) {
 			case 0:
-				Log::error("Can't find matching coin with symbol {$tickerSymbol} on CoinGecko!");
-
+				Log::alert("Can't find matching coin with symbol {$tickerSymbol} on CoinGecko!");
 				return false;
 			case 1:
 				$success = $this->addNewCoinByCoinGeckoId($matchingCoins[0]['id']);
 				if ($success) {
-					Log::info("Coin '{$matchingCoins[0]['id']}' added successfully");
+					Log::alert("Coin '{$matchingCoins[0]['id']}' added successfully");
 				}
 
 				return $success;
 			default:
 				$array_column = array_column($matchingCoins, 'id');
 				$array_column = implode(", ", $array_column);
-				Log::error("Found more than one matching coin with symbol '{$tickerSymbol}' on CoinGecko with IDs: {$array_column}. Manual help is necessary! Execute: (new App\\Http\Controllers\\PortfolioCoinController())->addNewCoinByCoinGeckoId('COINGECKO_ID');");
+				Log::alert("Found more than one matching coin with symbol '{$tickerSymbol}' on CoinGecko with IDs: {$array_column}. Manual help is necessary! Execute: (new App\\Http\Controllers\\PortfolioCoinController())->addNewCoinByCoinGeckoId('COINGECKO_ID');");
 
 				return false;
-
 		}
 	}
 
