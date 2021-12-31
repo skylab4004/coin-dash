@@ -296,6 +296,20 @@
                         </td>
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_KUCOIN_BALANCE]}}</td>
                     </tr>
+
+                    <tr>
+                        <td>Terra</td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_TERRA_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_TERRA_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
+                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_TERRA_BALANCE]}}</td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>

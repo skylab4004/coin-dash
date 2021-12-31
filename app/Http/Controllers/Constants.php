@@ -57,5 +57,10 @@ class Constants {
 	public const TILE_KUCOIN_BALANCE = "kucoin_balance";
 	public const TILE_KUCOIN_PNL_TODAY = "kucoin_pnl_today";
 	public const TILE_KUCOIN_PNL_DELTA_TODAY = "kucoin_pnl_delta_today";
+	public const TILE_TERRA_PNL_TODAY = "terra_pnl_today";
+	public const TILE_TERRA_PNL_DELTA_TODAY = "terra_pnl_delta_today";
+	public const TILE_TERRA_BALANCE = "terra_balance";
+	public const KEY_TERRA_VALUE_IN_PLN = "terra_value_in_pln";
+	public const KEY_TERRA_VALUE_IN_USD = "terra_value_in_usd";
 
 }
