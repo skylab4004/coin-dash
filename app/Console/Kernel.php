@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\PortfolioTotalValueAlertsJob;
 use App\Jobs\PriceAlertsJob;
 use App\Jobs\PortfolioSnapshotToDb;
 use Illuminate\Console\Scheduling\Schedule;
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule) {
 		$schedule->job(new PortfolioSnapshotToDb())->everyFiveMinutes();
 		$schedule->job(new PriceAlertsJob())->everyMinute();
+//		$schedule->job(new PortfolioTotalValueAlertsJob())->everyFiveMinutes();
 	}
 
 	/**

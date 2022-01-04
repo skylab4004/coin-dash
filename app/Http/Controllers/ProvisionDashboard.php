@@ -268,19 +268,19 @@ class ProvisionDashboard extends Controller {
 		foreach ($portfolioSnapshot as $assetSnapshot) {
 			$tilesValues[Constants::KEY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 			$tilesValues[Constants::KEY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			if ($assetSnapshot['source'] == 1) { // todo: pobieranie na podstawie slownika dla source w db
+			if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['binance']) {
 				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			} else if ($assetSnapshot['source'] == 2) {
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['erc20']) {
 				$tilesValues[Constants::KEY_METAMASK_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_METAMASK_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			} else if ($assetSnapshot['source'] == 3) {
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['mexc']) {
 				$tilesValues[Constants::KEY_MXC_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_MXC_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			} else if ($assetSnapshot['source'] == 6) {
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['bitbay']) {
 				$tilesValues[Constants::KEY_BITBAY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_BITBAY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
-			} else if ($assetSnapshot['source'] == 5) {
+			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['bsc20']) {
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 				$tilesValues[Constants::KEY_BEP20_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['polygon']) {
