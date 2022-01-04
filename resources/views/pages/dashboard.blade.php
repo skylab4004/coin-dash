@@ -131,10 +131,29 @@
 
         <!-- Content Row -->
         <div class="row">
+            <!-- Line chart for portfolio value in PLN (last 24 hours, each 5 minutes) -->
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header pt-4 pb-0">
+                        <h4 class="header-title">Last 24h in PLN</h4>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area h-auto">
+                            <canvas id="last24hInPlnChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
 
             <!-- Line chart for portfolio value in PLN (full history, daily) -->
             <div class="col-xl">
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <!-- Card Header -->
                     <div class="card-header pt-4 pb-0">
                         <h4 class="header-title">Portfolio value in PLN</h4>
@@ -150,7 +169,7 @@
 
             <!-- Line chart for portfolio value in PLN (last 7 days, each 30 minutes) -->
             <div class="col-xl">
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <!-- Card Header -->
                     <div class="card-header pt-4 pb-0">
                         <h4 class="header-title">Last 7D in PLN</h4>
@@ -158,7 +177,7 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area h-auto">
-                            <canvas id="last24hInPlnChart"></canvas>
+                            <canvas id="last7dInPlnChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -490,6 +509,18 @@
                 datasets: [{
                     label: 'Value in PLN',
                     data: {!! $lineChart['data'] !!},
+                }]
+            },
+            options: lineChartOptions,
+        });
+
+        var last7dInPlnChart = new Chart(document.getElementById('last7dInPlnChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {!! $last7dInPlnChart['labels'] !!},
+                datasets: [{
+                    label: 'Value in PLN',
+                    data: {!! $last7dInPlnChart['data'] !!},
                 }]
             },
             options: lineChartOptions,
