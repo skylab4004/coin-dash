@@ -20,7 +20,7 @@ class MexcApiClient {
 				$balances[] = ['asset' => $assetName, 'qty' => $assetTotal];
 			}
 		} catch (Exception $e) {
-			Log::error($e, ['getAccountInfo' => $accountInfo]);
+			Log::error($e->getMessage(), ['getAccountInfo' => $accountInfo]);
 		} finally {
 			return $balances;
 		}
