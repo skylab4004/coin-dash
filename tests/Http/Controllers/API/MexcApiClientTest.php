@@ -23,6 +23,7 @@ class MexcApiClientTest extends TestCase {
 
 	public function testGetAccountInfo() {
 		$accountIn = $this::$mexcApi->getAccountInfo();
+		dd($accountIn);
 		self::assertJson($accountIn);
 	}
 

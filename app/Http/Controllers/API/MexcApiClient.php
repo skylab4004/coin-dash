@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\API;
 
 use Exception;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class MexcApiClient {
 
@@ -12,16 +12,19 @@ class MexcApiClient {
 	public function getBalances() {
 		$balances = [];
 		try {
-			$accountInfoArray = json_decode($this->getAccountInfo(), true);
+			$accountInfo = $this->getAccountInfo();
+			$accountInfoArray = json_decode($accountInfo, true);
 			$assets = $accountInfoArray['data'];
 			foreach ($assets as $assetName => $balance) {
-				$assetTotal = $balance['frozen']+$balance['available'];
+				$assetTotal = $balance['frozen'] + $balance['available'];
 				$balances[] = ['asset' => $assetName, 'qty' => $assetTotal];
 			}
 		} catch (Exception $e) {
-			Log::error($e);
+			Log::error($e, ['getAccountInfo' => $accountInfo]);
+		} finally {
+			return $balances;
 		}
-		return $balances;
+
 	}
 
 	public function getAccountInfo() {
@@ -29,7 +32,7 @@ class MexcApiClient {
 		$req_time = (int) round(microtime(true));
 		$params = ["api_key" => Secret::$MEXC_API_KEY, "req_time" => $req_time];
 		$params["sign"] = self::getSignature("GET", $uri, http_build_query($params));
-		$url = sprintf("%s?%s", self::$apiUrl.$uri, http_build_query($params));
+		$url = sprintf("%s?%s", self::$apiUrl . $uri, http_build_query($params));
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -41,6 +44,7 @@ class MexcApiClient {
 
 	private static function getSignature($method, $requestUri, $params) {
 		$string = "{$method}\n{$requestUri}\n{$params}";
+
 		return hash_hmac('sha256', $string, Secret::$MEXC_SECRET_KEY);
 	}
 
