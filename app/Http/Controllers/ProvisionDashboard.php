@@ -145,7 +145,7 @@ class ProvisionDashboard extends Controller {
 
 
 		// get ROI
-		$investment_in_pln = 50000;
+		$investment_in_pln = 100000;
 		$roiInPln = $lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln;
 		$roiInPercents = (($lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln) / $investment_in_pln) * 100;
 
