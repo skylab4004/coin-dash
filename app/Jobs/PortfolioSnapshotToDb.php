@@ -515,7 +515,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		}
 
 		try {
-			// handle terra
+			// handle terra - native tokens
 			$terraApiClient = new TerraApiClient();
 			$terraBalances = $terraApiClient->getBalances();
 			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($terraBalances, 'asset')));
@@ -545,6 +545,46 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		} catch (Exception $ex) {
 			Log::error($ex);
 		}
+
+		try {
+			// handle terra - CW20 tokens
+
+			$cw20Tokens = [
+				"AUST" => "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu",
+				"ANC"  => "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76",
+			];
+
+			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_keys($cw20Tokens)));
+
+			foreach ($cw20Tokens as $assetSymbol => $contract) {
+				try {
+					$terraApiClient = new TerraApiClient();
+					$assetBalance = $terraApiClient->getTokenBalance($contract);
+
+					$snapshot = new PortfolioSnapshot();
+					$snapshot->snapshot_time = $updateTime;
+					$snapshot->source = PortfolioSnapshot::SOURCES['terra'];
+					$snapshot->asset = $assetBalance["asset"];
+					$snapshot->quantity = $assetBalance["qty"];
+					$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+					$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+					$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+					$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+					$snapshot->save();
+
+					$totalPln += $snapshot->value_in_pln;
+					$totalUsd += $snapshot->value_in_usd;
+					$totalEth += $snapshot->value_in_eth;
+					$totalBtc += $snapshot->value_in_btc;
+				} catch (Exception $e) {
+					Log::error($e);
+				}
+			}
+			unset($assetBalance);
+		} catch (Exception $ex) {
+			Log::error($ex);
+		}
+
 
 		try {
 			// store total portfolio values to dedicated table
