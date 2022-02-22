@@ -17,4 +17,10 @@ class CoinGeckoControllerTest extends TestCase {
 		self::assertIsArray($favoriteCoinPrices);
 	}
 
+	public function testGetPrice() {
+		$price = $this::$geckoController->getPrice('smooth-love-potion');
+		dd($price);
+		self::assertIsArray($price);
+	}
+
 }

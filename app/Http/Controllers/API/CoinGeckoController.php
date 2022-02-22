@@ -21,6 +21,11 @@ class CoinGeckoController extends Controller {
 //		return $api->simple()->getPrice($this::$favoriteCoins, $this::$vsCurrencies);
 	}
 
+	public function getPrice($geckoId) {
+		$api = new CoinGeckoClient();
+		return $api->simple()->getPrice($geckoId, $this::$vsCurrencies);
+	}
+
 	public function saveMarkets(int $startPage = 1, int $endPage = 1, int $pageSize = 100, string $vsCurrency = "USD") {
 		$api = new CoinGeckoClient();
 
