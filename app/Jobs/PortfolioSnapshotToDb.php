@@ -83,6 +83,11 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
 				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
 				$snapshot->save();
+
+				$totalPln += $snapshot->value_in_pln;
+				$totalUsd += $snapshot->value_in_usd;
+				$totalEth += $snapshot->value_in_eth;
+				$totalBtc += $snapshot->value_in_btc;
 			} catch (Exception $e) {
 				Log::error($e);
 			}
