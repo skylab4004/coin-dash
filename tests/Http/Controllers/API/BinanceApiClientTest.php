@@ -17,21 +17,24 @@ class BinanceApiClientTest extends TestCase {
 		self::assertIsArray($ticker);
 	}
 
+	public function testShow() {
+		$balances = $this::$binanceController->show();
+		self::assertIsArray($balances);
+		print_r($balances);
+	}
+
 	public function testgetPurchaseHistory() {
 		$purchaseHistory = $this::$binanceController->getPurchaseHistory("");
-		var_dump($purchaseHistory);
 
 	}
 
 	public function testPricesInUsdt() {
 		$ticker = $this::$binanceController->pricesInUsdt(['btc', 'eth', 'rune', 'luna', 'null']);
-		dd($ticker);
 		self::assertIsArray($ticker);
 	}
 
 	public function testCurrentPrice() {
 		$price = $this::$binanceController->currentPrice("BTCUSDT");
-		print($price);
 		self::assertIsNumeric($price);
 	}
 

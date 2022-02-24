@@ -64,23 +64,30 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		// TODO
 //		$staticCoins = new StaticPortfolioCoinController();
 //		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
-//		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
-//			try {
-//				$snapshot = new PortfolioSnapshot();
-//				$snapshot->snapshot_time = $updateTime;
-//				$snapshot->source = 0; // 0 = STATIC COIN
-//				$snapshot->asset = $staticPortfolioCoin['symbol'];
-//				$snapshot->quantity = $staticPortfolioCoin['quantity'];
-//				$snapshot->value_in_btc = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["btc"];
-//				$snapshot->value_in_eth = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["eth"];
-//				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
-//				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
-//				$snapshot->save();
-//			} catch (Exception $e) {
-//				Log::error($e);
-//			}
-//			unset($staticPortfolioCoin);
-//		}
+		$staticPortfolioCoins =
+			[
+				[
+					"asset" => "LUNA",
+					"qty"   => 40,
+				],
+			];
+		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
+			try {
+				$snapshot = new PortfolioSnapshot();
+				$snapshot->snapshot_time = $updateTime;
+				$snapshot->source = PortfolioSnapshot::SOURCES['static']; // 0 = STATIC COIN
+				$snapshot->asset = $staticPortfolioCoin['asset'];
+				$snapshot->quantity = $staticPortfolioCoin['qty'];
+				$snapshot->value_in_btc = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["btc"];
+				$snapshot->value_in_eth = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["eth"];
+				$snapshot->value_in_usd = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["usd"];
+				$snapshot->value_in_pln = $staticPortfolioCoin["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($staticPortfolioCoin["asset"])]]["pln"];
+				$snapshot->save();
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+			unset($staticPortfolioCoin);
+		}
 
 		try {
 			// HANDLE BINANCE PORTFOLIO
@@ -131,7 +138,6 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			$ethplorerClient = new EthplorerApiClient();
 			$addressInfo = $ethplorerClient->getAddressInfo(Secret::$ERC_WALLET_ADDRESS);
 			$erc20Balances = $ethplorerClient->erc20Balances($addressInfo);
-
 			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($erc20Balances, 'asset')));
 
 			foreach ($erc20Balances as $erc20Asset) {
@@ -584,7 +590,6 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		} catch (Exception $ex) {
 			Log::error($ex);
 		}
-
 
 		try {
 			// store total portfolio values to dedicated table

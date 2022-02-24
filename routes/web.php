@@ -24,6 +24,11 @@ Route::get('/', [ProvisionDashboard::class, 'show'])->name('dashboard');
 
 Route::get('/portfolio/overview', [ProvisionPortfolioOverview::class, 'show'])->name('portfolio-overview');
 
+Route::get('/portfolio/static', function() {
+	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
+		['sourceId' => PortfolioSnapshot::SOURCES['static']]);
+})->name('portfolio-static');
+
 Route::get('/portfolio/binance', function() {
 	return App::call('App\Http\Controllers\ProvisionPortfolioWallet@show',
 		['sourceId' => PortfolioSnapshot::SOURCES['binance']]);

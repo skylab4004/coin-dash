@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PortfolioSnapshot extends Model {
 
 	public const SOURCES = [
+		'static'   => 0,
 		'binance'  => 1,
 		'erc20'    => 2,
 		'mexc'     => 3,
