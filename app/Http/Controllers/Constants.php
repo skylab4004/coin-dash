@@ -28,6 +28,7 @@ class Constants {
 	public const TILE_BEP20_BALANCE = 'bep20_balance';
 	public const KEY_VALUE_IN_PLN = "value_in_pln";
 	public const KEY_VALUE_IN_USD = "value_in_usd";
+	public const KEY_VALUE_IN_BTC = "value_in_btc";
 	public const TILE_METAMASK_PNL_DELTA_TODAY = 'metamask_pnl_delta_today';
 	public const KEY_MXC_VALUE_IN_PLN = "mxc_value_in_pln";
 	public const TILE_BITBAY_PNL_DELTA_TODAY = 'bitbay_pnl_delta_today';

@@ -23,7 +23,7 @@ class ProvisionDashboard extends Controller {
 //			->get()
 //			->toArray();
 
-		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, source, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
+		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, source, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd, sum(value_in_btc) as value_in_btc')
 			->where('snapshot_time', $lastSnapshotTime)
 			->groupBy('asset', 'source')
 			->OrderBy("value_in_pln", 'desc')
@@ -150,7 +150,9 @@ class ProvisionDashboard extends Controller {
 		$roiInPercents = (($lastSnapshot[Constants::KEY_VALUE_IN_PLN] - $investment_in_pln) / $investment_in_pln) * 100;
 
 		$tiles = [
-			Constants::TILE_TOTAL_BALANCE            => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
+			Constants::TILE_TOTAL_BALANCE => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_PLN], 0, ' '),
+			Constants::KEY_VALUE_IN_BTC   => Utils::formattedNumber($lastSnapshot[Constants::KEY_VALUE_IN_BTC], 8, ' '),
+
 			Constants::TILE_TOTAL_PNL_TODAY          => Utils::formattedNumber($todaysTotalPNLinPln, 0, ' '),
 			Constants::TILE_TOTAL_PNL_DELTA_TODAY    => Utils::formattedNumber($todaysTotalDeltaPercentsFromPln, 2),
 			Constants::TILE_BINANCE_BALANCE          => Utils::formattedNumber($lastSnapshot[Constants::KEY_BINANCE_VALUE_IN_PLN], 0, ' '),
@@ -220,7 +222,7 @@ class ProvisionDashboard extends Controller {
 			'currentPortfolioSnapshot' => self::optimize($currentPortfolioSnapshotTable),
 			'profitAndLosses'          => $profitAndLosses,
 			'lineChart'                => $lineChart,
-			'last7dInPlnChart'        => $last7dInPlnChart,
+			'last7dInPlnChart'         => $last7dInPlnChart,
 			'last24hInPlnChart'        => $last24hInPlnChart,
 		];
 
@@ -242,6 +244,7 @@ class ProvisionDashboard extends Controller {
 	private static function loadValuesForTiles($portfolioSnapshot) {
 		$tilesValues[Constants::KEY_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_VALUE_IN_USD] = 0;
+		$tilesValues[Constants::KEY_VALUE_IN_BTC] = 0;
 		$tilesValues[Constants::KEY_BINANCE_VALUE_IN_PLN] = 0;
 		$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] = 0;
 		$tilesValues[Constants::KEY_METAMASK_VALUE_IN_PLN] = 0;
@@ -274,8 +277,10 @@ class ProvisionDashboard extends Controller {
 		foreach ($portfolioSnapshot as $assetSnapshot) {
 			$tilesValues[Constants::KEY_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
 			$tilesValues[Constants::KEY_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
+			$tilesValues[Constants::KEY_VALUE_IN_BTC] += $assetSnapshot[Constants::KEY_VALUE_IN_BTC];
 			if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['binance']) {
 				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];
+				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 				$tilesValues[Constants::KEY_BINANCE_VALUE_IN_USD] += $assetSnapshot[Constants::KEY_VALUE_IN_USD];
 			} else if ($assetSnapshot['source'] == PortfolioSnapshot::SOURCES['erc20']) {
 				$tilesValues[Constants::KEY_METAMASK_VALUE_IN_PLN] += $assetSnapshot[Constants::KEY_VALUE_IN_PLN];

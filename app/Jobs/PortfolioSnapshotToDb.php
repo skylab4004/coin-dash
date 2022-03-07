@@ -64,7 +64,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 		// TODO
 //		$staticCoins = new StaticPortfolioCoinController();
 //		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
-		$staticPortfolioCoins =
+		$staticPortfolioCoins = // todo: this must be read from db
 			[
 				[
 					"asset" => "LUNA",

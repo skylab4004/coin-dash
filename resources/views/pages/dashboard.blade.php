@@ -25,10 +25,9 @@
 
     <!-- Stats tiles row -->
         <div class="row">
-
             <x-stats-tile title="Total Balance"
                           value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_BALANCE]}} unit="PLN"
-                          percent={{null}}/>
+                          secondary={{$tiles[\App\Http\Controllers\Constants::KEY_VALUE_IN_BTC]}} secondary_unit="BTC"/>
             <x-stats-tile title="PNL Today"
                           value={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_TODAY]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\Constants::TILE_TOTAL_PNL_DELTA_TODAY]}}/>
@@ -36,8 +35,7 @@
                           value={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PLN]}} unit="PLN"
                           percent={{$tiles[\App\Http\Controllers\Constants::KEY_ROI_IN_PERCENTS]}}/>
             <x-stats-tile title="Yesterday closing"
-                          value={{$tiles[\App\Http\Controllers\Constants::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"
-                          percent={{null}}/>
+                          value={{$tiles[\App\Http\Controllers\Constants::TILE_YESTERDAY_TOTAL_BALANCE]}} unit="PLN"/>
         </div>
 
         <!-- Content Row -->

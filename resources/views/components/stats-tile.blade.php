@@ -19,13 +19,13 @@
                         </div>
                     @endif
                 </div>
-                <!-- Icon -->
+{{--                <!-- Icon -->--}}
 {{--            <div class="col-auto">--}}
 {{--                <i class="fas fa-calendar fa-2x text-gray-300"></i>--}}
 {{--            </div>--}}
             </div>
 
-        @if ($percent!= null)
+        @isset($percent)
             <!-- Percents badge -->
             <div class="row no-gutters align-items-center">
                 @if ($percent < 0 )
@@ -40,7 +40,17 @@
                     </span>
                 @endif
             </div>
-        @endif
+        @endisset
+
+
+        @isset($secondary)
+            dupa2
+            <div>{{$secondary}}</div>
+            <!-- Secondary value -->
+{{--            <div class="row no-gutters align-items-center">--}}
+{{--                <span class="badge-pill badge-success font-weight-bolder text-nowrap">{{$secondary}} {{$secondary_unit}}</span>--}}
+{{--            </div>--}}
+        @endisset
         </div>
     </div>
 </div>
