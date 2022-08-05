@@ -66,10 +66,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 //		$staticPortfolioCoins = $staticCoins->getStaticPortfolioCoins();
 		$staticPortfolioCoins = // todo: this must be read from db
 			[
-				[
-					"asset" => "LUNA",
-					"qty"   => 40,
-				],
+				// [
+				// 	"asset" => "LUNA",
+				// 	"qty"   => 40,
+				// ],
 			];
 		foreach ($staticPortfolioCoins as $staticPortfolioCoin) {
 			try {
