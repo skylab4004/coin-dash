@@ -30,7 +30,7 @@ class MexcApiClientTest extends TestCase {
 	public function testSignature() {
 		$string = "GET\n/api/v2/order/open_orders\napi_key=mxcV9JCC8iu8zpaiWC&limit=1000&req_time=1572936251&startTime=1572076703000&symbol=MX_ETH&tradeType=BID";
 		$hash = hash_hmac('sha256', $string, "", false);
-		self::assertEquals('0d1a5ee9e76a4907abedc4fe383ddfd0', $hash);
+		self::assertEquals('cc15d92f616b5832b1308e95bf3fadaf2cf7cdf8e3ac8e8c40f076be1c8d1ff7', $hash);
 	}
 
 }

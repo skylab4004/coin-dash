@@ -4,46 +4,70 @@ use Exception;
 
 class BitbayApiClient {
 
-	private static $apiUrl = "https://bitbay.net/API/Trading/tradingApi.php";
+	private static $apiUrl = "https://api.zonda.exchange/rest";
 
-	function executeMethod($method, $params = []) {
-		$params["method"] = $method;
-		$params["moment"] = time();
-
-		$post = http_build_query($params, "", "&");
-		$sign = hash_hmac("sha512", $post, Secret::$BITBAY_SECRET_KEY);
-		$headers = [
-			"API-Key: " . Secret::$BITBAY_API_KEY,
-			"API-Hash: " . $sign,
-		];
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_URL, self::$apiUrl);
-		curl_setopt($curl, CURLOPT_POST, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		$ret = curl_exec($curl);
-		curl_close($curl);
-
-		return $ret;
+	function GetUUID($data) {
+		assert(strlen($data) == 16);
+		$data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+		$data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 
 	public function getBalances() {
-		$info = $this->executeMethod("info");
+
+		$pubkey = Secret::$BITBAY_API_KEY;
+		$privkey = Secret::$BITBAY_SECRET_KEY;
+
+		$body    = ""; // json_encode($body);
+		$time    = time();
+		$data = $pubkey . $time . $body;
+		$sign    = hash_hmac("sha512", $data, $privkey);
+
+		$curl = curl_init();
+
+		curl_setopt_array($curl, [
+			CURLOPT_URL => "https://api.zonda.exchange/rest/balances/BITBAY/balance",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_HTTPHEADER => [
+				"API-Key: " . $pubkey,
+				"API-Hash: " . $sign,
+				"operation-id: " . $this->GetUUID(random_bytes(16)),
+				"Request-Timestamp: " . $time,
+				"Content-Type: application/json",
+				"accept: application/json"
+
+			],
+		]);
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+			echo "cURL Error #:" . $err;
+		} else {
+			echo $response;
+		}
+
 		try {
-			$json_decode = json_decode($info, true)['balances'];
+			$json_decode = json_decode($response, true)['balances'];
 		} catch (Exception $ex) {
-			throw new Exception("array doesn't contain 'balances' key: $info");
+			throw new Exception("array doesn't contain 'balances' key: $response");
 		}
 
 		$balances = [];
-		foreach ($json_decode as $assetName => $balance) {
-			$sum = $balance['available'] + $balance['locked'];
-			if ($sum <= 0) {
+		foreach ($json_decode as $asset) {
+			$totalFunds = Utils::formattedNumber($asset['totalFunds']);
+			if ($totalFunds<=0) {
 				continue;
 			}
-			$assetTotal = $sum;
-			$balances[] = ['asset' => $assetName, 'qty' => $assetTotal];
+			$balances[] = ['asset' => $asset['currency'], 'qty' => $totalFunds];
 		}
 
 		return $balances;
