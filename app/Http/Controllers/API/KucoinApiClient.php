@@ -67,7 +67,7 @@ class KucoinApiClient {
 		try {
 			$json_decode = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
 		} catch (Exception $ex) {
-			throw new Exception("Response from Coinbase couldn't be parsed as array: $response");
+			throw new Exception("Response from KuCoin couldn't be parsed as array: $response");
 		}
 
 		return $json_decode;
