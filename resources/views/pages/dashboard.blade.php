@@ -327,6 +327,19 @@
                         <td>{{$tiles[\App\Http\Controllers\Constants::TILE_TERRA_BALANCE]}}</td>
                     </tr>
 
+                    <tr>
+                        <td>Xeggex</td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_XEGGEX_PNL_TODAY]}} unit=""/>
+                        </td>
+                        <td>
+                            <x-percent-badge
+                                    value={{$tiles[\App\Http\Controllers\Constants::TILE_XEGGEX_PNL_DELTA_TODAY]}} unit="%"/>
+                        </td>
+                        <td>{{$tiles[\App\Http\Controllers\Constants::TILE_XEGGEX_BALANCE]}}</td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>

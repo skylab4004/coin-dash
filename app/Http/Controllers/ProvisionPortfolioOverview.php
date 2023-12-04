@@ -29,7 +29,7 @@ class ProvisionPortfolioOverview extends Controller {
 		];
 
 
-		$snapshot = PortfolioSnapshot::selectRaw('asset, source, sum(quantity) as quantity, sum(value_in_pln) as value_in_pln, sum(value_in_usd) as value_in_usd')
+		$snapshot = PortfolioSnapshot::selectRaw('asset, source, sum(quantity) as quantity, round(sum(value_in_pln), 2) as value_in_pln, round(sum(value_in_usd), 2) as value_in_usd')
 			->where('snapshot_time', $lastSnapshotTime)
 			->groupBy('asset', 'source')
 			->OrderBy("asset", 'asc')

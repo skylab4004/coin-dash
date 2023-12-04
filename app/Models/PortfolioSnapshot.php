@@ -20,6 +20,7 @@ class PortfolioSnapshot extends Model {
 		'coinbase' => 9,
 		'kucoin'   => 10,
 		'terra'    => 11,
+		'xeggex'   => 12,
 	];
 	use HasFactory;
 }

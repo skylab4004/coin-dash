@@ -15,6 +15,7 @@ use App\Http\Controllers\API\PolygonscanApiClient;
 use App\Http\Controllers\API\Secret;
 use App\Http\Controllers\API\TerraApiClient;
 use App\Http\Controllers\API\Utils;
+use App\Http\Controllers\API\XeggexApiClient;
 use App\Http\Controllers\PortfolioCoinController;
 use App\Models\PortfolioSnapshot;
 use App\Models\PortfolioTotal;
@@ -420,10 +421,10 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 
 		try {
 			// handle kucoin
-			$kucoinApiClient = new KucoinApiClient();
-			$kucoinBalances = $kucoinApiClient->getBalances();
-			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($kucoinBalances, 'asset')));
-			foreach ($kucoinBalances as $assetBalance) {
+			$xeggexApiClient = new KucoinApiClient();
+			$xeggexBalances = $xeggexApiClient->getBalances();
+			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($xeggexBalances, 'asset')));
+			foreach ($xeggexBalances as $assetBalance) {
 				try {
 					$snapshot = new PortfolioSnapshot();
 					$snapshot->snapshot_time = $updateTime;
@@ -445,7 +446,7 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 				}
 				unset($assetBalance);
 			}
-			unset($kucoinBalances);
+			unset($xeggexBalances);
 		} catch (Exception $ex) {
 			Log::error($ex);
 		}
@@ -590,6 +591,38 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			}
 			unset($snapshot);
 			unset($maticTokens);
+		} catch (Exception $ex) {
+			Log::error($ex);
+		}
+
+		try {
+			// handle xeggex
+			$xeggexApiClient = new XeggexApiClient();
+			$xeggexBalances = $xeggexApiClient->getBalances();
+			$coinsMissingInDb = array_merge($coinsMissingInDb, $portfolioCoinController->returnCoinsMissingInDb(array_column($xeggexBalances, 'asset')));
+			foreach ($xeggexBalances as $assetBalance) {
+				try {
+					$snapshot = new PortfolioSnapshot();
+					$snapshot->snapshot_time = $updateTime;
+					$snapshot->source = PortfolioSnapshot::SOURCES['xeggex'];
+					$snapshot->asset = $assetBalance["asset"];
+					$snapshot->quantity = $assetBalance["qty"];
+					$snapshot->value_in_btc = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["btc"];
+					$snapshot->value_in_eth = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["eth"];
+					$snapshot->value_in_usd = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["usd"];
+					$snapshot->value_in_pln = $assetBalance["qty"] * $favoriteCoinPrices[$coinToSymbolMapping[strtolower($assetBalance["asset"])]]["pln"];
+					$snapshot->save();
+
+					$totalPln += $snapshot->value_in_pln;
+					$totalUsd += $snapshot->value_in_usd;
+					$totalEth += $snapshot->value_in_eth;
+					$totalBtc += $snapshot->value_in_btc;
+				} catch (Exception $e) {
+					Log::error($e);
+				}
+				unset($assetBalance);
+			}
+			unset($xeggexBalances);
 		} catch (Exception $ex) {
 			Log::error($ex);
 		}

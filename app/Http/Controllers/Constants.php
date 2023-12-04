@@ -63,5 +63,11 @@ class Constants {
 	public const TILE_TERRA_BALANCE = "terra_balance";
 	public const KEY_TERRA_VALUE_IN_PLN = "terra_value_in_pln";
 	public const KEY_TERRA_VALUE_IN_USD = "terra_value_in_usd";
+	public const TILE_XEGGEX_PNL_TODAY = "xeggex_pnl_today";
+	public const TILE_XEGGEX_PNL_DELTA_TODAY = "xeggex_pnl_delta_today";
+	public const TILE_XEGGEX_BALANCE = "xeggex_balance";
+	public const KEY_XEGGEX_VALUE_IN_PLN = "xeggex_value_in_pln";
+	public const KEY_XEGGEX_VALUE_IN_USD = "xeggex_value_in_usd";
+
 
 }

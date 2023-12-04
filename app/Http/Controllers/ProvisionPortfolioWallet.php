@@ -11,7 +11,7 @@ class ProvisionPortfolioWallet extends Controller {
 	public function show($sourceId) {
 		$lastSnapshotTime = PortfolioSnapshot::max('snapshot_time');
 
-		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, quantity, value_in_pln, value_in_usd')
+		$currentPortfolioSnapshot = PortfolioSnapshot::selectRaw('asset, quantity, round(value_in_pln, 2) as value_in_pln, round(value_in_usd, 2) as value_in_usd')
 			->where('snapshot_time', $lastSnapshotTime)
 			->where('source', $sourceId)
 			->OrderBy("value_in_pln", 'desc')
