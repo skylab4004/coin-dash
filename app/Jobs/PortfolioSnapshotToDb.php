@@ -95,6 +95,8 @@ class PortfolioSnapshotToDb implements ShouldQueue {
 			unset($staticPortfolioCoin);
 		}
 
+		$coinsMissingInDb = [];
+
 		try {
 			// HANDLE BINANCE PORTFOLIO
 			$binanceApi = new BinanceApiClient();
