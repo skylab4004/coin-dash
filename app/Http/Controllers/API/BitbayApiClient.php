@@ -4,7 +4,7 @@ use Exception;
 
 class BitbayApiClient {
 
-	private static $apiUrl = "https://api.zonda.exchange/rest";
+	private static $apiUrl = "https://api.zondacrypto.exchange";
 
 	function GetUUID($data) {
 		assert(strlen($data) == 16);
@@ -26,7 +26,7 @@ class BitbayApiClient {
 		$curl = curl_init();
 
 		curl_setopt_array($curl, [
-			CURLOPT_URL => "https://api.zonda.exchange/rest/balances/BITBAY/balance",
+			CURLOPT_URL => $this::$apiUrl."/rest/balances/BITBAY/balance",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
